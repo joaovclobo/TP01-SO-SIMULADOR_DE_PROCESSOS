@@ -4,3 +4,4 @@
 #include <math.h>
 
 int MenuInicial();
+FILE* abreArquivoRead(char* nomeArquivo);
