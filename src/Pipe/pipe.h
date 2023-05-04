@@ -6,5 +6,5 @@
 #include <stdio.h>
 #define MAXBUFFER 100
 
-void escreverNoPipe(int fd[2], char letra);
-void lerDoPipe(int fd[2]);
+void escreverCaractereNoPipe(int fd, char caractere);
+char lerCaractereDoPipe(int fd);

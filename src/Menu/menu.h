@@ -3,5 +3,5 @@
 #include <string.h>
 #include <math.h>
 
-int MenuInicial();
+int MenuInicial(FILE** arquivoDeEntrada);
 FILE* abreArquivoRead(char* nomeArquivo);
