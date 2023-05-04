@@ -2,5 +2,5 @@
 
 void gerenciadorProcessos(char comando)
 {
-    printf("Comando Gerenciador: %c\n", comando);
+    printf("Comando recebido pelo gerenciador: %c\n", comando);
 }
