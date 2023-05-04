@@ -1,8 +1,6 @@
 #include "gerenciadorProcessos.h"
-#include "../Pipe/pipe.h"
-#define MAXBUFFER 100
 
-void gerenciadorProcessos(int fd[2])
+void gerenciadorProcessos(char comando)
 {
-    lerDoPipe(fd);
+    printf("Comando Gerenciador: %c\n", comando);
 }

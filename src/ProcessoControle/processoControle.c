@@ -1,41 +1,30 @@
 #include "processoControle.h"
 
-void controle(int fd[2])
+char controle(FILE* arquivoDeEntrada, int opcao)
 {
-    char caminhoArquivo[MAXBUFFER] = "./data/comands";
-
     char cadaLinha[MAXBUFFER];
-    int opcao = MenuInicial();
+    char comando;
 
-    switch (opcao)
-    {
-    case 1:
-        char comando[MAXBUFFER];
+    switch (opcao) {
+        case 1:
+            //Esse print pode ser um problema
+            // printf("Digite um comando: ");
+            scanf(" %c", &comando);
+            break;
 
-        printf("Entrada padrão\n");
+        case 2:
 
-        while (comando[0] != 'M')
-        {
-            scanf("%s", comando);
-            escreverNoPipe(fd, comando[0]); 
-            // pipeEntreProcessos(comando, 1);
-            //lerDoPipe(fd);
-        }
-        break;
+            if (fgets(cadaLinha, MAXBUFFER, arquivoDeEntrada) != NULL){
+                printf("%s", cadaLinha);
+                comando = cadaLinha[0];
 
-    case 2:
-        FILE *arquivoDeEntrada = abreArquivoRead(caminhoArquivo);
+            }
 
-        while (fgets(cadaLinha, MAXBUFFER, arquivoDeEntrada) != NULL)
-        {
-            printf("%s", cadaLinha);
-            // pipeEntreProcessos(cadaLinha, 1);
-        }
+            break;
 
-        fclose(arquivoDeEntrada);
-        break;
-
-    default:
-        break;
+        default:
+            break;
     }
+    return comando;
+
 }

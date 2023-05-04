@@ -10,4 +10,4 @@
 //     int filaEstadoExecucao;
 // } GerenciadorProcesso;
 
-void gerenciadorProcessos(int fd[2]);
+void gerenciadorProcessos(char comando);
