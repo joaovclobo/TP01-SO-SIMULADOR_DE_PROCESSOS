@@ -3,7 +3,7 @@
 Instrucao inicializaInstrucao(char *instrucaoLida)
 {
     Instrucao instrucao;
-    char *token;
+    char* token;
 
     token = strtok(instrucaoLida, " ");
     
@@ -65,14 +65,3 @@ void printInstucao(Instrucao instrucao)
     printf(" | parametroNumerico2 %d", instrucao.parametroNumerico2);
     printf(" | parametroTexto %s\n", instrucao.parametroTexto);
 }
-
-/*
-char str[] = "hello world";
-char *token;
-
-token = strtok(str, " ");
-while (token != NULL) {
-    printf("%s\n", token);
-    token = strtok(NULL, " ");
-    }
-*/
