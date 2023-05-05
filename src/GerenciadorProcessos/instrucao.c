@@ -75,23 +75,22 @@ void leInstrucoesArquivo(char* caminhoArquivo, Instrucao** programa)
         i++;
 
     }
-    *programa = arrPrograma;
 
+    *programa = arrPrograma;
 }
 
 
 void imprimeInstucao(Instrucao instrucao)
 {
-    printf("Instrução - ");
-    printf(" | Tipo %c", instrucao.tipoDeInstrucao);
-    printf(" | Param 1 %5d", instrucao.parametroNumerico1);
+    printf("Instrução -  Tipo %c", instrucao.tipoDeInstrucao);
+    printf(" | Param 1 %3d", instrucao.parametroNumerico1);
     printf(" | Param 2 %5d", instrucao.parametroNumerico2);
     printf(" | Param txt %s\n", instrucao.parametroTexto);
 }
 
 void imprimeArrPrograma(Instrucao* arrPrograma)
 {
-    int i = 1;
+    int i = 0;
 
     while (arrPrograma[i-1].tipoDeInstrucao != 'T')
     {
