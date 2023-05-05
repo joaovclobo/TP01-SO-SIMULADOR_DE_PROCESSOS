@@ -47,16 +47,17 @@ void gerenciaEstadoBloqueado(Fila *estadoBloqueado, int indiceProcesso, int opca
     }
 }
 
-void gerenciaTabelaProcessos(Lista *tabelaProcessos, ProcessoSimulado *processo, int opcao, GerenciadorProcesso *gerenciador)
+void gerenciaTabelaProcessos(GerenciadorProcesso *gerenciador, ProcessoSimulado *processo, 
+                                int opcao)
 {
     if (opcao == 1) // adiciona um processo na tabela
     {
-        insereFim(tabelaProcessos, processo);
+        insereFim(gerenciador->tabelaProcessos, processo);
         gerenciador->quantidadeProcessosExecutados += 1;
     }
     else // remove um processo da tabela
     {
-        // removeLista()
-       //  gerenciador->tempoTotalExecucao += processo->tempo
+        removeItem(gerenciador->tabelaProcessos, processo);
+        gerenciador->tempoTotalExecucao += processo->tempoCPU;
     }
 }

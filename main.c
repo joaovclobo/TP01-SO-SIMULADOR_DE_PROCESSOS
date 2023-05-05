@@ -51,6 +51,11 @@ int main(int argc, char **argv)
             comando = lerCaractereDoPipe(fd[0]);
             gerenciadorProcessos(&gerenciador, comando);
 
+            GerenciadorProcesso g1;
+            inicializaGerenciador(&g1);
+
+            //gerenciaTabelaProcessos(g1, )
+
             if (comando == 'I')
             {
                 printf("\n\n======== INFORMAÇÕES SOBRE O SISTEMA ========\n");

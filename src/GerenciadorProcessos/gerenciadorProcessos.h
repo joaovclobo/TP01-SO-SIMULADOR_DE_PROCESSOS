@@ -24,4 +24,4 @@ void gerenciaEstadoPronto(Fila *estadoPronto, int indiceProcesso, int opcao);
 
 void gerenciaEstadoBloqueado(Fila *estadoBloqueado, int indiceProcesso, int opcao);
 
-void gerenciaTabelaProcessos(Lista *tabelaProcessos, ProcessoSimulado *processo, int opcao, GerenciadorProcesso *gerenciador);
+void gerenciaTabelaProcessos(GerenciadorProcesso *gerenciador, ProcessoSimulado *processo, int opcao);

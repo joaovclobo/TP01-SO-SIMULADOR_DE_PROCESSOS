@@ -12,5 +12,5 @@ typedef struct ProcessoSimulado
     enum estado{bloqueado, execucao, pronto}estado; //talvez usemos um define???
     int tempoInicio;
     int tempoCPU;
-    instrucao* arrPrograma;
+    //instrucao* arrPrograma;
 } ProcessoSimulado;
