@@ -17,11 +17,13 @@ typedef struct ProcessoSimulado
     Estado estado;              //Estado do processo podendo ser um dos 3 valores do enum
     int tempoInicio;            //Tempo do sistema que o processo começou
     int tempoCPU;               //Tempo que o processo já passou executando
-    Instrucao* arrPrograma;     //Array com as instruções do processo (programa)
+    Instrucao** arrPrograma;     //Array com as instruções do processo (programa)
 } ProcessoSimulado;
 
-void criaProcessoInit(ProcessoSimulado* processoInit, int tempoSistema);
-int imprimeProcesso(ProcessoSimulado processo);
+void criaProcessoInit(ProcessoSimulado** processoInit, int tempoSistema);
+
+void imprimeProcesso(ProcessoSimulado processo);
+void imprimeEstado(Estado estado);
 
 //Funções para executar as instruções de um processo simulado
 
