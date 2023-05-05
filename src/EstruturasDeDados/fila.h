@@ -1,26 +1,23 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include <string.h>
-#include <math.h>
 
 typedef struct No
 {
     int info;
     struct No *prox;
-}No;
+} No;
 
 typedef struct Fila
 {
-    struct No *inicio;
-    struct No *fim;
+    No *inicio;
+    No *fim;
     int tamanho;
-}Fila;
+} Fila;
 
-Fila *CriaFila();    
-
-void DestroiFila(Fila *f); 
-void Enfileira(Fila *f, int valor); 
-
-int FilaVazia(Fila *f); 
-int FilaCheia(Fila *f); 
-int Desenfileira(Fila *f);     
+Fila *criaFila();
+void destroiFila(Fila *f);
+void enfileira(Fila *f, int valor);
+void desenfileira(Fila *f);
+int filaVazia(Fila *f);
+int filaCheia(Fila *f);
+void imprimeFila(Fila *fila);
