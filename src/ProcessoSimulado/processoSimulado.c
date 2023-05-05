@@ -8,7 +8,7 @@ void criaProcessoInit(ProcessoSimulado** processoInit, int tempoSistema)
     processo->pid = 0;
     processo->ppid = 0;
     processo->pc = 0;
-    //arrVariaveis não é iniciado quando o processo é criado
+
     processo->prioridade;
     processo->estado = PRONTO;
     processo->tempoInicio = tempoSistema;
@@ -21,19 +21,31 @@ void criaProcessoInit(ProcessoSimulado** processoInit, int tempoSistema)
     
 }
 
-// void copiaProcesso(ProcessoSimulado* processoPai, ProcessoSimulado processoFilho)
-// {
-//     processoFilho->pid = processoPai->pid;
-//     processoFilho->ppid =  processoPai->ppid;
-//     processoFilho->pc =  processoPai->pc;
-//     processoFilho->prioridade = processoPai->prioridade;
-//     processoFilho->estado =  processoPai->estado;
-//     processoFilho->tempoInicio =  processoPai->tempoInicio;
-//     processoFilho->tempoCPU =  processoPai->tempoCPU;
+void copiaProcesso(ProcessoSimulado** novoProcesso, ProcessoSimulado processoPai)
+{
+    ProcessoSimulado* processo = (ProcessoSimulado*) malloc(sizeof(ProcessoSimulado));
 
-// }
+    processo->pid = processoPai.pid;;
+    processo->ppid = processoPai.ppid;
+    processo->pc = processoPai.pc;
 
-//Funções para executar as instruções de um processo simulado
+    //TODO - Copiar as variáveis
+    // processo->arrVariaveis = 
+
+    processo->prioridade = processoPai.prioridade;
+    processo->estado = processoPai.estado;
+    processo->tempoInicio = processoPai.tempoInicio;
+    processo->tempoCPU = processoPai.tempoCPU;
+
+    processo->arrPrograma = (Instrucao**) malloc(MAXINTRUC * sizeof(Instrucao));
+    //TODO - Copiar só a proxima que é o R
+    // leInstrucoesArquivo("./data/init", processo->arrPrograma);
+
+    *novoProcesso = processo;
+    
+}
+
+
 
 void imprimeProcesso(ProcessoSimulado processo)
 {
@@ -98,6 +110,9 @@ void imprimeEstado(Estado estado) {
             break;
     }
 } 
+
+//Funções para executar as instruções de um processo simulado
+//TODO - Não vão ficar aqui
 
 int* instrucaoN(int n){
     int* arrVariaveis = (int*) malloc(n * sizeof(int));

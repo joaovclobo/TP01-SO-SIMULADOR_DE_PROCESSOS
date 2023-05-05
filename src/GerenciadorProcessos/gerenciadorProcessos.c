@@ -61,3 +61,4 @@ void gerenciaTabelaProcessos(GerenciadorProcesso *gerenciador, ProcessoSimulado 
         gerenciador->tempoTotalExecucao += processo->tempoCPU;
     }
 }
+
