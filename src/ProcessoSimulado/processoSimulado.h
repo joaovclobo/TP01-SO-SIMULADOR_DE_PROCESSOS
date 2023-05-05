@@ -20,5 +20,17 @@ typedef struct ProcessoSimulado
     Instrucao* arrPrograma;     //Array com as instruções do processo (programa)
 } ProcessoSimulado;
 
-ProcessoSimulado iniciaProcesso();
-ProcessoSimulado copiaProcessoPai();
+void criaProcessoInit(ProcessoSimulado* processoInit, int tempoSistema);
+int imprimeProcesso(ProcessoSimulado processo);
+
+//Funções para executar as instruções de um processo simulado
+
+int* instrucaoN(int n);
+void instrucaoD(int x);
+void instrucaoV(int x, int n);
+void instrucaoA(int x, int n);
+void instrucaoS(int x, int n);
+void instrucaoB(int n);
+void instrucaoT();
+void instrucaoF(int n);
+void instrucaoR(char* nomeDoArquivo);
