@@ -1,28 +1,24 @@
-#include <sys/time.h>
-#include <stdlib.h>
 #include <stdio.h>
+#include <stdlib.h>
+#include "../ProcessoSimulado/processoSimulado.h"
 
-typedef struct {
-//   int LL;
-//   int CC;
-  /* outros componentes */
-} TipoItem;
+typedef struct Celula {
+    ProcessoSimulado* processo;
+    struct Celula* proximo;
+} Celula;
 
-typedef struct TipoCelula *TipoApontador;
+typedef struct Lista {
+    Celula* inicio;
+    Celula* fim;
+    int tamanho;
+} Lista;
 
-typedef struct TipoCelula {
-  TipoItem Item;
-  TipoApontador Prox;
-} TipoCelula;
-
-typedef struct {
-  TipoApontador Primeiro, Ultimo;
-} TipoLista;
-
-/* ========================================================================= */
-
-void FLVazia(TipoLista *Lista);
-void Insere(int linha, int coluna, TipoLista *Lista);
-void Imprime(TipoLista Lista);
-int Vazia(TipoLista Lista);
-int BuscaPosicao(TipoLista Lista, int linha, int coluna);
+Lista* criaLista();
+void insereFim(Lista* lista, ProcessoSimulado* processo);
+void removeItem(Lista* lista, ProcessoSimulado* processo);
+//void destroi_lista(Lista* lista);
+//void insere_inicio(Lista* lista, int dado);
+//void remove_inicio(Lista* lista);
+//void remove_fim(Lista* lista);
+//int busca_elemento(Lista* lista, int dado);
+//void imprime_lista(Lista* lista);

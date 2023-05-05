@@ -1,63 +1,93 @@
 #include "fila.h"
 
-Fila *CriaFila()
+Fila* criaFila()
 {
-    Fila *f = (Fila *)malloc(sizeof(Fila));
+    Fila *f = (Fila*) malloc(sizeof(Fila));
+    if (f == NULL)
+    {
+        printf("Erro: nao foi possivel alocar memoria.\n");
+        exit(1);
+    }
     f->inicio = NULL;
     f->fim = NULL;
     f->tamanho = 0;
     return f;
 }
 
-void DestroiFila(Fila *f)
+void destroiFila(Fila *f)
 {
-    while (f->inicio != NULL)
+    No *aux = f->inicio;
+    while (aux != NULL)
     {
-        struct No *aux = f->inicio;
-        f->inicio = f->inicio->prox;
+        No *tmp = aux->prox;
         free(aux);
+        aux = tmp;
     }
     free(f);
 }
 
-int FilaVazia(Fila *f)
+void enfileira(Fila *f, int valor)
 {
-    return (f->inicio == NULL);
-}
-
-int FilaCheia(Fila *f)
-{
-    return 0; // Fila dinâmica nunca está cheia
-}
-
-void Enfileira(Fila *f, int valor)
-{
-    struct No *novo = (struct no *)malloc(sizeof(struct No));
-    novo->info = valor;
-    novo->prox = NULL;
-    if (f->inicio == NULL)
+    No *novoNo = (No*) malloc(sizeof(No));
+    if (novoNo == NULL)
     {
-        f->inicio = novo;
+        printf("Erro: nao foi possivel alocar memoria.\n");
+        exit(1);
+    }
+    novoNo->info = valor;
+    novoNo->prox = NULL;
+    if (f->fim == NULL)
+    {
+        f->inicio = novoNo;
+        f->fim = novoNo;
     }
     else
     {
-        f->fim->prox = novo;
+        f->fim->prox = novoNo;
+        f->fim = novoNo;
     }
-    f->fim = novo;
     f->tamanho++;
 }
 
-int Desenfileira(Fila *f)
+void desenfileira(Fila *f)
 {
-    if (FilaVazia(f))
+    if (f->inicio == NULL)
     {
         printf("Erro: fila vazia.\n");
         exit(1);
     }
     int valor = f->inicio->info;
-    struct No *aux = f->inicio;
+    No *tmp = f->inicio;
     f->inicio = f->inicio->prox;
-    free(aux);
+    if (f->inicio == NULL)
+    {
+        f->fim = NULL;
+    }
+    free(tmp);
     f->tamanho--;
-    return valor;
+}
+
+int filaVazia(Fila *f)
+{
+    return (f->inicio == NULL);
+}
+
+int filaCheia(Fila *f)
+{
+    No *novoNo = (No*) malloc(sizeof(No));
+    if (novoNo == NULL)
+    {
+        return 1;
+    }
+    free(novoNo);
+    return 0;
+}
+
+
+void imprimeFila(Fila *fila) {
+    No *no = fila->inicio;
+    while (no != NULL) {
+        printf("%d ", no->info);
+        no = no->prox;
+    }
 }
