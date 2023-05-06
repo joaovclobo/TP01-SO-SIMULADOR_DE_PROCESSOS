@@ -8,7 +8,6 @@ void criaProcessoInit(ProcessoSimulado** processoInit, int tempoSistema)
     processo->pid = 0;
     processo->ppid = 0;
     processo->pc = 0;
-
     processo->prioridade;
     processo->estado = PRONTO;
     processo->tempoInicio = tempoSistema;
@@ -16,6 +15,14 @@ void criaProcessoInit(ProcessoSimulado** processoInit, int tempoSistema)
 
     processo->arrPrograma = (Instrucao**) malloc(MAXINTRUC * sizeof(Instrucao));
     leInstrucoesArquivo("./data/init", processo->arrPrograma);
+
+    //TODO - APAGAR ISSO PELAMOR DE DEUS
+    processo->arrVariaveis = (int*) malloc(numeroVariaveis(*processo) * sizeof(int));
+
+    for (int i = 0; i < 5; i++)
+    {
+        processo->arrVariaveis[i] = (i+3)*10;
+    }
 
     *processoInit = processo;
     
@@ -25,7 +32,7 @@ void copiaProcesso(ProcessoSimulado** novoProcesso, ProcessoSimulado processoPai
 {
     ProcessoSimulado* processo = (ProcessoSimulado*) malloc(sizeof(ProcessoSimulado));
 
-    processo->pid = processoPai.pid;;
+    processo->pid = processoPai.pid;
     processo->ppid = processoPai.ppid;
     processo->pc = processoPai.pc;
 
@@ -45,27 +52,32 @@ void copiaProcesso(ProcessoSimulado** novoProcesso, ProcessoSimulado processoPai
     
 }
 
-
-
-void imprimeProcesso(ProcessoSimulado processo)
+void copiaVariaveis(int* arrVariaveisBase, int* arrVariaveisNovo, int tamanho)
 {
-    int opcao = 2;
+    int* arrtemp = (int*) malloc(tamanho * sizeof(int));
 
-    printf("Processo - pid %2d | ", processo.pid);
+    for (int i = 0; i < tamanho; i++) {
+        arrtemp[i] = arrVariaveisBase[i];
+    }
+
+    arrVariaveisNovo = arrtemp;
+}
+
+int numeroVariaveis(ProcessoSimulado processo)
+{
+    return (processo.arrPrograma)[0]->parametroNumerico1;
+}
+
+void imprimeProcesso(ProcessoSimulado processo, int opcao)
+{
+
+    printf("-> Processo - pid %2d | ", processo.pid);
     printf("ppid %2d | ", processo.ppid);
     printf("pc %2d | ", processo.pc);
     printf("prioridade %d | ", processo.prioridade);
     imprimeEstado(processo.estado);
     printf("tempoInicio %d | ", processo.tempoInicio);
     printf("tempoCPU %d\n", processo.tempoCPU);
-
-    printf("Escolha as informações para exibir do  processo");
-    printf("\n1) Não exibir nenhuma;");
-    printf("\n2) Variáveis do processo;");
-    printf("\n3) Instruções do processo;");
-    printf("\n4) Instruções e variáveis do processo;");
-    printf("\n>> Escolha a opção: ");
-    scanf("%d", &opcao);
     
     switch (opcao)
     {
@@ -74,7 +86,7 @@ void imprimeProcesso(ProcessoSimulado processo)
         break;
 
         case 2:
-            printf("Variaveis\n");
+            imprimeVariaveis(processo.arrVariaveis, numeroVariaveis(processo));
             break;
     
         case 3:
@@ -82,12 +94,14 @@ void imprimeProcesso(ProcessoSimulado processo)
         break;
     
         case 4:
-            printf("Variaveis\n");
+            imprimeVariaveis(processo.arrVariaveis, numeroVariaveis(processo));
             imprimeArrPrograma(*(processo.arrPrograma));
 
         default:
             break;
     }
+    putchar('\n');
+
 }
 
 void imprimeEstado(Estado estado) {
@@ -110,6 +124,19 @@ void imprimeEstado(Estado estado) {
             break;
     }
 } 
+
+void imprimeVariaveis(int* arrVariaveis, int tamanho)
+{
+    printf("   └ Variáveis do processo: ");
+
+    for (int i = 0; i < tamanho; i++)
+    {
+        printf("%d ", arrVariaveis[i]);
+
+    }
+    putchar('\n');
+
+}
 
 //Funções para executar as instruções de um processo simulado
 //TODO - Não vão ficar aqui

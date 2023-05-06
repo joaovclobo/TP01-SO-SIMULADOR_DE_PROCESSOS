@@ -22,9 +22,13 @@ typedef struct ProcessoSimulado
 
 void criaProcessoInit(ProcessoSimulado** processoInit, int tempoSistema);
 void copiaProcesso(ProcessoSimulado** novoProcesso, ProcessoSimulado processo);
+void copiaVariaveis(int* arrVariaveisBase, int* arrVariaveisNovo, int tamanho);
+int numeroVariaveis(ProcessoSimulado processo);
 
-void imprimeProcesso(ProcessoSimulado processo);
+void imprimeProcesso(ProcessoSimulado processo, int opcao);
 void imprimeEstado(Estado estado);
+void imprimeVariaveis(int* arrVariaveis, int tamanho);
+
 
 //Funções para executar as instruções de um processo simulado
 //TODO - Não vão ficar aqui
