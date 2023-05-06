@@ -26,8 +26,8 @@ int main()
     
     ProcessoSimulado* novoProcessoFork;
     copiaProcesso(&novoProcessoFork, *processoInit);
-    // printf("Processo Filho: \n");
-    // imprimeProcesso(*novoProcessoFork, opcao);
+    printf("Processo Filho: \n");
+    imprimeProcesso(*novoProcessoFork, opcao);
 
     // int* arr = (int*) malloc(5 * sizeof(int));
 

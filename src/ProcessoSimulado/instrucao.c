@@ -79,6 +79,13 @@ void leInstrucoesArquivo(char* caminhoArquivo, Instrucao** programa)
     *programa = arrPrograma;
 }
 
+void copiaInstrucao(Instrucao* novaInstrucao, Instrucao* instrucaoBase)
+{
+    novaInstrucao->tipoDeInstrucao = instrucaoBase->tipoDeInstrucao;
+    novaInstrucao ->parametroNumerico1 = instrucaoBase->parametroNumerico1;
+    novaInstrucao->parametroNumerico2 = instrucaoBase->parametroNumerico2;
+    strcpy(novaInstrucao->parametroTexto, instrucaoBase->parametroTexto);
+}
 
 void imprimeInstucao(Instrucao instrucao)
 {

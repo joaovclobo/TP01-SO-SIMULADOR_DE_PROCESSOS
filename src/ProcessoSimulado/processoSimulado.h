@@ -24,7 +24,7 @@ void criaProcessoInit(ProcessoSimulado** processoInit, int tempoSistema);
 
 void copiaProcesso(ProcessoSimulado** novoProcesso, ProcessoSimulado processo);
 void copiaVariaveis(int* arrVariaveisBase, int* arrVariaveisNovo, int tamanho);
-void copiaArrPrograma(ProcessoSimulado* novoProcesso, ProcessoSimulado processoPai);
+void copiaArrPrograma(Instrucao** arrNovo, Instrucao* arrBase);
 
 void atualizaArrPrograma(char* caminhoArquivo, ProcessoSimulado* novoProcesso);
 
