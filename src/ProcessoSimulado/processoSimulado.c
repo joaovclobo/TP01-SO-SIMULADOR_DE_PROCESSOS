@@ -56,7 +56,9 @@ void copiaProcesso(ProcessoSimulado** novoProcesso, ProcessoSimulado processoPai
     processo->arrPrograma = (Instrucao**) malloc(MAXINTRUC * sizeof(Instrucao));
     // TODO - Copiar só a proxima que é o R
     copiaArrPrograma(processo, processoPai);
-    imprimeArrPrograma(*processo->arrPrograma);
+
+    printf("Programa do filho: ");
+    imprimeArrPrograma(*(processoPai.arrPrograma));
 
     *novoProcesso = processo;
     
