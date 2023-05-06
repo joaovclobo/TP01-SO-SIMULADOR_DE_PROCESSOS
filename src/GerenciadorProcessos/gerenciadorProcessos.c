@@ -62,3 +62,18 @@ void gerenciaTabelaProcessos(GerenciadorProcesso *gerenciador, ProcessoSimulado 
     }
 }
 
+int criaPID(GerenciadorProcesso *gerenciador)
+{
+    Celula* inicio = gerenciador->tabelaProcessos->inicio;
+    int novoPID = gerenciador->tabelaProcessos->inicio->processo->pid;
+    Celula* atual = inicio->proximo;
+    while (atual != NULL)
+    {
+        if(atual->processo->pid > novoPID)
+        {
+            novoPID = atual->processo->pid;
+        }
+        atual = atual->proximo;
+    }
+    return novoPID;
+}
