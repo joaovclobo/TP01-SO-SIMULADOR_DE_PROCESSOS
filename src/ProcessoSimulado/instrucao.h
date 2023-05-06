@@ -1,6 +1,8 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
+#include "../Menu/menu.h"
+
 #define MAXBUFFER 100
 #define MAXINTRUC 100
 
@@ -16,6 +18,7 @@ typedef struct Instrucao
 
 void inicializaInstrucao(char* instrucaoLida, Instrucao* instrucao);
 void leInstrucoesArquivo(char* caminhoArquivo, Instrucao** programa);
+void copiaInstrucao(Instrucao* novaInstrucao, Instrucao* instrucaoBase);
 
 void imprimeInstucao(Instrucao Instrucao);
 void imprimeArrPrograma(Instrucao* arrPrograma);

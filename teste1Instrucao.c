@@ -9,15 +9,7 @@ int main()
     // Instrucao* programa;
     // leInstrucoesArquivo("./data/init", &programa);
     // imprimeArrPrograma(programa);
-    int opcao = 1;
-
-    printf("\nEscolha as informações para exibir do  processo");
-    printf("\n1) Não exibir nenhuma;");
-    printf("\n2) Variáveis do processo;");
-    printf("\n3) Instruções do processo;");
-    printf("\n4) Instruções e variáveis do processo;");
-    printf("\n>> Escolha a opção: ");
-    scanf("%d", &opcao);
+    int opcao = MenuImpressaoProcesso();
     
     ProcessoSimulado* processoInit;
     criaProcessoInit(&processoInit, 0);
@@ -26,8 +18,8 @@ int main()
     
     ProcessoSimulado* novoProcessoFork;
     copiaProcesso(&novoProcessoFork, *processoInit);
-    // printf("Processo Filho: \n");
-    // imprimeProcesso(*novoProcessoFork, opcao);
+    printf("Processo Filho: \n");
+    imprimeProcesso(*novoProcessoFork, opcao);
 
     // int* arr = (int*) malloc(5 * sizeof(int));
 

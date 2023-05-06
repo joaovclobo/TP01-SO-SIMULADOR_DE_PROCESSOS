@@ -29,36 +29,27 @@ void criaProcessoInit(ProcessoSimulado** processoInit, int tempoSistema)
     
 }
 
-void copiaProcesso(ProcessoSimulado** novoProcesso, ProcessoSimulado processoPai)
+void copiaProcesso(ProcessoSimulado** novoProcesso, ProcessoSimulado processoPai, int tempoAtualSistema)
 {
     ProcessoSimulado* processo = (ProcessoSimulado*) malloc(sizeof(ProcessoSimulado));
 
+    //TODO - Confirmar com o daniel como sera
     processo->pid = processoPai.pid;
     processo->ppid = processoPai.ppid;
-    processo->pc = processoPai.pc;
 
-    //TODO - Apagar estes comentários
-    // processo->arrVariaveis = (int*) malloc(numeroVariaveis(processoPai) * sizeof(int));
-    printf("Variaveis do pai: ");
-    imprimeVariaveis(processoPai.arrVariaveis, numeroVariaveis(processoPai));
+    //+1 porque deve pular exatamente uma instrução
+    processo->pc = processoPai.pc + 1;
 
     processo->arrVariaveis = (int*) malloc(numeroVariaveis(processoPai) * sizeof(int));
     copiaVariaveis(processoPai.arrVariaveis, processo->arrVariaveis, numeroVariaveis(processoPai));
 
-    printf("Variaveis do filho: ");
-    imprimeVariaveis(processo->arrVariaveis, numeroVariaveis(processoPai));
-
     processo->prioridade = processoPai.prioridade;
-    processo->estado = processoPai.estado;
-    processo->tempoInicio = processoPai.tempoInicio;
-    processo->tempoCPU = processoPai.tempoCPU;
+    processo->estado = PRONTO;
+    processo->tempoInicio = tempoAtualSistema;
+    processo->tempoCPU = 0;
 
     processo->arrPrograma = (Instrucao**) malloc(MAXINTRUC * sizeof(Instrucao));
-    // TODO - Copiar só a proxima que é o R
-    copiaArrPrograma(processo, processoPai);
-
-    printf("Programa do filho: ");
-    imprimeArrPrograma(*(processoPai.arrPrograma));
+    copiaArrPrograma(processo->arrPrograma, *(processoPai.arrPrograma));
 
     *novoProcesso = processo;
     
@@ -72,21 +63,26 @@ void copiaVariaveis(int* arrVariaveisBase, int* arrVariaveisNovo, int tamanho)
     }
 }
 
-void copiaArrPrograma(ProcessoSimulado* novoProcesso, ProcessoSimulado processoPai)
+void copiaArrPrograma(Instrucao** arrNovo, Instrucao* arrBase)
 {
+    Instrucao* arrPrograma = (Instrucao*) malloc(MAXINTRUC * sizeof(Instrucao));
+
     int i = 0;
 
-    while (processoPai.arrPrograma[i-1]->tipoDeInstrucao != 'T')
+    while (arrBase[i-1].tipoDeInstrucao != 'T')
     {
-        novoProcesso->arrPrograma[i] = novoProcesso->arrPrograma[i];
+        copiaInstrucao(&arrPrograma[i], &arrBase[i]);
         i++;
     }
+
+    *arrNovo = arrPrograma;
 }
 
 int numeroVariaveis(ProcessoSimulado processo)
 {
     return (processo.arrPrograma)[0]->parametroNumerico1;
 }
+
 
 void imprimeProcesso(ProcessoSimulado processo, int opcao)
 {

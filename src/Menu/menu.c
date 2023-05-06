@@ -32,6 +32,22 @@ int MenuInicial(FILE** arquivoDeEntrada)
     return opcao;
 }
 
+int MenuImpressaoProcesso()
+{   
+    int opcao = 1;
+
+    printf("\n1) Não exibir nenhuma;");
+    printf("\n2) Variáveis do processo;");
+    printf("\n3) Instruções do processo;");
+    printf("\n4) Instruções e variáveis do processo;");
+    printf("\n>> Escolha a opção: ");
+    scanf("%d", &opcao);
+
+    return opcao;
+    
+}
+
+
 FILE* abreArquivoRead(char* nomeArquivo)
 {
 
