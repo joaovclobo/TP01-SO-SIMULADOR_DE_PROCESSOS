@@ -23,32 +23,8 @@ void inicializaGerenciador(GerenciadorProcesso *gerenciador)
     gerenciador->quantidadeProcessosExecutados = 0;
 }
 
-void gerenciaEstadoPronto(Fila *estadoPronto, int indiceProcesso, int opcao)
-{
-    if (opcao == 1) // adicionar processo no estado pronto
-    {
-        enfileira(estadoPronto, indiceProcesso);
-    }
-    else // remove processo do estado pronto
-    {
-        desenfileira(estadoPronto);
-    }
-}
-
-void gerenciaEstadoBloqueado(Fila *estadoBloqueado, int indiceProcesso, int opcao)
-{
-    if (opcao == 1) // adicionar processo no estado bloqueado
-    {
-        enfileira(estadoBloqueado, indiceProcesso);
-    }
-    else // remove processo do estado bloqueado
-    {
-        desenfileira(estadoBloqueado);
-    }
-}
-
-void gerenciaTabelaProcessos(GerenciadorProcesso *gerenciador, ProcessoSimulado *processo, 
-                                int opcao)
+void gerenciaTabelaProcessos(GerenciadorProcesso *gerenciador, ProcessoSimulado *processo,
+                            int opcao)
 {
     if (opcao == 1) // adiciona um processo na tabela
     {
@@ -64,12 +40,12 @@ void gerenciaTabelaProcessos(GerenciadorProcesso *gerenciador, ProcessoSimulado 
 
 int criaPID(GerenciadorProcesso *gerenciador)
 {
-    Celula* inicio = gerenciador->tabelaProcessos->inicio;
+    Celula *inicio = gerenciador->tabelaProcessos->inicio;
     int novoPID = gerenciador->tabelaProcessos->inicio->processo->pid;
-    Celula* atual = inicio->proximo;
+    Celula *atual = inicio->proximo;
     while (atual != NULL)
     {
-        if(atual->processo->pid > novoPID)
+        if (atual->processo->pid > novoPID)
         {
             novoPID = atual->processo->pid;
         }

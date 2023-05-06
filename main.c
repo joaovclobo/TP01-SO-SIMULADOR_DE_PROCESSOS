@@ -50,11 +50,7 @@ int main(int argc, char **argv)
         {
             comando = lerCaractereDoPipe(fd[0]);
             gerenciadorProcessos(&gerenciador, comando);
-
-            GerenciadorProcesso g1;
-            inicializaGerenciador(&g1);
-
-            //gerenciaTabelaProcessos(g1, )
+            inicializaGerenciador(&gerenciador);
 
             if (comando == 'I')
             {

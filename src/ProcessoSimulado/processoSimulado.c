@@ -16,8 +16,9 @@ void criaProcessoInit(ProcessoSimulado** processoInit, int tempoSistema)
     processo->arrPrograma = (Instrucao**) malloc(MAXINTRUC * sizeof(Instrucao));
     leInstrucoesArquivo("./data/init", processo->arrPrograma);
 
-    //TODO - APAGAR ISSO PELAMOR DE DEUS
     processo->arrVariaveis = (int*) malloc(numeroVariaveis(*processo) * sizeof(int));
+
+    //TODO - APAGAR ISSO PELAMOR DE DEUS
 
     for (int i = 0; i < 5; i++)
     {
@@ -36,8 +37,16 @@ void copiaProcesso(ProcessoSimulado** novoProcesso, ProcessoSimulado processoPai
     processo->ppid = processoPai.ppid;
     processo->pc = processoPai.pc;
 
-    //TODO - Copiar as variáveis
-    // processo->arrVariaveis = 
+    //TODO - Apagar estes comentários
+    // processo->arrVariaveis = (int*) malloc(numeroVariaveis(processoPai) * sizeof(int));
+    printf("Variaveis do pai: ");
+    imprimeVariaveis(processoPai.arrVariaveis, numeroVariaveis(processoPai));
+
+    processo->arrVariaveis = (int*) malloc(numeroVariaveis(processoPai) * sizeof(int));
+    copiaVariaveis(processoPai.arrVariaveis, processo->arrVariaveis, numeroVariaveis(processoPai));
+
+    printf("Variaveis do filho: ");
+    imprimeVariaveis(processo->arrVariaveis, numeroVariaveis(processoPai));
 
     processo->prioridade = processoPai.prioridade;
     processo->estado = processoPai.estado;
@@ -45,8 +54,9 @@ void copiaProcesso(ProcessoSimulado** novoProcesso, ProcessoSimulado processoPai
     processo->tempoCPU = processoPai.tempoCPU;
 
     processo->arrPrograma = (Instrucao**) malloc(MAXINTRUC * sizeof(Instrucao));
-    //TODO - Copiar só a proxima que é o R
-    // leInstrucoesArquivo("./data/init", processo->arrPrograma);
+    // TODO - Copiar só a proxima que é o R
+    copiaArrPrograma(processo, processoPai);
+    imprimeArrPrograma(*processo->arrPrograma);
 
     *novoProcesso = processo;
     
@@ -54,13 +64,21 @@ void copiaProcesso(ProcessoSimulado** novoProcesso, ProcessoSimulado processoPai
 
 void copiaVariaveis(int* arrVariaveisBase, int* arrVariaveisNovo, int tamanho)
 {
-    int* arrtemp = (int*) malloc(tamanho * sizeof(int));
-
-    for (int i = 0; i < tamanho; i++) {
-        arrtemp[i] = arrVariaveisBase[i];
+    for (int i = 0; i < tamanho; i++)
+    {
+        arrVariaveisNovo[i] = arrVariaveisBase[i];
     }
+}
 
-    arrVariaveisNovo = arrtemp;
+void copiaArrPrograma(ProcessoSimulado* novoProcesso, ProcessoSimulado processoPai)
+{
+    int i = 0;
+
+    while (processoPai.arrPrograma[i-1]->tipoDeInstrucao != 'T')
+    {
+        novoProcesso->arrPrograma[i] = novoProcesso->arrPrograma[i];
+        i++;
+    }
 }
 
 int numeroVariaveis(ProcessoSimulado processo)
@@ -104,8 +122,8 @@ void imprimeProcesso(ProcessoSimulado processo, int opcao)
 
 }
 
-void imprimeEstado(Estado estado) {
-
+void imprimeEstado(Estado estado)
+{
     switch (estado)
     {
         case BLOQUEADO:
@@ -136,12 +154,4 @@ void imprimeVariaveis(int* arrVariaveis, int tamanho)
     }
     putchar('\n');
 
-}
-
-//Funções para executar as instruções de um processo simulado
-//TODO - Não vão ficar aqui
-
-int* instrucaoN(int n){
-    int* arrVariaveis = (int*) malloc(n * sizeof(int));
-    return arrVariaveis;
 }

@@ -20,8 +20,4 @@ void gerenciadorProcessos(GerenciadorProcesso *gerenciador, char comando);
 
 void encerraUnidadeTempo(GerenciadorProcesso *gerenciador);
 
-void gerenciaEstadoPronto(Fila *estadoPronto, int indiceProcesso, int opcao);
-
-void gerenciaEstadoBloqueado(Fila *estadoBloqueado, int indiceProcesso, int opcao);
-
 void gerenciaTabelaProcessos(GerenciadorProcesso *gerenciador, ProcessoSimulado *processo, int opcao);

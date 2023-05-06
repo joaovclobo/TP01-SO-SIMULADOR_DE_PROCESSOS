@@ -1,5 +1,5 @@
 #include<stdlib.h>
-#include "../GerenciadorProcessos/instrucao.h"
+#include "./instrucao.h"
 
 typedef enum {
     BLOQUEADO,
@@ -21,24 +21,15 @@ typedef struct ProcessoSimulado
 } ProcessoSimulado;
 
 void criaProcessoInit(ProcessoSimulado** processoInit, int tempoSistema);
+
 void copiaProcesso(ProcessoSimulado** novoProcesso, ProcessoSimulado processo);
 void copiaVariaveis(int* arrVariaveisBase, int* arrVariaveisNovo, int tamanho);
+void copiaArrPrograma(ProcessoSimulado* novoProcesso, ProcessoSimulado processoPai);
+
+void atualizaArrPrograma(char* caminhoArquivo, ProcessoSimulado* novoProcesso);
+
 int numeroVariaveis(ProcessoSimulado processo);
 
 void imprimeProcesso(ProcessoSimulado processo, int opcao);
 void imprimeEstado(Estado estado);
 void imprimeVariaveis(int* arrVariaveis, int tamanho);
-
-
-//Funções para executar as instruções de um processo simulado
-//TODO - Não vão ficar aqui
-
-int* instrucaoN(int n);
-void instrucaoD(int x);
-void instrucaoV(int x, int n);
-void instrucaoA(int x, int n);
-void instrucaoS(int x, int n);
-void instrucaoB(int n);
-void instrucaoT();
-void instrucaoF(int n);
-void instrucaoR(char* nomeDoArquivo);
