@@ -53,6 +53,7 @@ void instrucaoT()
     //	Termina o processo (Manda “encerrei” p/ o gerenciador de processo).
 }
 
+//TODO - esta função além de duplicar o processo que está na CPU deve incrementar em n o PC deste
 void instrucaoF(int n)
 {
     // Inicia outro processo Filho.

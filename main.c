@@ -1,6 +1,5 @@
 #include "./src/ProcessoControle/processoControle.h"
 #include "./src/ProcessoImpressao/processoImpressao.h"
-#include "./src/Menu/menu.h"
 #include <time.h>
 
 int main(int argc, char **argv)

@@ -29,40 +29,27 @@ void criaProcessoInit(ProcessoSimulado** processoInit, int tempoSistema)
     
 }
 
-void copiaProcesso(ProcessoSimulado** novoProcesso, ProcessoSimulado processoPai)
+void copiaProcesso(ProcessoSimulado** novoProcesso, ProcessoSimulado processoPai, int tempoAtualSistema)
 {
     ProcessoSimulado* processo = (ProcessoSimulado*) malloc(sizeof(ProcessoSimulado));
 
+    //TODO - Confirmar com o daniel como sera
     processo->pid = processoPai.pid;
     processo->ppid = processoPai.ppid;
-    processo->pc = processoPai.pc;
 
-    //TODO - Apagar estes comentários
-    // processo->arrVariaveis = (int*) malloc(numeroVariaveis(processoPai) * sizeof(int));
-    printf("Variaveis do pai: ");
-    imprimeVariaveis(processoPai.arrVariaveis, numeroVariaveis(processoPai));
+    //+1 porque deve pular exatamente uma instrução
+    processo->pc = processoPai.pc + 1;
 
     processo->arrVariaveis = (int*) malloc(numeroVariaveis(processoPai) * sizeof(int));
     copiaVariaveis(processoPai.arrVariaveis, processo->arrVariaveis, numeroVariaveis(processoPai));
 
-    printf("Variaveis do filho: ");
-    imprimeVariaveis(processo->arrVariaveis, numeroVariaveis(processoPai));
-
     processo->prioridade = processoPai.prioridade;
-    processo->estado = processoPai.estado;
-    processo->tempoInicio = processoPai.tempoInicio;
-    processo->tempoCPU = processoPai.tempoCPU;
+    processo->estado = PRONTO;
+    processo->tempoInicio = tempoAtualSistema;
+    processo->tempoCPU = 0;
 
     processo->arrPrograma = (Instrucao**) malloc(MAXINTRUC * sizeof(Instrucao));
-    // leInstrucoesArquivo("./data/init", processo->arrPrograma);
-
-    // TODO - Copiar só a proxima que é o R
-
-    printf("Copia Pograma...\n");
     copiaArrPrograma(processo->arrPrograma, *(processoPai.arrPrograma));
-
-    // printf("Programa do filho: \n");
-    // imprimeArrPrograma(*(processo->arrPrograma));
 
     *novoProcesso = processo;
     
@@ -95,6 +82,7 @@ int numeroVariaveis(ProcessoSimulado processo)
 {
     return (processo.arrPrograma)[0]->parametroNumerico1;
 }
+
 
 void imprimeProcesso(ProcessoSimulado processo, int opcao)
 {

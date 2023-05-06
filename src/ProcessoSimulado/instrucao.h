@@ -1,6 +1,8 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
+#include "../Menu/menu.h"
+
 #define MAXBUFFER 100
 #define MAXINTRUC 100
 

@@ -1,6 +1,5 @@
 {
     "files.associations": {
-        "processocontrole.h": "c",
-        "instrucao.h": "c"
+        "pipe.h": "c"
     }
 }

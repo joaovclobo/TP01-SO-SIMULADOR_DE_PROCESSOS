@@ -1,4 +1,4 @@
-#include<stdlib.h>
+#include <stdlib.h>
 #include "./instrucao.h"
 
 typedef enum {
@@ -22,11 +22,9 @@ typedef struct ProcessoSimulado
 
 void criaProcessoInit(ProcessoSimulado** processoInit, int tempoSistema);
 
-void copiaProcesso(ProcessoSimulado** novoProcesso, ProcessoSimulado processo);
+void copiaProcesso(ProcessoSimulado** novoProcesso, ProcessoSimulado processoPai, int tempoAtualSistema);
 void copiaVariaveis(int* arrVariaveisBase, int* arrVariaveisNovo, int tamanho);
 void copiaArrPrograma(Instrucao** arrNovo, Instrucao* arrBase);
-
-void atualizaArrPrograma(char* caminhoArquivo, ProcessoSimulado* novoProcesso);
 
 int numeroVariaveis(ProcessoSimulado processo);
 

@@ -56,17 +56,13 @@ void inicializaInstrucao(char *instrucaoLida, Instrucao* instrucao)
 
 void leInstrucoesArquivo(char* caminhoArquivo, Instrucao** programa)
 {
-    Instrucao* arrPrograma = (Instrucao*) malloc(MAXINTRUC * sizeof(Instrucao));
     int i = 0;
-    
-    //TODO - Simplificar usando a função
-    char* cadaLinha = malloc(MAXBUFFER * sizeof(char));
-    FILE* arquivoDeEntrada;
 
-    if ((arquivoDeEntrada = fopen(caminhoArquivo, "r")) == NULL){
-        printf("\nArquivo não encontrado!");
-        
-    }
+    Instrucao* arrPrograma = (Instrucao*) malloc(MAXINTRUC * sizeof(Instrucao));
+    
+    char* cadaLinha = malloc(MAXBUFFER * sizeof(char));
+
+    FILE* arquivoDeEntrada = abreArquivoRead(caminhoArquivo);
 
     while (fgets(cadaLinha, MAXBUFFER, arquivoDeEntrada) != NULL)
     {   
