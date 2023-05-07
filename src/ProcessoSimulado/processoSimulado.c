@@ -49,7 +49,8 @@ void copiaProcesso(ProcessoSimulado** novoProcesso, ProcessoSimulado processoPai
     processo->tempoCPU = 0;
 
     processo->arrPrograma = (Instrucao**) malloc(MAXINTRUC * sizeof(Instrucao));
-    copiaArrPrograma(processo->arrPrograma, *(processoPai.arrPrograma));
+    // TODO - Copiar só a proxima que é o R
+    // copiaArrPrograma(processo, processoPai);
 
     *novoProcesso = processo;
     
@@ -71,7 +72,7 @@ void copiaArrPrograma(Instrucao** arrNovo, Instrucao* arrBase)
 
     while (arrBase[i-1].tipoDeInstrucao != 'T')
     {
-        copiaInstrucao(&arrPrograma[i], &arrBase[i]);
+        novoProcesso->arrPrograma[i] = novoProcesso->arrPrograma[i];
         i++;
     }
 
