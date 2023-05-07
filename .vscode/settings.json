@@ -1,6 +1,8 @@
 {
     "files.associations": {
         "pipe.h": "c",
-        "instrucao.h": "c"
+        "instrucao.h": "c",
+        "lista.h": "c",
+        "processosimulado.h": "c"
     }
 }

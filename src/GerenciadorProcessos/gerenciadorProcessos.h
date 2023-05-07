@@ -1,6 +1,4 @@
 #include "../Pipe/pipe.h"
-#include "../EstruturasDeDados/fila.h"
-#include "../EstruturasDeDados/lista.h"
 #include "cpu.h"
 
 typedef struct GerenciadorProcesso

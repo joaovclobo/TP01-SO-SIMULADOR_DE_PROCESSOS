@@ -77,9 +77,6 @@
 
 int main()
 {
-    // Instrucao* programa;
-    // leInstrucoesArquivo("./data/init", &programa);
-    // imprimeArrPrograma(programa);
     int opcao = MenuImpressaoProcesso();
     
     ProcessoSimulado* processoInit;
@@ -91,19 +88,6 @@ int main()
     copiaProcesso(&novoProcessoFork, *processoInit, 10);
     printf("Processo Filho: \n");
     imprimeProcesso(*novoProcessoFork, opcao);
-
-    // int* arr = (int*) malloc(5 * sizeof(int));
-
-    // for (int i = 0; i < 5; i++)
-    // {
-    //     arr[i] = i*(i+1)*10;
-    // }
-
-    // int* arrNovo;
-    
-    // imprimeVariaveis(arr, 5);
-    // copiaVariaveis(arr, arrNovo, 5);
-    // imprimeVariaveis(arr, 5);
 
 }
 

@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
-// #include "../ProcessoSimulado/instrucao.h"
+#include "../EstruturasDeDados/fila.h"
+#include "../EstruturasDeDados/lista.h"
 
 typedef struct CPU
 {
