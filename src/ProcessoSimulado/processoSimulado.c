@@ -7,11 +7,14 @@ void criaProcessoInit(ProcessoSimulado** processoInit, int tempoSistema)
 
     processo->pid = 0;
     processo->ppid = 0;
-    processo->pc = 0;
-    processo->prioridade;
+    processo->pc = (int*) malloc(sizeof(int));
+    *(processo->pc) = 0;
+    processo->prioridade = 0;
     processo->estado = PRONTO;
     processo->tempoInicio = tempoSistema;
     processo->tempoCPU = 0;
+
+    printf("pc processo filho: %d\n", processo->pc);
 
     processo->arrPrograma = (Instrucao**) malloc(MAXINTRUC * sizeof(Instrucao));
     leInstrucoesArquivo("./data/init", processo->arrPrograma);
@@ -38,7 +41,8 @@ void copiaProcesso(ProcessoSimulado** novoProcesso, ProcessoSimulado processoPai
     processo->ppid = processoPai.ppid;
 
     //+1 porque deve pular exatamente uma instrução
-    processo->pc = processoPai.pc + 1;
+    processo->pc = (int*) malloc(sizeof(int));
+    *(processo->pc) = *(processoPai.pc) + 1; 
 
     processo->arrVariaveis = (int*) malloc(numeroVariaveis(processoPai) * sizeof(int));
     copiaVariaveis(processoPai.arrVariaveis, processo->arrVariaveis, numeroVariaveis(processoPai));
@@ -52,7 +56,7 @@ void copiaProcesso(ProcessoSimulado** novoProcesso, ProcessoSimulado processoPai
     copiaArrPrograma(processo->arrPrograma, *(processoPai.arrPrograma));
 
     *novoProcesso = processo;
-    
+
 }
 
 void copiaVariaveis(int* arrVariaveisBase, int* arrVariaveisNovo, int tamanho)
@@ -89,11 +93,11 @@ void imprimeProcesso(ProcessoSimulado processo, int opcao)
 
     printf("-> Processo - pid %2d | ", processo.pid);
     printf("ppid %2d | ", processo.ppid);
-    printf("pc %2d | ", processo.pc);
+    printf("pc %2d | ", *(processo.pc));
     printf("prioridade %d | ", processo.prioridade);
     imprimeEstado(processo.estado);
-    printf("tempoInicio %d | ", processo.tempoInicio);
-    printf("tempoCPU %d\n", processo.tempoCPU);
+    printf("tempoInicio %2d | ", processo.tempoInicio);
+    printf("tempoCPU %2d\n", processo.tempoCPU);
     
     switch (opcao)
     {

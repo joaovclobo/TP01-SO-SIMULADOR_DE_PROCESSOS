@@ -1,5 +1,17 @@
 #include "cpu.h"
 
+CPU* inicializaCPU()
+{
+    CPU* cpu;
+    //TODO - definir um numero invalido
+    cpu->pid = -1;
+    cpu->arrPrograma = (Instrucao**) malloc(sizeof(Instrucao));
+    cpu->pcProgramaAtual = -1;
+    cpu->arrVariaveis = (Instrucao**) malloc(sizeof(Instrucao));
+    cpu->quantum = 0;
+
+}
+
 int *instrucaoN(int n)
 {
     // Função N declara e aloca um vetor de “n” posições dinamicamente e
@@ -27,7 +39,7 @@ void instrucaoV(int x, int n, int *vetorPosicoes)
     vetorPosicoes[x] = n;
 }
 
-void instrucaoA(int x, int n, int *vetorPosicoes);
+void instrucaoA(int x, int n, int *vetorPosicoes)
 {
     // A soma n ao valor à variável no índice x.
     vetorPosicoes[x] += n;

@@ -21,6 +21,7 @@ void inicializaGerenciador(GerenciadorProcesso *gerenciador)
     gerenciador->tabelaProcessos = criaLista();
     gerenciador->tempoTotalExecucao = 0;
     gerenciador->quantidadeProcessosExecutados = 0;
+    
 }
 
 void gerenciaTabelaProcessos(GerenciadorProcesso *gerenciador, ProcessoSimulado *processo,
