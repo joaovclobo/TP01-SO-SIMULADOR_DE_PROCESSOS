@@ -7,9 +7,9 @@ void inicializaInstrucao(char *instrucaoLida, Instrucao* instrucao)
     token = strtok(instrucaoLida, " ");
     
     instrucao->tipoDeInstrucao = token[0];
-    instrucao->parametroNumerico1 = -1;
-    instrucao->parametroNumerico2 = -1;
-    strcpy(instrucao->parametroTexto, "#####");
+    instrucao->parametroNumerico1 = NUMVAZIO;
+    instrucao->parametroNumerico2 = NUMVAZIO;
+    strcpy(instrucao->parametroTexto, TXTVAZIO);
 
     token = strtok(NULL, " ");
 
@@ -85,7 +85,7 @@ void copiaInstrucao(Instrucao* novaInstrucao, Instrucao* instrucaoBase)
 
 void imprimeInstucao(Instrucao instrucao)
 {
-    printf("     └ Instrução -  Tipo %c", instrucao.tipoDeInstrucao);
+    printf("    └ Instrução -  Tipo %c", instrucao.tipoDeInstrucao);
     printf(" | Param 1 %3d", instrucao.parametroNumerico1);
     printf(" | Param 2 %5d", instrucao.parametroNumerico2);
     printf(" | Param txt %s\n", instrucao.parametroTexto);

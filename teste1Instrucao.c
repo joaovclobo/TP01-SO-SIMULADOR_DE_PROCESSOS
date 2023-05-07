@@ -17,7 +17,7 @@ int main()
     imprimeProcesso(*processoInit, opcao);
     
     ProcessoSimulado* novoProcessoFork;
-    copiaProcesso(&novoProcessoFork, *processoInit);
+    copiaProcesso(&novoProcessoFork, *processoInit, 10);
     printf("Processo Filho: \n");
     imprimeProcesso(*novoProcessoFork, opcao);
 

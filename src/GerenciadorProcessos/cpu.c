@@ -4,9 +4,9 @@ CPU* inicializaCPU()
 {
     CPU* cpu;
     //TODO - definir um numero invalido
-    cpu->pid = -1;
+    cpu->pid = NUMVAZIO;
     cpu->arrPrograma = (Instrucao**) malloc(sizeof(Instrucao));
-    cpu->pcProgramaAtual = -1;
+    cpu->pcProgramaAtual = NUMVAZIO;
     cpu->arrVariaveis = (Instrucao**) malloc(sizeof(Instrucao));
     cpu->quantum = 0;
 

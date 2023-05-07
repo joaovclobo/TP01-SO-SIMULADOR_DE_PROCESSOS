@@ -14,9 +14,7 @@ void criaProcessoInit(ProcessoSimulado** processoInit, int tempoSistema)
     processo->tempoInicio = tempoSistema;
     processo->tempoCPU = 0;
 
-    printf("pc processo filho: %d\n", processo->pc);
-
-    processo->arrPrograma = (Instrucao**) malloc(MAXINTRUC * sizeof(Instrucao));
+    processo->arrPrograma = (Instrucao**) malloc(sizeof(Instrucao));
     leInstrucoesArquivo("./data/init", processo->arrPrograma);
 
     processo->arrVariaveis = (int*) malloc(numeroVariaveis(*processo) * sizeof(int));
@@ -52,7 +50,7 @@ void copiaProcesso(ProcessoSimulado** novoProcesso, ProcessoSimulado processoPai
     processo->tempoInicio = tempoAtualSistema;
     processo->tempoCPU = 0;
 
-    processo->arrPrograma = (Instrucao**) malloc(MAXINTRUC * sizeof(Instrucao));
+    processo->arrPrograma = (Instrucao**) malloc(sizeof(Instrucao));
     copiaArrPrograma(processo->arrPrograma, *(processoPai.arrPrograma));
 
     *novoProcesso = processo;
@@ -147,7 +145,7 @@ void imprimeEstado(Estado estado)
 
 void imprimeVariaveis(int* arrVariaveis, int tamanho)
 {
-    printf("   └ Variáveis do processo: ");
+    printf("   └ Variáveis - ");
 
     for (int i = 0; i < tamanho; i++)
     {
