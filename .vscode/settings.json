@@ -3,6 +3,7 @@
         "pipe.h": "c",
         "instrucao.h": "c",
         "lista.h": "c",
-        "processosimulado.h": "c"
+        "processosimulado.h": "c",
+        "string.h": "c"
     }
 }

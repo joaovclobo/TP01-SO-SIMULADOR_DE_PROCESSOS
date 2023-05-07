@@ -1,16 +1,47 @@
 #include "cpu.h"
 
 CPU* inicializaCPU()
+{   
+    CPU* cpu = (CPU*) malloc(sizeof(CPU));
+    
+    cpu->pidProcessoAtual = (int*) malloc(sizeof(int));
+    *cpu->pidProcessoAtual = 57;
+    cpu->pcProcessoAtual = (int*) malloc(sizeof(int));
+
+    cpu->programaProcessoAtual = (Instrucao**) malloc(sizeof(Instrucao));
+    cpu->variaveisProcessoAtual = (int**) malloc(sizeof(int));
+
+    cpu->fatiaQuantum = 0;
+
+    return cpu;
+}
+
+void trocaProcesso(CPU* cpu, ProcessoSimulado* processoAtual)
 {
-    CPU* cpu;
-    //TODO - definir um numero invalido
-    cpu->pid = NUMVAZIO;
-    cpu->arrPrograma = (Instrucao**) malloc(sizeof(Instrucao));
-    cpu->pcProgramaAtual = NUMVAZIO;
-    cpu->arrVariaveis = (Instrucao**) malloc(sizeof(Instrucao));
-    cpu->quantum = 0;
+    cpu->pidProcessoAtual = &(processoAtual->pid);
+    cpu->pcProcessoAtual = processoAtual->pc;
+
+    cpu->programaProcessoAtual = processoAtual->arrPrograma;
+    cpu->variaveisProcessoAtual = &processoAtual->arrVariaveis;
+
+    cpu->fatiaQuantum = 0;
 
 }
+
+void imprimeCPU(CPU cpu)
+{   
+
+    printf("Processo na CPU - PID %2d | ", *cpu.pidProcessoAtual);
+    printf("PC %2d | ", *cpu.pcProcessoAtual);
+    printf("Fatia do quantum já executado: %2d\n", cpu.fatiaQuantum);
+
+    imprimeVariaveis(*cpu.variaveisProcessoAtual, numeroVariaveis(*cpu.programaProcessoAtual));
+    imprimeArrPrograma(*cpu.programaProcessoAtual);
+    putchar('\n');
+
+}
+
+//Instruçẽos de programa que são processadas na CPU
 
 int *instrucaoN(int n)
 {
@@ -26,6 +57,7 @@ int *instrucaoN(int n)
     }
     return vetorPosicoes;
 }
+
 
 void instrucaoD(int x, int *vetorPosicoes)
 {
@@ -79,3 +111,5 @@ void instrucaoR(char *nomeDoArquivo)
 {
     // PC aponta pro PC do novo processo.
 }
+
+

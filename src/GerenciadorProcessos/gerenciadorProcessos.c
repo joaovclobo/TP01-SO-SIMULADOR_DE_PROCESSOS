@@ -2,6 +2,7 @@
 
 void gerenciadorProcessos(GerenciadorProcesso *gerenciador, char comando)
 {
+    
     if (comando == 'U')
     {
         encerraUnidadeTempo(gerenciador);
@@ -16,11 +17,15 @@ void encerraUnidadeTempo(GerenciadorProcesso *gerenciador)
 void inicializaGerenciador(GerenciadorProcesso *gerenciador)
 {
     gerenciador->tempo = 0;
+
+    gerenciador->quantidadeProcessosExecutados = 0;
+    gerenciador->tempoTotalExecucao = 0;
+
+    gerenciador->cpu = inicializaCPU();
+
+    gerenciador->tabelaProcessos = criaLista();
     gerenciador->estadoPronto = criaFila();
     gerenciador->estadoBloqueado = criaFila();
-    gerenciador->tabelaProcessos = criaLista();
-    gerenciador->tempoTotalExecucao = 0;
-    gerenciador->quantidadeProcessosExecutados = 0;
     
 }
 

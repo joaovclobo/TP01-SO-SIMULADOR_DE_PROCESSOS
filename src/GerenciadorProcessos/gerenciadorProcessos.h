@@ -7,7 +7,7 @@ typedef struct GerenciadorProcesso
     int estadoExecucao;
     int quantidadeProcessosExecutados;
     int tempoTotalExecucao;
-    CPU cpu;
+    CPU* cpu;
     Lista *tabelaProcessos;
     Fila *estadoPronto;
     Fila *estadoBloqueado;

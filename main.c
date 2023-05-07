@@ -73,11 +73,12 @@
 #include <stdlib.h>
 #include <sys/types.h>
 #include <unistd.h>
-#include "./src/ProcessoSimulado/processoSimulado.h"
+#include "./src/GerenciadorProcessos/cpu.h"
 
 int main()
 {
-    int opcao = MenuImpressaoProcesso();
+    CPU* cpu = inicializaCPU();
+    int opcao = 4;
     
     ProcessoSimulado* processoInit;
     criaProcessoInit(&processoInit, 0);
@@ -89,5 +90,11 @@ int main()
     printf("Processo Filho: \n");
     imprimeProcesso(*novoProcessoFork, opcao);
 
-}
+    printf("\t ---- CPU 1 ----\n");
+    trocaProcesso(cpu, processoInit);
+    imprimeCPU(*cpu);
 
+    printf("\t ---- CPU 2 ----\n");
+    trocaProcesso(cpu, novoProcessoFork);
+    imprimeCPU(*cpu);
+}

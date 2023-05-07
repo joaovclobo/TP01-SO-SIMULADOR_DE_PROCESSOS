@@ -17,7 +17,7 @@ void criaProcessoInit(ProcessoSimulado** processoInit, int tempoSistema)
     processo->arrPrograma = (Instrucao**) malloc(sizeof(Instrucao));
     leInstrucoesArquivo("./data/init", processo->arrPrograma);
 
-    processo->arrVariaveis = (int*) malloc(numeroVariaveis(*processo) * sizeof(int));
+    processo->arrVariaveis = (int*) malloc(numeroVariaveis(*processo->arrPrograma) * sizeof(int));
 
     //TODO - APAGAR ISSO PELAMOR DE DEUS
 
@@ -42,8 +42,8 @@ void copiaProcesso(ProcessoSimulado** novoProcesso, ProcessoSimulado processoPai
     processo->pc = (int*) malloc(sizeof(int));
     *(processo->pc) = *(processoPai.pc) + 1; 
 
-    processo->arrVariaveis = (int*) malloc(numeroVariaveis(processoPai) * sizeof(int));
-    copiaVariaveis(processoPai.arrVariaveis, processo->arrVariaveis, numeroVariaveis(processoPai));
+    processo->arrVariaveis = (int*) malloc(numeroVariaveis(*processoPai.arrPrograma) * sizeof(int));
+    copiaVariaveis(processoPai.arrVariaveis, processo->arrVariaveis, numeroVariaveis(*processoPai.arrPrograma));
 
     processo->prioridade = processoPai.prioridade;
     processo->estado = PRONTO;
@@ -80,22 +80,22 @@ void copiaArrPrograma(Instrucao** arrNovo, Instrucao* arrBase)
     *arrNovo = arrPrograma;
 }
 
-int numeroVariaveis(ProcessoSimulado processo)
+int numeroVariaveis(Instrucao* arrPrograma)
 {
-    return (processo.arrPrograma)[0]->parametroNumerico1;
+    return arrPrograma[0].parametroNumerico1;
 }
 
 
 void imprimeProcesso(ProcessoSimulado processo, int opcao)
 {
 
-    printf("-> Processo - pid %2d | ", processo.pid);
-    printf("ppid %2d | ", processo.ppid);
-    printf("pc %2d | ", *(processo.pc));
-    printf("prioridade %d | ", processo.prioridade);
+    printf("-> Processo - PID %2d | ", processo.pid);
+    printf("PPID %2d | ", processo.ppid);
+    printf("PC %2d | ", *(processo.pc));
+    printf("Prioridade %d | ", processo.prioridade);
     imprimeEstado(processo.estado);
-    printf("tempoInicio %2d | ", processo.tempoInicio);
-    printf("tempoCPU %2d\n", processo.tempoCPU);
+    printf("Tempo de inicio %2d | ", processo.tempoInicio);
+    printf("Tempo de CPU %2d\n", processo.tempoCPU);
     
     switch (opcao)
     {
@@ -104,7 +104,7 @@ void imprimeProcesso(ProcessoSimulado processo, int opcao)
         break;
 
         case 2:
-            imprimeVariaveis(processo.arrVariaveis, numeroVariaveis(processo));
+            imprimeVariaveis(processo.arrVariaveis, numeroVariaveis(*processo.arrPrograma));
             break;
     
         case 3:
@@ -112,7 +112,7 @@ void imprimeProcesso(ProcessoSimulado processo, int opcao)
         break;
     
         case 4:
-            imprimeVariaveis(processo.arrVariaveis, numeroVariaveis(processo));
+            imprimeVariaveis(processo.arrVariaveis, numeroVariaveis(*processo.arrPrograma));
             imprimeArrPrograma(*(processo.arrPrograma));
 
         default:
@@ -121,6 +121,21 @@ void imprimeProcesso(ProcessoSimulado processo, int opcao)
     putchar('\n');
 
 }
+
+
+void imprimeVariaveis(int* arrVariaveis, int tamanho)
+{
+    printf(" |Variáveis: ");
+
+    for (int i = 0; i < tamanho; i++)
+    {
+        printf("%d ", arrVariaveis[i]);
+
+    }
+    putchar('\n');
+
+}
+
 
 void imprimeEstado(Estado estado)
 {
@@ -142,16 +157,3 @@ void imprimeEstado(Estado estado)
             break;
     }
 } 
-
-void imprimeVariaveis(int* arrVariaveis, int tamanho)
-{
-    printf("   └ Variáveis - ");
-
-    for (int i = 0; i < tamanho; i++)
-    {
-        printf("%d ", arrVariaveis[i]);
-
-    }
-    putchar('\n');
-
-}

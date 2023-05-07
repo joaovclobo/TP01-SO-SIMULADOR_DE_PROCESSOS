@@ -85,15 +85,16 @@ void copiaInstrucao(Instrucao* novaInstrucao, Instrucao* instrucaoBase)
 
 void imprimeInstucao(Instrucao instrucao)
 {
-    printf("    └ Instrução -  Tipo %c", instrucao.tipoDeInstrucao);
+    printf(" |Instrução: Tipo %c", instrucao.tipoDeInstrucao);
     printf(" | Param 1 %3d", instrucao.parametroNumerico1);
     printf(" | Param 2 %5d", instrucao.parametroNumerico2);
-    printf(" | Param txt %s\n", instrucao.parametroTexto);
+    printf(" | Param txt %10s|\n", instrucao.parametroTexto);
 }
 
 void imprimeArrPrograma(Instrucao* arrPrograma)
 {
     int i = 0;
+    printf(" ------------------------- Programa do processo -------------------------\n");
 
     while (arrPrograma[i-1].tipoDeInstrucao != 'T')
     {

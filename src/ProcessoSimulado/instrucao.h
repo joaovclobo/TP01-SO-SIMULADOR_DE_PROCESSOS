@@ -6,7 +6,7 @@
 #define MAXBUFFER 100
 #define MAXINTRUC 100
 #define NUMVAZIO -1
-#define TXTVAZIO "#####"
+#define TXTVAZIO "#######"
 
 //TAD que define os comandos possíveis de um processo simulado
 

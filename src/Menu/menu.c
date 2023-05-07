@@ -47,7 +47,6 @@ int MenuImpressaoProcesso()
     
 }
 
-
 FILE* abreArquivoRead(char* nomeArquivo)
 {
 
@@ -65,4 +64,11 @@ FILE* abreArquivoRead(char* nomeArquivo)
         return fptr;
 
     }
+}
+
+//TODO - apagar dps do fim
+
+void flag(int i)
+{
+    printf("\n------------------- FLAG %d -------------------\n", i);
 }
