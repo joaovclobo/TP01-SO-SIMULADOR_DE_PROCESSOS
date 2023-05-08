@@ -15,6 +15,8 @@ typedef struct GerenciadorProcesso
 
 GerenciadorProcesso* inicializaGerenciador();
 
+void iniciaProcessoInit(GerenciadorProcesso* gerenciador);
+
 void gerenciadorProcessos(GerenciadorProcesso *gerenciador, char comando);
 
 void encerraUnidadeTempo(GerenciadorProcesso *gerenciador);
