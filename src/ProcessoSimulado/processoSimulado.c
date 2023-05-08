@@ -21,13 +21,14 @@ void criaProcessoInit(ProcessoSimulado** processoInit, int tempoSistema)
     
 }
 
-void copiaProcesso(ProcessoSimulado** novoProcesso, ProcessoSimulado processoPai, int tempoAtualSistema)
+void copiaProcesso(ProcessoSimulado** novoProcesso, ProcessoSimulado processoPai, 
+                                int tempoAtualSistema, int novoPid)
 {
     ProcessoSimulado* processo = (ProcessoSimulado*) malloc(sizeof(ProcessoSimulado));
 
     //TODO - Confirmar com o daniel como sera
-    processo->pid = processoPai.pid;
-    processo->ppid = processoPai.ppid;
+    processo->pid = novoPid;
+    processo->ppid = processoPai.pid;
 
     //+1 porque deve pular exatamente uma instrução
     processo->pc = (int*) malloc(sizeof(int));

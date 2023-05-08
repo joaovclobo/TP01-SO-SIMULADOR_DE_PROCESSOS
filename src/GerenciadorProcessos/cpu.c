@@ -28,7 +28,7 @@ void escalonaProcesso(CPU* cpu, ProcessoSimulado* processoAtual)
 
 }
 
-void executaProxInstrucao(CPU* cpu)
+void executaProxInstrucao(CPU* cpu, int tempoAtualSistema)
 {   
     char tipo = ((*cpu->programaProcessoAtual)[*cpu->pcProcessoAtual]).tipoDeInstrucao;
     int paramNum1 = ((*cpu->programaProcessoAtual)[*cpu->pcProcessoAtual]).parametroNumerico1;
@@ -65,7 +65,7 @@ void executaProxInstrucao(CPU* cpu)
         break;
     
     case 'F':
-        
+        instrucaoF(paramNum1, cpu->pidProcessoAtual, cpu->pcProcessoAtual, tempoAtualSistema);
         break;
 
     case 'R':
@@ -87,7 +87,6 @@ void imprimeCPU(CPU cpu)
     printf("Fatia do quantum já executado: %2d\n", cpu.fatiaQuantum);
 
     imprimeVariaveis(*cpu.variaveisProcessoAtual, numeroVariaveis(*cpu.programaProcessoAtual));
-    //TODO - Descomentar isso
     imprimeArrPrograma(*cpu.programaProcessoAtual);
     putchar('\n');
 
@@ -152,29 +151,37 @@ void instrucaoS(int x, int n, int *arrVariaveis){
 // }
 
 //TODO - esta função além de duplicar o processo que está na CPU deve incrementar em n o PC deste
-void instrucaoF(int n)
+//TODO - O código que está comentado aqui será adaptado
+void instrucaoF(int n, int* pidProcessoAtual, int* pcProcessoAtual,int tempoAtualSistema)
 {
-    // Inicia outro processo Filho.
-    // Filho - Copia exata do pai.
-    // Filho - Executa após as próximas instruções do pai.
-    // Pai - Pula n instruções depois de ler um comando F n (aumenta o PC do processo
-    // executando em n na CPU).
-    // ProcessoSimulado* novoProcessoFork;
-    // copiaProcesso(&novoProcessoFork, *processoInit, 10);
-    // printf("Processo Filho criado: \n");
-    // imprimeProcesso(*novoProcessoFork, 4);
+    // Inicia outro processo Filho. 
 
+    ProcessoSimulado* processoFilho;
+    //Processo pai vem da tabela de processo - busca da tabela 
+    // ProcessoSimulado processoPai = buscaProcesso(*pidProcessoAtual);
+    //criaPID deve poder ser acessada por aqui
+    
+    // Filho - Copia do pai.
+
+    // copiaProcesso(&processoFilho, processoPai, tempoAtualSistema, 13);
+    // printf("Processo filho criado: \n");
+    // imprimeProcesso(*processoFilho, 4);
+
+    //Salvar o processo filho na tabela
+    // insereTabela(processoFilho);
+
+    *pcProcessoAtual += n;
 
 }
 
-void instrucaoR(char *nomeDoArquivo, Instrucao** arrPrograma, int* pcProgramaAtual)
+void instrucaoR(char *nomeDoArquivo, Instrucao** arrPrograma, int* pcProcessoAtual)
 {   
     char caminhoArquivo[MAXBUFFER] = "./data/";
     strcat(caminhoArquivo, nomeDoArquivo);
     printf("%s ", caminhoArquivo);
     leInstrucoesArquivo(caminhoArquivo, arrPrograma);
 
-    *pcProgramaAtual = -1;
+    *pcProcessoAtual = -1;
 
 }
 

@@ -14,7 +14,7 @@ typedef struct CPU
 
 CPU* inicializaCPU();
 void escalonaProcesso(CPU* cpu, ProcessoSimulado* processoAtual);
-void executaProxInstrucao(CPU* cpu);
+void executaProxInstrucao(CPU* cpu, int tempoAtualSistema);
 void imprimeCPU(CPU cpu);
 
 //Instruçẽos de programa que são processadas na CPU
@@ -26,5 +26,5 @@ void instrucaoA(int x, int n, int *arrVariaveis);
 void instrucaoS(int x, int n, int *arrVariaveis);
 // int instrucaoB(int n);
 // void instrucaoT();
-// void instrucaoF(int n);
-void instrucaoR(char *nomeDoArquivo, Instrucao** arrPrograma, int* pcProgramaAtual);
+void instrucaoF(int n, int* pidProcessoAtual, int* pcProcessoAtual,int tempoAtualSistema);
+void instrucaoR(char *nomeDoArquivo, Instrucao** arrPrograma, int* pcProcessoAtual);

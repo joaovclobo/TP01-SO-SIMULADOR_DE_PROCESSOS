@@ -22,7 +22,7 @@ typedef struct ProcessoSimulado
 
 void criaProcessoInit(ProcessoSimulado** processoInit, int tempoSistema);
 
-void copiaProcesso(ProcessoSimulado** novoProcesso, ProcessoSimulado processoPai, int tempoAtualSistema);
+void copiaProcesso(ProcessoSimulado** novoProcesso, ProcessoSimulado processoPai, int tempoAtualSistema, int novoPid);
 void copiaVariaveis(int* arrVariaveisBase, int* arrVariaveisNovo, int tamanho);
 void copiaArrPrograma(Instrucao** arrNovo, Instrucao* arrBase);
 

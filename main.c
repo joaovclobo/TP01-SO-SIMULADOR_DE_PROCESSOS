@@ -84,14 +84,14 @@ int main()
     ProcessoSimulado* processoInit;
     criaProcessoInit(&processoInit, 0);
     escalonaProcesso(cpu, processoInit);
-    executaProxInstrucao(cpu);
+    executaProxInstrucao(cpu, 0);
 
     int count = 10;
 
     for (int i = 0; i < count; i++)
     {
         imprimeCPU(*cpu);
-        executaProxInstrucao(cpu);
+        executaProxInstrucao(cpu, 27);
     }
 
     // printf("Processo pai: \n");
@@ -100,9 +100,7 @@ int main()
     // ProcessoSimulado* novoProcessoFork;
     // copiaProcesso(&novoProcessoFork, *processoInit, 10);
     // printf("Processo Filho: \n");
-    // imprimeProcesso(*novoProcessoFork, opcao);
-
-
+    // imprimeProcesso(*novoProcessoFork, 4);
 
 
     // printf("\t ---- CPU 2 ----\n");

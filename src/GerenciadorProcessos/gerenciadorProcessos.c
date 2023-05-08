@@ -53,6 +53,7 @@ void imprimeTabelaProcesso(Lista *tabelaProcesso)
     while(percorre != NULL)
     {
         //achar um jeito de printar arrays e estados
+        //Usar as funções imprime variaveis e imprime estados
         ProcessoSimulado *processo = percorre->processo;
         printf("|  %d  |   %d  |  %d |     %c     |      %d     |   %c     |       %d      |     %d     |     %c    |\n", processo->pid, processo->ppid, *processo->pc, 'a', 
                 processo->prioridade, 'e',processo->tempoInicio, processo->tempoCPU, 'a');
