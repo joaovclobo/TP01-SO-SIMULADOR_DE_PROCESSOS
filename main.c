@@ -78,23 +78,35 @@
 int main()
 {
     CPU* cpu = inicializaCPU();
-    int opcao = 4;
+    // int opcao = 4;
     
+    //TODO - isto ficará no momentode inicio de "inicio" do gerenciador de processo
     ProcessoSimulado* processoInit;
     criaProcessoInit(&processoInit, 0);
-    printf("Processo pai: \n");
-    imprimeProcesso(*processoInit, opcao);
+    escalonaProcesso(cpu, processoInit);
+    executaProxInstrucao(cpu);
+
+    int count = 10;
+
+    for (int i = 0; i < count; i++)
+    {
+        imprimeCPU(*cpu);
+        executaProxInstrucao(cpu);
+    }
+
+    // printf("Processo pai: \n");
+    // imprimeProcesso(*processoInit, opcao);
     
-    ProcessoSimulado* novoProcessoFork;
-    copiaProcesso(&novoProcessoFork, *processoInit, 10);
-    printf("Processo Filho: \n");
-    imprimeProcesso(*novoProcessoFork, opcao);
+    // ProcessoSimulado* novoProcessoFork;
+    // copiaProcesso(&novoProcessoFork, *processoInit, 10);
+    // printf("Processo Filho: \n");
+    // imprimeProcesso(*novoProcessoFork, opcao);
 
-    printf("\t ---- CPU 1 ----\n");
-    trocaProcesso(cpu, processoInit);
-    imprimeCPU(*cpu);
 
-    printf("\t ---- CPU 2 ----\n");
-    trocaProcesso(cpu, novoProcessoFork);
-    imprimeCPU(*cpu);
+
+
+    // printf("\t ---- CPU 2 ----\n");
+    // escalonaProcesso(cpu, novoProcessoFork);
+    // imprimeCPU(*cpu);
+
 }

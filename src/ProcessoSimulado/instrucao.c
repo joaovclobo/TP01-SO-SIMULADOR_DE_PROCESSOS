@@ -54,11 +54,11 @@ void inicializaInstrucao(char *instrucaoLida, Instrucao* instrucao)
     }
 }
 
-void leInstrucoesArquivo(char* caminhoArquivo, Instrucao** programa)
+void leInstrucoesArquivo(char* caminhoArquivo, Instrucao** arrPrograma)
 {
     int i = 0;
 
-    Instrucao* arrPrograma = (Instrucao*) malloc(MAXINTRUC * sizeof(Instrucao));
+    Instrucao* arrInstrucoes = (Instrucao*) malloc(MAXINTRUC * sizeof(Instrucao));
     
     char* cadaLinha = malloc(MAXBUFFER * sizeof(char));
 
@@ -67,12 +67,12 @@ void leInstrucoesArquivo(char* caminhoArquivo, Instrucao** programa)
     while (fgets(cadaLinha, MAXBUFFER, arquivoDeEntrada) != NULL)
     {   
         cadaLinha[strcspn(cadaLinha, "\n")] = '\0';
-        inicializaInstrucao(cadaLinha, arrPrograma+i);
+        inicializaInstrucao(cadaLinha, arrInstrucoes+i);
         i++;
 
     }
 
-    *programa = arrPrograma;
+    *arrPrograma = arrInstrucoes;
 }
 
 void copiaInstrucao(Instrucao* novaInstrucao, Instrucao* instrucaoBase)

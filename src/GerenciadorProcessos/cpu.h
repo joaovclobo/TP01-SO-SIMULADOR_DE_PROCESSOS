@@ -13,17 +13,18 @@ typedef struct CPU
 } CPU;
 
 CPU* inicializaCPU();
-void trocaProcesso(CPU* cpu, ProcessoSimulado* processoAtual);
+void escalonaProcesso(CPU* cpu, ProcessoSimulado* processoAtual);
+void executaProxInstrucao(CPU* cpu);
 void imprimeCPU(CPU cpu);
 
 //Instruçẽos de programa que são processadas na CPU
 
 int* instrucaoN(int n);
-void instrucaoD(int x, int *vetorPosicoes);
-void instrucaoV(int x, int n,int *vetorPosicoes);
-void instrucaoA(int x, int n, int *vetorPosicoes);
-void instrucaoS(int x, int n, int *vetorPosicoes);
-int instrucaoB(int n);
-void instrucaoT();
-void instrucaoF(int n);
-void instrucaoR(char* nomeDoArquivo);
+void instrucaoD(int x, int *arrVariaveis);
+void instrucaoV(int x, int n, int *arrVariaveis);
+void instrucaoA(int x, int n, int *arrVariaveis);
+void instrucaoS(int x, int n, int *arrVariaveis);
+// int instrucaoB(int n);
+// void instrucaoT();
+// void instrucaoF(int n);
+void instrucaoR(char *nomeDoArquivo, Instrucao** arrPrograma, int* pcProgramaAtual);
