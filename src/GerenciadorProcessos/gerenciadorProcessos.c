@@ -1,5 +1,4 @@
 #include "gerenciadorProcessos.h"
-
 void gerenciadorProcessos(GerenciadorProcesso *gerenciador, char comando)
 {
     
@@ -14,19 +13,17 @@ void encerraUnidadeTempo(GerenciadorProcesso *gerenciador)
     gerenciador->tempo += 1;
 }
 
-void inicializaGerenciador(GerenciadorProcesso *gerenciador)
+GerenciadorProcesso* inicializaGerenciador()
 {
+    GerenciadorProcesso *gerenciador;
     gerenciador->tempo = 0;
-
     gerenciador->quantidadeProcessosExecutados = 0;
     gerenciador->tempoTotalExecucao = 0;
-
     gerenciador->cpu = inicializaCPU();
-
     gerenciador->tabelaProcessos = criaLista();
     gerenciador->estadoPronto = criaFila();
     gerenciador->estadoBloqueado = criaFila();
-    
+    return gerenciador;
 }
 
 void gerenciaTabelaProcessos(GerenciadorProcesso *gerenciador, ProcessoSimulado *processo,
@@ -44,6 +41,26 @@ void gerenciaTabelaProcessos(GerenciadorProcesso *gerenciador, ProcessoSimulado 
     }
 }
 
+void imprimeTabelaProcesso(Lista *tabelaProcesso)
+{
+    //MUDAR PARA Celula *percorre = tabelaProcesso->inicio;
+    Celula *percorre = tabelaProcesso->fim;
+    printf("\n");
+    printf("+---------------------------------------------+--------------------------------------------+\n");
+    printf("| PID | PPID | PC | Variaveis | Prioridade | Estado | Tempo Inicial | Tempo CPU | Programa |");
+    printf("\n");
+    printf("+---------------------------------------------+--------------------------------------------+\n");
+    while(percorre != NULL)
+    {
+        //achar um jeito de printar arrays e estados
+        ProcessoSimulado *processo = percorre->processo;
+        printf("|  %d  |   %d  |  %d |     %c     |      %d     |   %c     |       %d      |     %d     |     %c    |\n", processo->pid, processo->ppid, *processo->pc, 'a', 
+                processo->prioridade, 'e',processo->tempoInicio, processo->tempoCPU, 'a');
+        printf("+---------------------------------------------+--------------------------------------------+\n");
+        percorre = percorre->proximo;
+    }
+}
+
 int criaPID(GerenciadorProcesso *gerenciador)
 {
     Celula *inicio = gerenciador->tabelaProcessos->inicio;
@@ -57,5 +74,5 @@ int criaPID(GerenciadorProcesso *gerenciador)
         }
         atual = atual->proximo;
     }
-    return novoPID;
+    return novoPID+1;
 }

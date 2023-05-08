@@ -73,8 +73,8 @@
 #include <stdlib.h>
 #include <sys/types.h>
 #include <unistd.h>
-#include "./src/GerenciadorProcessos/cpu.h"
-
+//#include "./src/GerenciadorProcessos/cpu.h"
+#include "./src/GerenciadorProcessos/gerenciadorProcessos.h"
 int main()
 {
     CPU* cpu = inicializaCPU();

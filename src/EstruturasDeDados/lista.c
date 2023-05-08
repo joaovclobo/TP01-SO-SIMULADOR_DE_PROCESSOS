@@ -8,6 +8,8 @@ Lista* criaLista() {
     return novaEntrada;
 }
 
+
+//MUDAR DE INSERIR NO FIM PARA INSERIR NO INÍCIO
 void insereFim(Lista* lista, ProcessoSimulado* processo) {
     Celula* novaEntrada = (Celula*)malloc(sizeof(Celula));
     novaEntrada->processo = processo;

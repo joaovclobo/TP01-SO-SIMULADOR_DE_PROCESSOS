@@ -13,10 +13,14 @@ typedef struct GerenciadorProcesso
     Fila *estadoBloqueado;
 } GerenciadorProcesso;
 
-void inicializaGerenciador(GerenciadorProcesso *gerenciador);
+GerenciadorProcesso* inicializaGerenciador();
 
 void gerenciadorProcessos(GerenciadorProcesso *gerenciador, char comando);
 
 void encerraUnidadeTempo(GerenciadorProcesso *gerenciador);
 
 void gerenciaTabelaProcessos(GerenciadorProcesso *gerenciador, ProcessoSimulado *processo, int opcao);
+
+void imprimeTabelaProcesso(Lista *tabelaProcesso);
+
+int criaPID(GerenciadorProcesso *gerenciador);
