@@ -5,6 +5,14 @@ void gerenciadorProcessos(GerenciadorProcesso *gerenciador, char comando)
     if (comando == 'U')
     {
         encerraUnidadeTempo(gerenciador);
+        if (gerenciador->tempo == 1)
+        {
+            iniciaProcessoInit(gerenciador);
+        } else
+        {
+            executaProxInstrucao(gerenciador->cpu, gerenciador->tempo);
+            imprimeCPU(*gerenciador->cpu);
+        }
     }
 }
 
@@ -15,7 +23,7 @@ void encerraUnidadeTempo(GerenciadorProcesso *gerenciador)
 
 GerenciadorProcesso* inicializaGerenciador()
 {
-    GerenciadorProcesso *gerenciador;
+    GerenciadorProcesso *gerenciador = (GerenciadorProcesso*) malloc(sizeof(GerenciadorProcesso));
     gerenciador->tempo = 0;
     gerenciador->quantidadeProcessosExecutados = 0;
     gerenciador->tempoTotalExecucao = 0;
@@ -23,7 +31,16 @@ GerenciadorProcesso* inicializaGerenciador()
     gerenciador->tabelaProcessos = criaLista();
     gerenciador->estadoPronto = criaFila();
     gerenciador->estadoBloqueado = criaFila();
+
     return gerenciador;
+}
+
+void iniciaProcessoInit(GerenciadorProcesso* gerenciador)
+{
+    ProcessoSimulado* processoInit;
+    criaProcessoInit(&processoInit, gerenciador->tempo);
+    escalonaProcesso(gerenciador->cpu, processoInit);
+
 }
 
 void gerenciaTabelaProcessos(GerenciadorProcesso *gerenciador, ProcessoSimulado *processo,
