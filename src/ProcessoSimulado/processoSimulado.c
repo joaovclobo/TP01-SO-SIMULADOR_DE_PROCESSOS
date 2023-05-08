@@ -26,7 +26,6 @@ void copiaProcesso(ProcessoSimulado** novoProcesso, ProcessoSimulado processoPai
 {
     ProcessoSimulado* processo = (ProcessoSimulado*) malloc(sizeof(ProcessoSimulado));
 
-    //TODO - Confirmar com o daniel como sera
     processo->pid = novoPid;
     processo->ppid = processoPai.pid;
 

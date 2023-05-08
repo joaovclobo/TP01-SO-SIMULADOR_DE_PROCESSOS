@@ -156,7 +156,7 @@ void instrucaoF(int n, int* pidProcessoAtual, int* pcProcessoAtual,int tempoAtua
 {
     // Inicia outro processo Filho. 
 
-    ProcessoSimulado* processoFilho;
+    // ProcessoSimulado* processoFilho;
     //Processo pai vem da tabela de processo - busca da tabela 
     // ProcessoSimulado processoPai = buscaProcesso(*pidProcessoAtual);
     //criaPID deve poder ser acessada por aqui
@@ -170,7 +170,7 @@ void instrucaoF(int n, int* pidProcessoAtual, int* pcProcessoAtual,int tempoAtua
     //Salvar o processo filho na tabela
     // insereTabela(processoFilho);
 
-    *pcProcessoAtual += n;
+    *pcProcessoAtual += n - 1;
 
 }
 

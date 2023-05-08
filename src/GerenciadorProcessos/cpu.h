@@ -17,7 +17,8 @@ void escalonaProcesso(CPU* cpu, ProcessoSimulado* processoAtual);
 void executaProxInstrucao(CPU* cpu, int tempoAtualSistema);
 void imprimeCPU(CPU cpu);
 
-//Instruçẽos de programa que são processadas na CPU
+
+/* -------------- Instruçẽos de programa que são processadas na CPU -------------- */
 
 int* instrucaoN(int n);
 void instrucaoD(int x, int *arrVariaveis);

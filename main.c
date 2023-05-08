@@ -80,13 +80,13 @@ int main()
     CPU* cpu = inicializaCPU();
     // int opcao = 4;
     
-    //TODO - isto ficará no momentode inicio de "inicio" do gerenciador de processo
+    //TODO - isto ficará no momento de inicio de "inicio" do gerenciador de processo
     ProcessoSimulado* processoInit;
     criaProcessoInit(&processoInit, 0);
     escalonaProcesso(cpu, processoInit);
     executaProxInstrucao(cpu, 0);
 
-    int count = 10;
+    int count = 11;
 
     for (int i = 0; i < count; i++)
     {
