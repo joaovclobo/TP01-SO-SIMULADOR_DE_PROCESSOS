@@ -19,7 +19,9 @@ void gerenciadorProcessos(GerenciadorProcesso *gerenciador, char comando);
 
 void encerraUnidadeTempo(GerenciadorProcesso *gerenciador);
 
-void gerenciaTabelaProcessos(GerenciadorProcesso *gerenciador, ProcessoSimulado *processo, int opcao);
+void removeProcessoTabela(ProcessoSimulado *processoEscolhido, GerenciadorProcesso *gerenciador);
+
+void insereProcessoTabela(ProcessoSimulado *processoEscolhido, GerenciadorProcesso *gerenciador);
 
 void imprimeTabelaProcesso(Lista *tabelaProcesso);
 

@@ -27,7 +27,7 @@ ProcessoSimulado* buscaProcesso(Lista* lista, int PID)
     {
         if(percorre->processo->pid == PID)
         {
-            return percorre;
+            return percorre->processo;
         }
         percorre = percorre->proximo;
     }
