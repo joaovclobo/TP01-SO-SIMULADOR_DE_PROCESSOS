@@ -10,7 +10,10 @@ void gerenciadorProcessos(GerenciadorProcesso *gerenciador, char comando)
             iniciaProcessoInit(gerenciador);
         } else
         {
+            //fazer funcao que seleciona processo da fila de pronto de acordo com o escalonamento
+            //Usa a funcao carrega processo 
             executaProxInstrucao(gerenciador->cpu, gerenciador->tempo);
+            
             imprimeCPU(*gerenciador->cpu);
         }
     }

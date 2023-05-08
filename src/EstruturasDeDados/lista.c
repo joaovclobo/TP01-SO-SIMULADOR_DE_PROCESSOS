@@ -8,8 +8,6 @@ Lista* criaLista() {
     return novaEntrada;
 }
 
-
-//MUDAR DE INSERIR NO FIM PARA INSERIR NO INÍCIO
 void insereInicio(Lista* lista, ProcessoSimulado* processo) {
 
     Celula* novaEntrada = (Celula*)malloc(sizeof(Celula));
@@ -31,7 +29,7 @@ ProcessoSimulado* buscaProcesso(Lista* lista, int PID)
         }
         percorre = percorre->proximo;
     }
-    return;
+    return NULL;
 }
 
 // void remove_inicio(Lista* lista) {

@@ -16,7 +16,7 @@ CPU* inicializaCPU()
     return cpu;
 }
 
-void escalonaProcesso(CPU* cpu, ProcessoSimulado* processoAtual)
+void carregaProcesso(CPU* cpu, ProcessoSimulado* processoAtual)
 {
     cpu->pidProcessoAtual = &(processoAtual->pid);
     cpu->pcProcessoAtual = processoAtual->pc;
@@ -114,24 +114,20 @@ int *instrucaoN(int n)
 
 void instrucaoD(int x, int *arrVariaveis)
 {
-    // Função D “seta” 0 nos índices na posição x do vetor.
     arrVariaveis[x] = 0;
 }
 
 void instrucaoV(int x, int n, int *arrVariaveis)
 {
-    // V grava n nos índice x do vetor.
     arrVariaveis[x] = n;
 }
 
 void instrucaoA(int x, int n, int *arrVariaveis)
 {
-    // A soma n ao valor à variável no índice x.
     arrVariaveis[x] += n;
 }
 
 void instrucaoS(int x, int n, int *arrVariaveis){
-    // 	S subtrai n ao valor à variável no índice x.
     arrVariaveis[x] -= n;
 }
 
@@ -184,5 +180,3 @@ void instrucaoR(char *nomeDoArquivo, Instrucao** arrPrograma, int* pcProcessoAtu
     *pcProcessoAtual = -1;
 
 }
-
-
