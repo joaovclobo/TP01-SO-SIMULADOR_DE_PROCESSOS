@@ -1,5 +1,4 @@
 #include "gerenciadorProcessos.h"
-
 void gerenciadorProcessos(GerenciadorProcesso *gerenciador, char comando)
 {
     
@@ -44,6 +43,23 @@ void gerenciaTabelaProcessos(GerenciadorProcesso *gerenciador, ProcessoSimulado 
     }
 }
 
+void imprimeTabelaProcesso(Lista *tabelaProcesso)
+{
+    Celula *percorre = tabelaProcesso->inicio;
+    printf("\n");
+    printf("+------------------------------+------------------------------\n");
+    printf("| PID | PPID | PC | Variaveis | Prioridade | Estado | Tempo Inicial | Tempo CPU | Programa |");
+    printf("+------------------------------+------------------------------\n");
+    while(percorre != NULL)
+    {
+        ProcessoSimulado *processo = percorre->processo;
+        printf("| %d | %d | %c | %c | %d | %c | %d | %d | %c |", processo->pid, processo->ppid, 'p', 'a', 
+                processo->prioridade, 'e',processo->tempoInicio, processo->tempoCPU, 'a');
+        printf("+------------------------------+------------------------------\n");
+        percorre = percorre->proximo;
+    }
+}
+
 int criaPID(GerenciadorProcesso *gerenciador)
 {
     Celula *inicio = gerenciador->tabelaProcessos->inicio;
@@ -57,5 +73,5 @@ int criaPID(GerenciadorProcesso *gerenciador)
         }
         atual = atual->proximo;
     }
-    return novoPID;
+    return novoPID+1;
 }
