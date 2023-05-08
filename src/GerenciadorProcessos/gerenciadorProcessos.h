@@ -13,7 +13,7 @@ typedef struct GerenciadorProcesso
     Fila *estadoBloqueado;
 } GerenciadorProcesso;
 
-void inicializaGerenciador(GerenciadorProcesso *gerenciador);
+GerenciadorProcesso* inicializaGerenciador();
 
 void gerenciadorProcessos(GerenciadorProcesso *gerenciador, char comando);
 
