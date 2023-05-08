@@ -5,8 +5,6 @@
 
 void impressao();
 
-void imprimeControle();
-
 void imprimeGerenciador(GerenciadorProcesso *gerenciador);
 
-void imprimeSimulado();
+void imprimeTabelaProcesso(Lista *tabelaProcesso);

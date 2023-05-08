@@ -14,8 +14,9 @@ typedef struct Lista {
 } Lista;
 
 Lista* criaLista();
-void insereFim(Lista* lista, ProcessoSimulado* processo);
+void insereInicio(Lista* lista, ProcessoSimulado* processo);
 void removeItem(Lista* lista, ProcessoSimulado* processo);
+ProcessoSimulado* buscaProcesso(Lista* lista, int PID);
 //void destroi_lista(Lista* lista);
 //void insere_inicio(Lista* lista, int dado);
 //void remove_inicio(Lista* lista);

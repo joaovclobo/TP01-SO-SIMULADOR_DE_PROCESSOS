@@ -10,18 +10,28 @@ Lista* criaLista() {
 
 
 //MUDAR DE INSERIR NO FIM PARA INSERIR NO INÍCIO
-void insereFim(Lista* lista, ProcessoSimulado* processo) {
+void insereInicio(Lista* lista, ProcessoSimulado* processo) {
+
     Celula* novaEntrada = (Celula*)malloc(sizeof(Celula));
     novaEntrada->processo = processo;
-    novaEntrada->proximo = NULL;
-    if (lista->fim == NULL) {
-        lista->inicio = novaEntrada;
-        lista->fim = novaEntrada;
-    } else {
-        lista->fim->proximo = novaEntrada;
-        lista->fim = novaEntrada;
-    }
+    novaEntrada->proximo = lista->inicio;
+    lista->inicio = novaEntrada;
     lista->tamanho++;
+}
+
+ProcessoSimulado* buscaProcesso(Lista* lista, int PID)
+{
+    Celula* percorre = (Celula*)malloc(sizeof(Celula));
+    percorre = lista->inicio;
+    while (percorre != NULL)
+    {
+        if(percorre->processo->pid == PID)
+        {
+            return percorre->processo;
+        }
+        percorre = percorre->proximo;
+    }
+    return;
 }
 
 // void remove_inicio(Lista* lista) {

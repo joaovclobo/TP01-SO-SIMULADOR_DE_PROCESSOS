@@ -43,41 +43,18 @@ void iniciaProcessoInit(GerenciadorProcesso* gerenciador)
 
 }
 
-void gerenciaTabelaProcessos(GerenciadorProcesso *gerenciador, ProcessoSimulado *processo,
-                            int opcao)
+void insereProcessoTabela(ProcessoSimulado *processoEscolhido, GerenciadorProcesso *gerenciador)
 {
-    if (opcao == 1) // adiciona um processo na tabela
-    {
-        insereFim(gerenciador->tabelaProcessos, processo);
-        gerenciador->quantidadeProcessosExecutados += 1;
-    }
-    else // remove um processo da tabela
-    {
-        removeItem(gerenciador->tabelaProcessos, processo);
-        gerenciador->tempoTotalExecucao += processo->tempoCPU;
-    }
+    insereInicio(gerenciador->tabelaProcessos, processoEscolhido);
+    gerenciador->quantidadeProcessosExecutados+=1;
 }
 
-void imprimeTabelaProcesso(Lista *tabelaProcesso)
-{
-    //MUDAR PARA Celula *percorre = tabelaProcesso->inicio;
-    Celula *percorre = tabelaProcesso->fim;
-    printf("\n");
-    printf("+---------------------------------------------+--------------------------------------------+\n");
-    printf("| PID | PPID | PC | Variaveis | Prioridade | Estado | Tempo Inicial | Tempo CPU | Programa |");
-    printf("\n");
-    printf("+---------------------------------------------+--------------------------------------------+\n");
-    while(percorre != NULL)
-    {
-        //achar um jeito de printar arrays e estados
-        //Usar as funções imprime variaveis e imprime estados
-        ProcessoSimulado *processo = percorre->processo;
-        printf("|  %d  |   %d  |  %d |     %c     |      %d     |   %c     |       %d      |     %d     |     %c    |\n", processo->pid, processo->ppid, *processo->pc, 'a', 
-                processo->prioridade, 'e',processo->tempoInicio, processo->tempoCPU, 'a');
-        printf("+---------------------------------------------+--------------------------------------------+\n");
-        percorre = percorre->proximo;
-    }
+void removeProcessoTabela(ProcessoSimulado *processoEscolhido, GerenciadorProcesso *gerenciador) {
+    removeItem(gerenciador->tabelaProcessos, processoEscolhido);
+    gerenciador->tempoTotalExecucao += processoEscolhido->tempoCPU;
 }
+
+
 
 int criaPID(GerenciadorProcesso *gerenciador)
 {
