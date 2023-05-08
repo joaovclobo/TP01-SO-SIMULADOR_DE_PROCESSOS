@@ -17,15 +17,6 @@ void criaProcessoInit(ProcessoSimulado** processoInit, int tempoSistema)
     processo->arrPrograma = (Instrucao**) malloc(sizeof(Instrucao));
     leInstrucoesArquivo("./data/init", processo->arrPrograma);
 
-    processo->arrVariaveis = (int*) malloc(numeroVariaveis(*processo->arrPrograma) * sizeof(int));
-
-    //TODO - APAGAR ISSO PELAMOR DE DEUS
-
-    for (int i = 0; i < 5; i++)
-    {
-        processo->arrVariaveis[i] = (i+3)*10;
-    }
-
     *processoInit = processo;
     
 }
