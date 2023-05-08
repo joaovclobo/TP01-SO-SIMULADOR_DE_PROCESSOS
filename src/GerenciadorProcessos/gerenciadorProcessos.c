@@ -44,20 +44,17 @@ void gerenciaTabelaProcessos(GerenciadorProcesso *gerenciador, ProcessoSimulado 
 void imprimeTabelaProcesso(Lista *tabelaProcesso)
 {
     //MUDAR PARA Celula *percorre = tabelaProcesso->inicio;
-    Celula *percorre = tabelaProcesso->fim;
-    printf("\n");
-    printf("+---------------------------------------------+--------------------------------------------+\n");
-    printf("| PID | PPID | PC | Variaveis | Prioridade | Estado | Tempo Inicial | Tempo CPU | Programa |");
-    printf("\n");
-    printf("+---------------------------------------------+--------------------------------------------+\n");
+    Celula *percorre = tabelaProcesso->inicio;
+    printf("+-------+-------+------+------------+------------+--------+---------------+-----------+----------+\n");
+    printf("| PID   | PPID  | PC   | Variaveis  | Prioridade | Estado | Tempo Inicial | Tempo CPU | Programa |\n");
+    printf("+-------+-------+------+------------+------------+--------+---------------+-----------+----------+\n");
     while(percorre != NULL)
     {
         //achar um jeito de printar arrays e estados
         ProcessoSimulado *processo = percorre->processo;
-        printf("|  %d  |   %d  |  %d |     %c     |      %d     |   %c     |       %d      |     %d     |     %c    |\n", processo->pid, processo->ppid, *processo->pc, 'a', 
+       printf("| %d     | %d     | %d  | %c | %d       | %c | %d      | %d  | %c |\n", processo->pid, processo->ppid, *processo->pc, 'a', 
                 processo->prioridade, 'e',processo->tempoInicio, processo->tempoCPU, 'a');
-        printf("+---------------------------------------------+--------------------------------------------+\n");
-        percorre = percorre->proximo;
+        printf("+-------+-------+------+------------+------------+--------+---------------+-----------+----------+\n");        percorre = percorre->proximo;
     }
 }
 
