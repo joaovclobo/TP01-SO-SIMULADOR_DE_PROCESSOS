@@ -83,22 +83,38 @@ void copiaInstrucao(Instrucao* novaInstrucao, Instrucao* instrucaoBase)
     strcpy(novaInstrucao->parametroTexto, instrucaoBase->parametroTexto);
 }
 
-void imprimeInstucao(Instrucao instrucao)
+void imprimeInstucao(Instrucao instrucao, int apontadorInst)
 {
-    printf(" |Instrução: Tipo %c", instrucao.tipoDeInstrucao);
+    
+    if (apontadorInst == 1)
+    {
+        printf("->|Instrução: Tipo %c", instrucao.tipoDeInstrucao);
+
+    } else
+    {
+        printf("  |Instrução: Tipo %c", instrucao.tipoDeInstrucao);
+    }
+    
     printf(" | Param 1 %3d", instrucao.parametroNumerico1);
     printf(" | Param 2 %5d", instrucao.parametroNumerico2);
     printf(" | Param txt %10s|\n", instrucao.parametroTexto);
 }
 
-void imprimeArrPrograma(Instrucao* arrPrograma)
+void imprimeArrPrograma(Instrucao* arrPrograma, int pc)
 {
     int i = 0;
-    printf(" ------------------------- Programa do processo -------------------------\n");
+    printf("  +------------------------ Programa do processo ------------------------+\n");
 
     while (arrPrograma[i-1].tipoDeInstrucao != 'T')
-    {
-        imprimeInstucao(arrPrograma[i]);
+    {   
+        if(i == pc)
+        {
+            imprimeInstucao(arrPrograma[i], 1);
+        } else 
+        {
+            imprimeInstucao(arrPrograma[i], 0);
+        }
+        
         i++;
     }
 }

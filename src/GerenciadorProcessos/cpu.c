@@ -5,7 +5,7 @@ CPU* inicializaCPU()
     CPU* cpu = (CPU*) malloc(sizeof(CPU));
     
     cpu->pidProcessoAtual = (int*) malloc(sizeof(int));
-    *cpu->pidProcessoAtual = 57;
+    *cpu->pidProcessoAtual = NUMVAZIO;
     cpu->pcProcessoAtual = (int*) malloc(sizeof(int));
 
     cpu->programaProcessoAtual = (Instrucao**) malloc(sizeof(Instrucao));
@@ -28,7 +28,7 @@ void carregaProcesso(CPU* cpu, ProcessoSimulado* processoAtual)
 
 }
 
-void executaProxInstrucao(CPU* cpu, int tempoAtualSistema)
+void executaProxInstrucao(CPU* cpu, int tempoAtualSistema, Lista* tabelaProcessos)
 {   
     char tipo = ((*cpu->programaProcessoAtual)[*cpu->pcProcessoAtual]).tipoDeInstrucao;
     int paramNum1 = ((*cpu->programaProcessoAtual)[*cpu->pcProcessoAtual]).parametroNumerico1;
@@ -65,7 +65,7 @@ void executaProxInstrucao(CPU* cpu, int tempoAtualSistema)
         break;
     
     case 'F':
-        instrucaoF(paramNum1, cpu->pidProcessoAtual, cpu->pcProcessoAtual, tempoAtualSistema);
+        instrucaoF(paramNum1, cpu->pidProcessoAtual, cpu->pcProcessoAtual, tempoAtualSistema, tabelaProcessos);
         break;
 
     case 'R':
@@ -87,7 +87,7 @@ void imprimeCPU(CPU cpu)
     printf("Fatia do quantum já executado: %2d\n", cpu.fatiaQuantum);
 
     imprimeVariaveis(*cpu.variaveisProcessoAtual, numeroVariaveis(*cpu.programaProcessoAtual));
-    imprimeArrPrograma(*cpu.programaProcessoAtual);
+    imprimeArrPrograma(*cpu.programaProcessoAtual, *cpu.pcProcessoAtual);
     putchar('\n');
 
 }
@@ -148,25 +148,27 @@ void instrucaoS(int x, int n, int *arrVariaveis){
 
 //TODO - esta função além de duplicar o processo que está na CPU deve incrementar em n o PC deste
 //TODO - O código que está comentado aqui será adaptado
-void instrucaoF(int n, int* pidProcessoAtual, int* pcProcessoAtual,int tempoAtualSistema)
+void instrucaoF(int n, int* pidProcessoAtual, int* pcProcessoAtual,int tempoAtualSistema, Lista* tabelaProcessos)
 {
-    // Inicia outro processo Filho. 
-
+    // // Processo pai vem da tabela de processo - busca da tabela 
     // ProcessoSimulado* processoFilho;
-    //Processo pai vem da tabela de processo - busca da tabela 
-    // ProcessoSimulado processoPai = buscaProcesso(*pidProcessoAtual);
-    //criaPID deve poder ser acessada por aqui
+    // ProcessoSimulado* processoPai = buscaProcesso(tabelaProcessos, *pidProcessoAtual);
     
-    // Filho - Copia do pai.
+    // //Print para verificação
+    // printf("Processo pai: \n");
+    // imprimeProcesso(*processoPai, 1);
 
-    // copiaProcesso(&processoFilho, processoPai, tempoAtualSistema, 13);
+    // //criaPID vai ficar no lugar do 13
+    // copiaProcesso(&processoFilho, *processoPai, tempoAtualSistema, 13);
+
+    // //Print para verificação
     // printf("Processo filho criado: \n");
-    // imprimeProcesso(*processoFilho, 4);
+    // imprimeProcesso(*processoFilho, 1);
 
-    //Salvar o processo filho na tabela
-    // insereTabela(processoFilho);
+    // //Salvar o processo filho na tabela
+    // insereTabela(tabelaProcessos, processoFilho);
 
-    *pcProcessoAtual += n - 1;
+    *pcProcessoAtual += n;
 
 }
 

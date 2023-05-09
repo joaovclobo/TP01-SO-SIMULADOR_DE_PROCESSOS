@@ -99,12 +99,12 @@ void imprimeProcesso(ProcessoSimulado processo, int opcao)
             break;
     
         case 3:
-            imprimeArrPrograma(*(processo.arrPrograma));
+            imprimeArrPrograma(*(processo.arrPrograma), *processo.pc);
         break;
     
         case 4:
             imprimeVariaveis(processo.arrVariaveis, numeroVariaveis(*processo.arrPrograma));
-            imprimeArrPrograma(*(processo.arrPrograma));
+            imprimeArrPrograma(*(processo.arrPrograma), *processo.pc);
 
         default:
             break;
@@ -116,7 +116,7 @@ void imprimeProcesso(ProcessoSimulado processo, int opcao)
 
 void imprimeVariaveis(int* arrVariaveis, int tamanho)
 {
-    printf(" |Variáveis: ");
+    printf("  |Variáveis: ");
 
     for (int i = 0; i < tamanho; i++)
     {

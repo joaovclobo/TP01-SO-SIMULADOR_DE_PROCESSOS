@@ -12,7 +12,7 @@ void gerenciadorProcessos(GerenciadorProcesso *gerenciador, char comando)
         {
             //fazer funcao que seleciona processo da fila de pronto de acordo com o escalonamento
             //Usa a funcao carrega processo 
-            executaProxInstrucao(gerenciador->cpu, gerenciador->tempo);
+            executaProxInstrucao(gerenciador->cpu, gerenciador->tempo,gerenciador->tabelaProcessos);
             
             imprimeCPU(*gerenciador->cpu);
         }
@@ -42,8 +42,8 @@ void iniciaProcessoInit(GerenciadorProcesso* gerenciador)
 {
     ProcessoSimulado* processoInit;
     criaProcessoInit(&processoInit, gerenciador->tempo);
-    escalonaProcesso(gerenciador->cpu, processoInit);
-
+    carregaProcesso(gerenciador->cpu, processoInit);
+    //Aqui registra o processo Init na tabela
 }
 
 void insereProcessoTabela(ProcessoSimulado *processoEscolhido, GerenciadorProcesso *gerenciador)
