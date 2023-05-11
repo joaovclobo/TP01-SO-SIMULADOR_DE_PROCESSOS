@@ -3,10 +3,18 @@
 #include <string.h>
 #include "../GerenciadorProcessos/gerenciadorProcessos.h"
 
-void impressao();
+void menuImpressao(GerenciadorProcesso gerenciador, ProcessoSimulado processo);
 
-void imprimeControle();
+void imprimirProcessoControle();
 
-void imprimeGerenciador(GerenciadorProcesso *gerenciador);
+void imprimirGerenciadorProcessos(GerenciadorProcesso gerenciador);
 
-void imprimeSimulado();
+void imprimirProcessoSimulado(ProcessoSimulado processo);
+
+void imprimeInfosGeraisProcesso(ProcessoSimulado processo);
+
+void imprimeVariaveis(int *arrVariaveis, int tamanho);
+
+void imprimeEstado(Estado estado);
+
+int numeroVariaveis(Instrucao* arrPrograma);
