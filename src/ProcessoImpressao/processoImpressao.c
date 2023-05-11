@@ -1,6 +1,6 @@
 #include "processoImpressao.h"
 
-// TODO: fazer com que os menos sejam chamadas em uma pilha, ou seja, poder voltar em cada ação
+// TODO: fazer com que os menus sejam chamadas em uma pilha, ou seja, poder voltar em cada ação
 
 void menuImpressao(GerenciadorProcesso gerenciador, ProcessoSimulado processo)
 {
