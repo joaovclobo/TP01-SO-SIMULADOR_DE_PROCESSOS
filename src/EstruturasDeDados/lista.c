@@ -32,6 +32,30 @@ ProcessoSimulado* buscaProcesso(Lista* lista, int PID)
     return NULL;
 }
 
+void removeItem(Lista* lista, ProcessoSimulado* processo)
+{
+    Celula *percorre = lista->inicio;
+    Celula *anterior = NULL;
+    while (percorre != NULL && percorre->processo != processo)
+    {
+        anterior = percorre;
+        percorre = percorre->proximo;
+    }
+    if(percorre == NULL)
+    {
+        return;
+    }
+    if(anterior == NULL)
+    {
+        lista->inicio = percorre->proximo;
+    }
+    else
+    {
+        anterior->proximo = percorre->proximo;
+    }
+    free(percorre);
+    
+}
 // void remove_inicio(Lista* lista) {
 //     if (lista->inicio != NULL) {
 //         Nodo* removido = lista->inicio;
@@ -74,27 +98,3 @@ ProcessoSimulado* buscaProcesso(Lista* lista, int PID)
 //         posicao
 
 
-void removeItem(Lista* lista, ProcessoSimulado* processo)
-{
-    Celula *percorre = lista->inicio;
-    Celula *anterior = NULL;
-    while (percorre != NULL && percorre->processo != processo)
-    {
-        anterior = percorre;
-        percorre = percorre->proximo;
-    }
-    if(percorre == NULL)
-    {
-        return;
-    }
-    if(anterior == NULL)
-    {
-        lista->inicio = percorre->proximo;
-    }
-    else
-    {
-        anterior->proximo = percorre->proximo;
-    }
-    free(percorre);
-    
-}

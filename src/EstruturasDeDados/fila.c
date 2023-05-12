@@ -26,25 +26,23 @@ void destroiFila(Fila *f)
     free(f);
 }
 
-void enfileira(Fila *f, int valor)
+void enfileira(Fila *f, PrioridadePid *prioridadePid)
 {
     No *novoNo = (No*) malloc(sizeof(No));
-    if (novoNo == NULL)
+    if (prioridadePid->prioridade > f->inicio->prioridadePid->prioridade) 
     {
-        printf("Erro: nao foi possivel alocar memoria.\n");
-        exit(1);
-    }
-    novoNo->info = valor;
-    novoNo->prox = NULL;
-    if (f->fim == NULL)
-    {
+        novoNo->prox = f->inicio;
         f->inicio = novoNo;
-        f->fim = novoNo;
     }
-    else
-    {
-        f->fim->prox = novoNo;
-        f->fim = novoNo;
+    else {
+        No *atual = f->inicio;
+
+        while (atual->prox != NULL && atual->prox->prioridadePid->prioridade >= prioridadePid->prioridade) {
+            atual = atual->prox;
+        }
+
+        novoNo->prox = atual->prox;
+        atual->prox = novoNo;
     }
     f->tamanho++;
 }
@@ -56,7 +54,7 @@ void desenfileira(Fila *f)
         printf("Erro: fila vazia.\n");
         exit(1);
     }
-    int valor = f->inicio->info;
+    PrioridadePid *valor = f->inicio->prioridadePid;
     No *tmp = f->inicio;
     f->inicio = f->inicio->prox;
     if (f->inicio == NULL)
@@ -87,7 +85,7 @@ int filaCheia(Fila *f)
 void imprimeFila(Fila *fila) {
     No *no = fila->inicio;
     while (no != NULL) {
-        printf("%d ", no->info);
+        printf("Pid: %d, Prioridade: %d\n ", no->prioridadePid->pid, no->prioridadePid->prioridade);
         no = no->prox;
     }
 }
