@@ -7,10 +7,7 @@ void gerenciadorProcessos(GerenciadorProcesso *gerenciador, char comando)
         encerraUnidadeTempo(gerenciador);
         if (gerenciador->tempo == 1)
         {
-            ProcessoSimulado* processoInit = criaProcessoInit(gerenciador->tempo);
-            carregaProcesso(gerenciador->cpu, processoInit);
-            insereTabela(gerenciador->tabelaProcessos, processoInit);
-            // imprimeTabelaProcesso(gerenciador->tabelaProcessos);
+            iniciaProcessoInit(gerenciador);
 
         } else
         {
@@ -44,9 +41,10 @@ GerenciadorProcesso* inicializaGerenciador()
 
 void iniciaProcessoInit(GerenciadorProcesso* gerenciador)
 {
- 
-    // insereTabela(gerenciador->tabelaProcessos, processoInit);
-    // imprimeCPU(*gerenciador->cpu);
+     ProcessoSimulado* processoInit = criaProcessoInit(gerenciador->tempo);
+    carregaProcesso(gerenciador->cpu, processoInit);
+    insereTabela(gerenciador->tabelaProcessos, processoInit);
+    imprimeTabela(gerenciador->tabelaProcessos);
     
 }
 
@@ -61,21 +59,3 @@ void removeProcessoTabela(ProcessoSimulado *processoEscolhido, GerenciadorProces
     removeTabela(gerenciador->tabelaProcessos, processoEscolhido->pid);
     gerenciador->tempoTotalExecucao += processoEscolhido->tempoCPU;
 }
-
-
-
-// int criaPID(GerenciadorProcesso *gerenciador)
-// {
-//     Celula *inicio = gerenciador->tabelaProcessos->inicio;
-//     int novoPID = gerenciador->tabelaProcessos->inicio->processo->pid;
-//     Celula *atual = inicio->proximo;
-//     while (atual != NULL)
-//     {
-//         if (atual->processo->pid > novoPID)
-//         {
-//             novoPID = atual->processo->pid;
-//         }
-//         atual = atual->proximo;
-//     }
-//     return novoPID+1;
-// }

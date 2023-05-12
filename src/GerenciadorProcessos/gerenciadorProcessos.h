@@ -26,5 +26,3 @@ void removeProcessoTabela(ProcessoSimulado *processoEscolhido, GerenciadorProces
 void insereProcessoTabela(ProcessoSimulado *processoEscolhido, GerenciadorProcesso *gerenciador);
 
 void imprimeTabelaProcesso(Lista *tabelaProcesso);
-
-int criaPID(GerenciadorProcesso *gerenciador);

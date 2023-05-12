@@ -20,4 +20,6 @@ void insereTabela(Lista* lista, ProcessoSimulado* processo);
 void removeTabela(Lista* lista, int PID);
 ProcessoSimulado* buscaProcesso(Lista* lista, int PID);
 
+int maiorPIDTabela(Lista* lista);
+
 void imprimeTabela(Lista* lista);
