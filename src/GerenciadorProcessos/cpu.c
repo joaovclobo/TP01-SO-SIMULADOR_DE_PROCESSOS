@@ -150,10 +150,13 @@ void instrucaoS(int x, int n, int *arrVariaveis){
 //TODO - O código que está comentado aqui será adaptado
 void instrucaoF(int n, int* pidProcessoAtual, int* pcProcessoAtual,int tempoAtualSistema, Lista* tabelaProcessos)
 {
-    // // Processo pai vem da tabela de processo - busca da tabela 
-    // ProcessoSimulado* processoFilho;
-    // ProcessoSimulado* processoPai = buscaProcesso(tabelaProcessos, *pidProcessoAtual);
+    // Processo pai vem da tabela de processo - busca da tabela 
+    flag(5);
+    ProcessoSimulado* processoPai = buscaProcesso(tabelaProcessos, *pidProcessoAtual);
     
+    printf("------------------------ Processo buscado ------------------------\n");
+    imprimeProcesso(*processoPai, 4);
+
     // //Print para verificação
     // printf("Processo pai: \n");
     // imprimeProcesso(*processoPai, 1);

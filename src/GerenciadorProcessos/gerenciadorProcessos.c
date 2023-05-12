@@ -7,7 +7,11 @@ void gerenciadorProcessos(GerenciadorProcesso *gerenciador, char comando)
         encerraUnidadeTempo(gerenciador);
         if (gerenciador->tempo == 1)
         {
-            iniciaProcessoInit(gerenciador);
+            ProcessoSimulado* processoInit = criaProcessoInit(gerenciador->tempo);
+            carregaProcesso(gerenciador->cpu, processoInit);
+            insereInicio(gerenciador->tabelaProcessos, processoInit);
+            // imprimeTabelaProcesso(gerenciador->tabelaProcessos);
+
         } else
         {
             //fazer funcao que seleciona processo da fila de pronto de acordo com o escalonamento
@@ -40,10 +44,10 @@ GerenciadorProcesso* inicializaGerenciador()
 
 void iniciaProcessoInit(GerenciadorProcesso* gerenciador)
 {
-    ProcessoSimulado* processoInit;
-    criaProcessoInit(&processoInit, gerenciador->tempo);
-    carregaProcesso(gerenciador->cpu, processoInit);
-    //Aqui registra o processo Init na tabela
+ 
+    // insereInicio(gerenciador->tabelaProcessos, processoInit);
+    // imprimeCPU(*gerenciador->cpu);
+    
 }
 
 void insereProcessoTabela(ProcessoSimulado *processoEscolhido, GerenciadorProcesso *gerenciador)
