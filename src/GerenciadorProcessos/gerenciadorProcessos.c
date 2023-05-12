@@ -9,7 +9,7 @@ void gerenciadorProcessos(GerenciadorProcesso *gerenciador, char comando)
         {
             ProcessoSimulado* processoInit = criaProcessoInit(gerenciador->tempo);
             carregaProcesso(gerenciador->cpu, processoInit);
-            insereInicio(gerenciador->tabelaProcessos, processoInit);
+            insereTabela(gerenciador->tabelaProcessos, processoInit);
             // imprimeTabelaProcesso(gerenciador->tabelaProcessos);
 
         } else
@@ -45,36 +45,37 @@ GerenciadorProcesso* inicializaGerenciador()
 void iniciaProcessoInit(GerenciadorProcesso* gerenciador)
 {
  
-    // insereInicio(gerenciador->tabelaProcessos, processoInit);
+    // insereTabela(gerenciador->tabelaProcessos, processoInit);
     // imprimeCPU(*gerenciador->cpu);
     
 }
 
 void insereProcessoTabela(ProcessoSimulado *processoEscolhido, GerenciadorProcesso *gerenciador)
 {
-    insereInicio(gerenciador->tabelaProcessos, processoEscolhido);
+    insereTabela(gerenciador->tabelaProcessos, processoEscolhido);
     gerenciador->quantidadeProcessosExecutados+=1;
 }
 
 void removeProcessoTabela(ProcessoSimulado *processoEscolhido, GerenciadorProcesso *gerenciador) {
-    removeItem(gerenciador->tabelaProcessos, processoEscolhido);
+    //Talvez mudar isso
+    removeTabela(gerenciador->tabelaProcessos, processoEscolhido->pid);
     gerenciador->tempoTotalExecucao += processoEscolhido->tempoCPU;
 }
 
 
 
-int criaPID(GerenciadorProcesso *gerenciador)
-{
-    Celula *inicio = gerenciador->tabelaProcessos->inicio;
-    int novoPID = gerenciador->tabelaProcessos->inicio->processo->pid;
-    Celula *atual = inicio->proximo;
-    while (atual != NULL)
-    {
-        if (atual->processo->pid > novoPID)
-        {
-            novoPID = atual->processo->pid;
-        }
-        atual = atual->proximo;
-    }
-    return novoPID+1;
-}
+// int criaPID(GerenciadorProcesso *gerenciador)
+// {
+//     Celula *inicio = gerenciador->tabelaProcessos->inicio;
+//     int novoPID = gerenciador->tabelaProcessos->inicio->processo->pid;
+//     Celula *atual = inicio->proximo;
+//     while (atual != NULL)
+//     {
+//         if (atual->processo->pid > novoPID)
+//         {
+//             novoPID = atual->processo->pid;
+//         }
+//         atual = atual->proximo;
+//     }
+//     return novoPID+1;
+// }

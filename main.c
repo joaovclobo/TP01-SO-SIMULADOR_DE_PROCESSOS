@@ -1,7 +1,8 @@
 #include "./src/ProcessoControle/processoControle.h"
 #include "./src/ProcessoImpressao/processoImpressao.h"
-//#include "./src/GerenciadorProcessos/gerenciadorProcessos.h"
+// #include "./src/GerenciadorProcessos/gerenciadorProcessos.h"
 #include <time.h>
+
 
 // int main(int argc, char **argv)
 // {
@@ -76,10 +77,8 @@
 // }
 
 
-int main(int argc, char **argv)
+int main()
 {
-    GerenciadorProcesso* gerenciador;
-    gerenciador = inicializaGerenciador();
 
 
         // while (1)
@@ -104,37 +103,43 @@ int main(int argc, char **argv)
         // }
         // close(fd[0]);
 
+        Lista* tabelaProcessos = criaLista();
+
         CPU *cpu = inicializaCPU();
-        Fila* filaPronto = criaFila();
-        
+        flag(1);
         ProcessoSimulado *processoInit = criaProcessoInit(1);
 
         carregaProcesso(cpu, processoInit);
+
         for(int j = 0; j < 6; j++)
         {
-            executaProxInstrucao(cpu, 0, gerenciador->tabelaProcessos);
+            executaProxInstrucao(cpu, 0, tabelaProcessos);
         }
 
-        imprimeProcesso(*processoInit, 4);
+        // imprimeProcesso(*processoInit, 4);
         
         ProcessoSimulado *processo1 = copiaProcesso(*processoInit, 10, 1);
-        imprimeProcesso(*processo1, 4);
+        // imprimeProcesso(*processo1, 4);
 
-        ProcessoSimulado *processo2 = copiaProcesso(*processo1, 13, 14);
-        imprimeProcesso(*processo2, 4);
+        ProcessoSimulado *processo2 = copiaProcesso(*processo1, 13, 22);
+        // imprimeProcesso(*processo2, 4);
 
-        // ProcessoSimulado *processo3 = copiaProcesso(*processoInit, 30, 3);
-        // ProcessoSimulado *processo4 = copiaProcesso(*processoInit, 40, 4);
-        // ProcessoSimulado *processo5 = copiaProcesso(*processoInit, 50, 5);  
+        ProcessoSimulado *processo3 = copiaProcesso(*processoInit, 30, 3);
+        ProcessoSimulado *processo4 = copiaProcesso(*processoInit, 40, 13);
+        ProcessoSimulado *processo5 = copiaProcesso(*processoInit, 50, 5);  
         
-        insereProcessoTabela(processoInit, gerenciador);
-        insereProcessoTabela(processo1, gerenciador);
-        insereProcessoTabela(processo2, gerenciador);
-        // insereProcessoTabela(processo3, gerenciador);
-        // insereProcessoTabela(processo4, gerenciador);
-        // insereProcessoTabela(processo5, gerenciador);
+        insereTabela(tabelaProcessos, processoInit);
+        insereTabela(tabelaProcessos, processo1);
+        insereTabela(tabelaProcessos, processo2);
+        insereTabela(tabelaProcessos, processo3);
+        insereTabela(tabelaProcessos, processo4);
+        insereTabela(tabelaProcessos, processo5);
 
-        imprimeTabelaProcesso(gerenciador->tabelaProcessos);
+        imprimeTabela(tabelaProcessos);
+
+        removeTabela(tabelaProcessos, 22);
+        flag(3);
+        imprimeTabela(tabelaProcessos);
 
     return 0;
 }
