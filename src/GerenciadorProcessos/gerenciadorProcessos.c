@@ -12,7 +12,14 @@ void gerenciadorProcessos(GerenciadorProcesso *gerenciador, char comando)
         } else
         {
             //fazer funcao que seleciona processo da fila de pronto de acordo com o escalonamento
-            //Usa a funcao carrega processo 
+            //Usa a funcao carrega processo
+            //Este código abaixo simula a troca de contexto
+            int numeroInst = 10;
+            int numeroProcessos = 4;
+            int pidSimu = (gerenciador->tempo / numeroInst) % numeroProcessos;
+            
+            carregaProcesso(gerenciador->cpu, buscaProcesso(gerenciador->tabelaProcessos, pidSimu));
+            
             executaProxInstrucao(gerenciador->cpu, gerenciador->tempo,gerenciador->tabelaProcessos);
             
             imprimeCPU(*gerenciador->cpu);
