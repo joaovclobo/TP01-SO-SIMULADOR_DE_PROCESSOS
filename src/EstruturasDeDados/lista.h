@@ -2,24 +2,24 @@
 #include <stdlib.h>
 #include "../ProcessoSimulado/processoSimulado.h"
 
-typedef struct Celula {
+typedef struct celula_str Celula;
+struct celula_str {
     ProcessoSimulado* processo;
-    struct Celula* proximo;
-} Celula;
+    Celula* proximo;
+};
 
-typedef struct Lista {
+typedef struct tipolista {
     Celula* inicio;
     Celula* fim;
-    int tamanho;
 } Lista;
 
 Lista* criaLista();
-void insereInicio(Lista* lista, ProcessoSimulado* processo);
-void removeItem(Lista* lista, ProcessoSimulado* processo);
+int listaVazia(Lista* lista);
+
+void insereTabela(Lista* lista, ProcessoSimulado* processo);
+void removeTabela(Lista* lista, int PID);
 ProcessoSimulado* buscaProcesso(Lista* lista, int PID);
-//void destroi_lista(Lista* lista);
-//void insere_inicio(Lista* lista, int dado);
-//void remove_inicio(Lista* lista);
-//void remove_fim(Lista* lista);
-//int busca_elemento(Lista* lista, int dado);
-//void imprime_lista(Lista* lista);
+
+int maiorPIDTabela(Lista* lista);
+
+void imprimeTabela(Lista* lista);

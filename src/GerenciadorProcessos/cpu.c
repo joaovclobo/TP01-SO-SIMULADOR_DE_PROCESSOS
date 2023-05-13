@@ -94,12 +94,9 @@ void imprimeCPU(CPU cpu)
 
 
 /* -------------- Instruçẽos de programa que são processadas na CPU -------------- */
-//TODO - manteremos os comentários sobre como funcionam as funções?
 
 int *instrucaoN(int n)
 {
-    // Função N declara e aloca um vetor de “n” posições dinamicamente e
-    // retorna um ponteiro para este vetor (vetorVariaveis);
 
     int *arrVariaveis;
     arrVariaveis = (int *)malloc(n * sizeof(int));
@@ -146,27 +143,14 @@ void instrucaoS(int x, int n, int *arrVariaveis){
 //     //	Termina o processo (Manda “encerrei” p/ o gerenciador de processo).
 // }
 
-//TODO - esta função além de duplicar o processo que está na CPU deve incrementar em n o PC deste
-//TODO - O código que está comentado aqui será adaptado
 void instrucaoF(int n, int* pidProcessoAtual, int* pcProcessoAtual,int tempoAtualSistema, Lista* tabelaProcessos)
 {
-    // // Processo pai vem da tabela de processo - busca da tabela 
-    // ProcessoSimulado* processoFilho;
-    // ProcessoSimulado* processoPai = buscaProcesso(tabelaProcessos, *pidProcessoAtual);
-    
-    // //Print para verificação
-    // printf("Processo pai: \n");
-    // imprimeProcesso(*processoPai, 1);
 
-    // //criaPID vai ficar no lugar do 13
-    // copiaProcesso(&processoFilho, *processoPai, tempoAtualSistema, 13);
+    ProcessoSimulado* processoPai = buscaProcesso(tabelaProcessos, *pidProcessoAtual);
+    ProcessoSimulado* processoFilho = copiaProcesso(*processoPai, tempoAtualSistema, maiorPIDTabela(tabelaProcessos)+1);
 
-    // //Print para verificação
-    // printf("Processo filho criado: \n");
-    // imprimeProcesso(*processoFilho, 1);
-
-    // //Salvar o processo filho na tabela
-    // insereTabela(tabelaProcessos, processoFilho);
+    insereTabela(tabelaProcessos, processoFilho);
+    imprimeTabela(tabelaProcessos);
 
     *pcProcessoAtual += n;
 

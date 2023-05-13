@@ -8,6 +8,7 @@ void gerenciadorProcessos(GerenciadorProcesso *gerenciador, char comando)
         if (gerenciador->tempo == 1)
         {
             iniciaProcessoInit(gerenciador);
+
         } else
         {
             //fazer funcao que seleciona processo da fila de pronto de acordo com o escalonamento
@@ -40,37 +41,21 @@ GerenciadorProcesso* inicializaGerenciador()
 
 void iniciaProcessoInit(GerenciadorProcesso* gerenciador)
 {
-    ProcessoSimulado* processoInit;
-    criaProcessoInit(&processoInit, gerenciador->tempo);
+     ProcessoSimulado* processoInit = criaProcessoInit(gerenciador->tempo);
     carregaProcesso(gerenciador->cpu, processoInit);
-    //Aqui registra o processo Init na tabela
+    insereTabela(gerenciador->tabelaProcessos, processoInit);
+    imprimeTabela(gerenciador->tabelaProcessos);
+    
 }
 
 void insereProcessoTabela(ProcessoSimulado *processoEscolhido, GerenciadorProcesso *gerenciador)
 {
-    insereInicio(gerenciador->tabelaProcessos, processoEscolhido);
+    insereTabela(gerenciador->tabelaProcessos, processoEscolhido);
     gerenciador->quantidadeProcessosExecutados+=1;
 }
 
 void removeProcessoTabela(ProcessoSimulado *processoEscolhido, GerenciadorProcesso *gerenciador) {
-    removeItem(gerenciador->tabelaProcessos, processoEscolhido);
+    //Talvez mudar isso
+    removeTabela(gerenciador->tabelaProcessos, processoEscolhido->pid);
     gerenciador->tempoTotalExecucao += processoEscolhido->tempoCPU;
-}
-
-
-
-int criaPID(GerenciadorProcesso *gerenciador)
-{
-    Celula *inicio = gerenciador->tabelaProcessos->inicio;
-    int novoPID = gerenciador->tabelaProcessos->inicio->processo->pid;
-    Celula *atual = inicio->proximo;
-    while (atual != NULL)
-    {
-        if (atual->processo->pid > novoPID)
-        {
-            novoPID = atual->processo->pid;
-        }
-        atual = atual->proximo;
-    }
-    return novoPID+1;
 }
