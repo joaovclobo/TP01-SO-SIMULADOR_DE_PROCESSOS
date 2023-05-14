@@ -23,10 +23,7 @@ void Enfileira(int prioridade, int pid, int tempoExecutado, TipoFila *Fila)
     
     Fila->Tras->Prox = (Ponteiro) malloc(sizeof(Celula_str)); 
     Fila->Tras = Fila->Tras->Prox;
-    
-    Fila->Tras->prioridadePid.pid = pid;
-    Fila->Tras->prioridadePid.prioridade = prioridade;
-    Fila->Tras->prioridadePid.tempoExecutado = tempoExecutado;
+    Fila->Tras->prioridadePid = criaCelulaPrioridadePid(prioridade, pid, tempoExecutado);
     Fila->Tras->Prox = NULL;
     
     printf("2-inseriu na fila\n");
@@ -47,42 +44,51 @@ void Imprime(TipoFila Fila)
     }
 }
 
-void enfileiraPorPrioridade(TipoFila *Fila, int prioridade, int pid, int tempoExecutado)
+// void enfileiraPorPrioridade(TipoFila *Fila, int prioridade, int pid, int tempoExecutado)
+// {
+//     printf("\n ENTROU NA ENFILEIRA PRIORIDADE \n");
+//     Celula_str *celula = (Ponteiro) malloc(sizeof(Celula_str));
+//     Fila->Tras = Fila->Tras->Prox; 
+//     Fila->Tras->prioridadePid.pid = pid;
+//     Fila->Tras->prioridadePid.prioridade = prioridade;
+//     Fila->Tras->prioridadePid.tempoExecutado = tempoExecutado;
+    
+//     if(Fila->Frente == NULL)
+//     {
+//         Fila->Frente = (Ponteiro) malloc(sizeof(Celula_str));
+//         Fila->Tras = Fila->Tras->Prox; 
+//         Fila->Tras->prioridadePid.pid = pid;
+//         Fila->Tras->prioridadePid.prioridade = prioridade;
+//         Fila->Tras->prioridadePid.tempoExecutado = tempoExecutado;
+//     }
+//     else 
+//     {
+    
+//         if (prioridade > Fila->Frente->prioridadePid.prioridade) 
+//         {
+//             celula->Prox = Fila->Frente;
+//             Fila->Frente = celula;
+//         }
+//         else
+//         {
+//             Celula_str *atual = Fila->Frente;
+
+//             while (atual->Prox != NULL && atual->Prox->prioridadePid.prioridade >= prioridade) {
+//                 atual = atual->Prox;
+//             }
+
+//             celula->Prox = atual->Prox;
+//             atual->Prox = celula;
+//         }
+//     }
+//     //Fila->tamanho++;
+// }
+
+PrioridadePids criaCelulaPrioridadePid(int prioridade, int PID, int tempoExecutado)
 {
-    printf("\n ENTROU NA ENFILEIRA PRIORIDADE \n");
-    Celula_str *celula = (Ponteiro) malloc(sizeof(Celula_str));
-    Fila->Tras = Fila->Tras->Prox; 
-    Fila->Tras->prioridadePid.pid = pid;
-    Fila->Tras->prioridadePid.prioridade = prioridade;
-    Fila->Tras->prioridadePid.tempoExecutado = tempoExecutado;
-    
-    if(Fila->Frente == NULL)
-    {
-        Fila->Frente = (Ponteiro) malloc(sizeof(Celula_str));
-        Fila->Tras = Fila->Tras->Prox; 
-        Fila->Tras->prioridadePid.pid = pid;
-        Fila->Tras->prioridadePid.prioridade = prioridade;
-        Fila->Tras->prioridadePid.tempoExecutado = tempoExecutado;
-    }
-    else 
-    {
-    
-        if (prioridade > Fila->Frente->prioridadePid.prioridade) 
-        {
-            celula->Prox = Fila->Frente;
-            Fila->Frente = celula;
-        }
-        else
-        {
-            Celula_str *atual = Fila->Frente;
-
-            while (atual->Prox != NULL && atual->Prox->prioridadePid.prioridade >= prioridade) {
-                atual = atual->Prox;
-            }
-
-            celula->Prox = atual->Prox;
-            atual->Prox = celula;
-        }
-    }
-    //Fila->tamanho++;
+    PrioridadePids celula;
+    celula.pid = PID;
+    celula.prioridade = prioridade;
+    celula.tempoExecutado = tempoExecutado;
+    return celula;
 }
