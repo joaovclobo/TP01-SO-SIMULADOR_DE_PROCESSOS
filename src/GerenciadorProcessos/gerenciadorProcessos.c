@@ -32,8 +32,8 @@ GerenciadorProcesso* inicializaGerenciador()
     gerenciador->tempoTotalExecucao = 0;
     gerenciador->cpu = inicializaCPU();
     gerenciador->tabelaProcessos = criaLista();
-    gerenciador->estadoPronto = criaFila();
-    gerenciador->estadoBloqueado = criaFila();
+    // gerenciador->estadoPronto = criaFila();
+    // gerenciador->estadoBloqueado = criaFila();
 
     return gerenciador;
 }
