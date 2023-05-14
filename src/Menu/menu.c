@@ -52,7 +52,7 @@ FILE* abreArquivoRead(char* nomeArquivo)
 
     FILE *fptr;
 
-    printf("\tAbrindo o arquivo: %s\n", nomeArquivo);
+    //printf("\tAbrindo o arquivo: %s\n", nomeArquivo);
     
     fptr = fopen(nomeArquivo, "r");
 

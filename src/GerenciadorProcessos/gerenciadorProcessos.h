@@ -9,8 +9,8 @@ typedef struct GerenciadorProcesso
     int tempoTotalExecucao;
     CPU* cpu;
     Lista *tabelaProcessos;
-    Fila *estadoPronto;
-    Fila *estadoBloqueado;
+    // Fila *estadoPronto;
+    // Fila *estadoBloqueado;
 } GerenciadorProcesso;
 
 GerenciadorProcesso* inicializaGerenciador();

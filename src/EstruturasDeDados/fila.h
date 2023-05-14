@@ -5,6 +5,7 @@ typedef struct PrioridadePid
 {
     int prioridade;
     int pid;
+    int tempoExecutado;
 }PrioridadePid;
 
 typedef struct No
@@ -22,7 +23,9 @@ typedef struct Fila
 
 Fila *criaFila();
 void destroiFila(Fila *f);
-void enfileira(Fila *f, PrioridadePid *prioridaedPid);
+PrioridadePid* criaCelulaPrioridadePid(int prioridade, int PID, int tempoExecutado);
+void enfileiraPrioridade(Fila *f, int prioridade, int PID, int tempoExecutado);
+void enfileira(Fila *f, int prioridade, int PID, int tempoExecutado);
 void desenfileira(Fila *f);
 int filaVazia(Fila *f);
 int filaCheia(Fila *f);
