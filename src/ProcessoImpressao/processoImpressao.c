@@ -1,6 +1,6 @@
 #include "processoImpressao.h"
 
-// void imprimeGerenciador(GerenciadorProcesso *gerenciador) 
+// void imprimeGerenciador(GerenciadorProcessos *gerenciador) 
 // {
 //     printf("\nTempo de uso do sistema no momento atual: %d unidades de tempo\n", gerenciador->tempo);
 //     printf("\nID dos processos em estado pronto: ");
