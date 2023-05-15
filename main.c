@@ -2,13 +2,16 @@
 #include "./src/ProcessoImpressao/processoImpressao.h"
 #include <time.h>
 
-int main(int argc, char **argv)
+int main(int argc, char* argv[])
 {
     int fd[2];
     char comando = '!';
     FILE *arquivoDeEntrada;
-    GerenciadorProcessos* gerenciador;
-    gerenciador = inicializaGerenciador();
+
+    int numCPUs = atoi(argv[1]);
+    int tipoEscalonamento = atoi(argv[2]);
+
+    GerenciadorProcessos* gerenciador  = inicializaGerenciador();
 
     int opcao = MenuInicial(&arquivoDeEntrada);
 

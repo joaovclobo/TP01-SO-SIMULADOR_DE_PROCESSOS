@@ -3,6 +3,7 @@
 
 typedef struct GerenciadorProcessos
 {
+    int tipoEscalonamento;
     int tempo;
     //Estado pronto vai ser um array
     int estadoExecucao;
@@ -10,8 +11,9 @@ typedef struct GerenciadorProcessos
     int tempoTotalExecucao;
     //TODO - MCPU - além do array de CPUs devemos criar uma variável nº de CPUs
     //TODO - MCPU - ela será inicializada com o gerenciador e o numero deverá ser passado por arg
-        CPU* cpu;
-        int numCPUs;
+    CPU* cpu;
+    CPU** cpus;
+    int numCPUs;
     Lista *tabelaProcessos;
     // TODO - ESC descomentar isto
         // Fila *estadoPronto;

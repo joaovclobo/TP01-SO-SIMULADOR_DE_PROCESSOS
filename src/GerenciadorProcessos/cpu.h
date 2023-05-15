@@ -9,7 +9,7 @@ typedef struct CPU
     Instrucao **programaProcessoAtual;
     int *pcProcessoAtual;
     int **variaveisProcessoAtual;
-    int fatiaQuantum;       //Quanto do quantum de tempo já foi usada pelo processo em execução
+    int fatiaQuantum;       //Quanto do "quantum" de tempo já foi usada pelo processo em execução
 } CPU;
 
 CPU* inicializaCPU();

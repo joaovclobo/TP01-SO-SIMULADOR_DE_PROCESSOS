@@ -5,7 +5,6 @@ CPU* inicializaCPU()
     CPU* cpu = (CPU*) malloc(sizeof(CPU));
     
     cpu->pidProcessoAtual = (int*) malloc(sizeof(int));
-    *cpu->pidProcessoAtual = NUMVAZIO;
     cpu->pcProcessoAtual = (int*) malloc(sizeof(int));
 
     cpu->programaProcessoAtual = (Instrucao**) malloc(sizeof(Instrucao));
