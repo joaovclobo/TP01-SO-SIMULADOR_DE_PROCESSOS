@@ -61,7 +61,7 @@ int main(int argc, char **argv)
             
             ProcessoSimulado *processoInit;
             
-            criaProcessoInit(&processoInit);
+            criaProcessoInit(10);
             carregaProcesso(cpu, processoInit);
             for(int j = 0; j < 3; j++)
             {
@@ -87,11 +87,11 @@ int main(int argc, char **argv)
 
             //enfileira(filaPronto,processo1->prioridade, processo1->pid, processo1->tempoCPU);
             // printf("\nTamanho da fila = %d\n", filaPronto->tamanho);
-            enfileiraPorPrioridade(&filaPronto,processo4->prioridade, processo4->pid, processo4->tempoCPU);
-            enfileiraPorPrioridade(&filaPronto,processo2->prioridade, processo2->pid, processo2->tempoCPU);
-            enfileiraPorPrioridade(&filaPronto,processo5->prioridade, processo5->pid, processo5->tempoCPU);
-            enfileiraPorPrioridade(&filaPronto,processo3->prioridade, processo3->pid, processo3->tempoCPU);
-            imprimeFila(&filaPronto);
+            // enfileiraPorPrioridade(&filaPronto,processo4->prioridade, processo4->pid, processo4->tempoCPU);
+            // enfileiraPorPrioridade(&filaPronto,processo2->prioridade, processo2->pid, processo2->tempoCPU);
+            // enfileiraPorPrioridade(&filaPronto,processo5->prioridade, processo5->pid, processo5->tempoCPU);
+            // enfileiraPorPrioridade(&filaPronto,processo3->prioridade, processo3->pid, processo3->tempoCPU);
+            //imprimeFila(&filaPronto);
             
             //imprimeCPU(*cpu);
             // if (comando == 'I')
