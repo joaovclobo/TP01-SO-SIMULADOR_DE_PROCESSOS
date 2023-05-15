@@ -5,6 +5,25 @@ void gerenciadorProcessos(GerenciadorProcesso *gerenciador, char comando)
     if (comando == 'U')
     {
         encerraUnidadeTempo(gerenciador);
+        if (gerenciador->tempo == 1)
+        {
+            iniciaProcessoInit(gerenciador);
+
+        } else
+        {
+            //fazer funcao que seleciona processo da fila de pronto de acordo com o escalonamento
+            //Usa a funcao carrega processo
+            //Este código abaixo simula a troca de contexto
+            int numeroInst = 10;
+            int numeroProcessos = 4;
+            int pidSimu = (gerenciador->tempo / numeroInst) % numeroProcessos;
+            
+            carregaProcesso(gerenciador->cpu, buscaProcesso(gerenciador->tabelaProcessos, pidSimu));
+            
+            executaProxInstrucao(gerenciador->cpu, gerenciador->tempo,gerenciador->tabelaProcessos);
+            
+            imprimeCPU(*gerenciador->cpu);
+        }
     }
 }
 
@@ -15,62 +34,35 @@ void encerraUnidadeTempo(GerenciadorProcesso *gerenciador)
 
 GerenciadorProcesso* inicializaGerenciador()
 {
-    GerenciadorProcesso *gerenciador;
+    GerenciadorProcesso *gerenciador = (GerenciadorProcesso*) malloc(sizeof(GerenciadorProcesso));
     gerenciador->tempo = 0;
     gerenciador->quantidadeProcessosExecutados = 0;
     gerenciador->tempoTotalExecucao = 0;
     gerenciador->cpu = inicializaCPU();
     gerenciador->tabelaProcessos = criaLista();
-    gerenciador->estadoPronto = criaFila();
-    gerenciador->estadoBloqueado = criaFila();
+    // gerenciador->estadoPronto = criaFila();
+    // gerenciador->estadoBloqueado = criaFila();
+
     return gerenciador;
 }
 
-void gerenciaTabelaProcessos(GerenciadorProcesso *gerenciador, ProcessoSimulado *processo,
-                            int opcao)
+void iniciaProcessoInit(GerenciadorProcesso* gerenciador)
 {
-    if (opcao == 1) // adiciona um processo na tabela
-    {
-        insereFim(gerenciador->tabelaProcessos, processo);
-        gerenciador->quantidadeProcessosExecutados += 1;
-    }
-    else // remove um processo da tabela
-    {
-        removeItem(gerenciador->tabelaProcessos, processo);
-        gerenciador->tempoTotalExecucao += processo->tempoCPU;
-    }
+     ProcessoSimulado* processoInit = criaProcessoInit(gerenciador->tempo);
+    carregaProcesso(gerenciador->cpu, processoInit);
+    insereTabela(gerenciador->tabelaProcessos, processoInit);
+    imprimeTabela(gerenciador->tabelaProcessos);
+    
 }
 
-void imprimeTabelaProcesso(Lista *tabelaProcesso)
+void insereProcessoTabela(ProcessoSimulado *processoEscolhido, GerenciadorProcesso *gerenciador)
 {
-    //MUDAR PARA Celula *percorre = tabelaProcesso->inicio;
-    Celula *percorre = tabelaProcesso->inicio;
-    printf("+-------+-------+------+------------+------------+--------+---------------+-----------+----------+\n");
-    printf("| PID   | PPID  | PC   | Variaveis  | Prioridade | Estado | Tempo Inicial | Tempo CPU | Programa |\n");
-    printf("+-------+-------+------+------------+------------+--------+---------------+-----------+----------+\n");
-    while(percorre != NULL)
-    {
-        //achar um jeito de printar arrays e estados
-        //Usar as funções imprime variaveis e imprime estados
-        ProcessoSimulado *processo = percorre->processo;
-       printf("| %d     | %d     | %d  | %c | %d       | %c | %d      | %d  | %c |\n", processo->pid, processo->ppid, *processo->pc, 'a', 
-                processo->prioridade, 'e',processo->tempoInicio, processo->tempoCPU, 'a');
-        printf("+-------+-------+------+------------+------------+--------+---------------+-----------+----------+\n");        percorre = percorre->proximo;
-    }
+    insereTabela(gerenciador->tabelaProcessos, processoEscolhido);
+    gerenciador->quantidadeProcessosExecutados+=1;
 }
 
-int criaPID(GerenciadorProcesso *gerenciador)
-{
-    Celula *inicio = gerenciador->tabelaProcessos->inicio;
-    int novoPID = gerenciador->tabelaProcessos->inicio->processo->pid;
-    Celula *atual = inicio->proximo;
-    while (atual != NULL)
-    {
-        if (atual->processo->pid > novoPID)
-        {
-            novoPID = atual->processo->pid;
-        }
-        atual = atual->proximo;
-    }
-    return novoPID+1;
+void removeProcessoTabela(ProcessoSimulado *processoEscolhido, GerenciadorProcesso *gerenciador) {
+    //Talvez mudar isso
+    removeTabela(gerenciador->tabelaProcessos, processoEscolhido->pid);
+    gerenciador->tempoTotalExecucao += processoEscolhido->tempoCPU;
 }

@@ -22,5 +22,5 @@ void inicializaInstrucao(char* instrucaoLida, Instrucao* instrucao);
 void leInstrucoesArquivo(char* caminhoArquivo, Instrucao** programa);
 void copiaInstrucao(Instrucao* novaInstrucao, Instrucao* instrucaoBase);
 
-void imprimeInstucao(Instrucao Instrucao);
-void imprimeArrPrograma(Instrucao* arrPrograma);
+void imprimeInstucao(Instrucao Instrucao, int apontadorInst);
+void imprimeArrPrograma(Instrucao* arrPrograma, int pc);

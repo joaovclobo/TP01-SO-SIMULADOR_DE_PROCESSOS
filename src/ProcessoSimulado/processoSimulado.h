@@ -20,9 +20,9 @@ typedef struct ProcessoSimulado
     Instrucao** arrPrograma;     //Array com as instruções do processo (programa)
 } ProcessoSimulado;
 
-void criaProcessoInit(ProcessoSimulado** processoInit, int tempoSistema);
+ProcessoSimulado* criaProcessoInit(int tempoSistema);
 
-void copiaProcesso(ProcessoSimulado** novoProcesso, ProcessoSimulado processoPai, int tempoAtualSistema, int novoPid);
+ProcessoSimulado* copiaProcesso(ProcessoSimulado processoPai, int tempoAtualSistema, int novoPid);
 void copiaVariaveis(int* arrVariaveisBase, int* arrVariaveisNovo, int tamanho);
 void copiaArrPrograma(Instrucao** arrNovo, Instrucao* arrBase);
 

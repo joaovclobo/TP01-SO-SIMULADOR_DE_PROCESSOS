@@ -9,18 +9,20 @@ typedef struct GerenciadorProcesso
     int tempoTotalExecucao;
     CPU* cpu;
     Lista *tabelaProcessos;
-    Fila *estadoPronto;
-    Fila *estadoBloqueado;
+    // Fila *estadoPronto;
+    // Fila *estadoBloqueado;
 } GerenciadorProcesso;
 
 GerenciadorProcesso* inicializaGerenciador();
+
+void iniciaProcessoInit(GerenciadorProcesso* gerenciador);
 
 void gerenciadorProcessos(GerenciadorProcesso *gerenciador, char comando);
 
 void encerraUnidadeTempo(GerenciadorProcesso *gerenciador);
 
-void gerenciaTabelaProcessos(GerenciadorProcesso *gerenciador, ProcessoSimulado *processo, int opcao);
+void removeProcessoTabela(ProcessoSimulado *processoEscolhido, GerenciadorProcesso *gerenciador);
+
+void insereProcessoTabela(ProcessoSimulado *processoEscolhido, GerenciadorProcesso *gerenciador);
 
 void imprimeTabelaProcesso(Lista *tabelaProcesso);
-
-int criaPID(GerenciadorProcesso *gerenciador);

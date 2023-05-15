@@ -1,7 +1,7 @@
 #include "processoSimulado.h"
 #define MAXBUFFER 100
 
-void criaProcessoInit(ProcessoSimulado** processoInit, int tempoSistema)
+ProcessoSimulado* criaProcessoInit(int tempoSistema)
 {
     ProcessoSimulado* processo = (ProcessoSimulado*) malloc(sizeof(ProcessoSimulado));
 
@@ -17,12 +17,11 @@ void criaProcessoInit(ProcessoSimulado** processoInit, int tempoSistema)
     processo->arrPrograma = (Instrucao**) malloc(sizeof(Instrucao));
     leInstrucoesArquivo("./data/init", processo->arrPrograma);
 
-    *processoInit = processo;
+    return processo;
     
 }
 
-void copiaProcesso(ProcessoSimulado** novoProcesso, ProcessoSimulado processoPai, 
-                                int tempoAtualSistema, int novoPid)
+ProcessoSimulado* copiaProcesso(ProcessoSimulado processoPai, int tempoAtualSistema, int novoPid)
 {
     ProcessoSimulado* processo = (ProcessoSimulado*) malloc(sizeof(ProcessoSimulado));
 
@@ -44,7 +43,7 @@ void copiaProcesso(ProcessoSimulado** novoProcesso, ProcessoSimulado processoPai
     processo->arrPrograma = (Instrucao**) malloc(sizeof(Instrucao));
     copiaArrPrograma(processo->arrPrograma, *(processoPai.arrPrograma));
 
-    *novoProcesso = processo;
+    return processo;
 
 }
 
@@ -99,12 +98,12 @@ void imprimeProcesso(ProcessoSimulado processo, int opcao)
             break;
     
         case 3:
-            imprimeArrPrograma(*(processo.arrPrograma));
+            imprimeArrPrograma(*(processo.arrPrograma), *processo.pc);
         break;
     
         case 4:
             imprimeVariaveis(processo.arrVariaveis, numeroVariaveis(*processo.arrPrograma));
-            imprimeArrPrograma(*(processo.arrPrograma));
+            imprimeArrPrograma(*(processo.arrPrograma), *processo.pc);
 
         default:
             break;
@@ -116,7 +115,7 @@ void imprimeProcesso(ProcessoSimulado processo, int opcao)
 
 void imprimeVariaveis(int* arrVariaveis, int tamanho)
 {
-    printf(" |Variáveis: ");
+    printf("  |Variáveis: ");
 
     for (int i = 0; i < tamanho; i++)
     {

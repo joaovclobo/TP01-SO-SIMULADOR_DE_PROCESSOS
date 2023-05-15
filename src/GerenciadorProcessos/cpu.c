@@ -5,7 +5,7 @@ CPU* inicializaCPU()
     CPU* cpu = (CPU*) malloc(sizeof(CPU));
     
     cpu->pidProcessoAtual = (int*) malloc(sizeof(int));
-    *cpu->pidProcessoAtual = 57;
+    *cpu->pidProcessoAtual = NUMVAZIO;
     cpu->pcProcessoAtual = (int*) malloc(sizeof(int));
 
     cpu->programaProcessoAtual = (Instrucao**) malloc(sizeof(Instrucao));
@@ -16,7 +16,7 @@ CPU* inicializaCPU()
     return cpu;
 }
 
-void escalonaProcesso(CPU* cpu, ProcessoSimulado* processoAtual)
+void carregaProcesso(CPU* cpu, ProcessoSimulado* processoAtual)
 {
     cpu->pidProcessoAtual = &(processoAtual->pid);
     cpu->pcProcessoAtual = processoAtual->pc;
@@ -28,7 +28,7 @@ void escalonaProcesso(CPU* cpu, ProcessoSimulado* processoAtual)
 
 }
 
-void executaProxInstrucao(CPU* cpu, int tempoAtualSistema)
+void executaProxInstrucao(CPU* cpu, int tempoAtualSistema, Lista* tabelaProcessos)
 {   
     char tipo = ((*cpu->programaProcessoAtual)[*cpu->pcProcessoAtual]).tipoDeInstrucao;
     int paramNum1 = ((*cpu->programaProcessoAtual)[*cpu->pcProcessoAtual]).parametroNumerico1;
@@ -65,7 +65,7 @@ void executaProxInstrucao(CPU* cpu, int tempoAtualSistema)
         break;
     
     case 'F':
-        instrucaoF(paramNum1, cpu->pidProcessoAtual, cpu->pcProcessoAtual, tempoAtualSistema);
+        instrucaoF(paramNum1, cpu->pidProcessoAtual, cpu->pcProcessoAtual, tempoAtualSistema, tabelaProcessos);
         break;
 
     case 'R':
@@ -87,19 +87,16 @@ void imprimeCPU(CPU cpu)
     printf("Fatia do quantum já executado: %2d\n", cpu.fatiaQuantum);
 
     imprimeVariaveis(*cpu.variaveisProcessoAtual, numeroVariaveis(*cpu.programaProcessoAtual));
-    imprimeArrPrograma(*cpu.programaProcessoAtual);
+    imprimeArrPrograma(*cpu.programaProcessoAtual, *cpu.pcProcessoAtual);
     putchar('\n');
 
 }
 
 
 /* -------------- Instruçẽos de programa que são processadas na CPU -------------- */
-//TODO - manteremos os comentários sobre como funcionam as funções?
 
 int *instrucaoN(int n)
 {
-    // Função N declara e aloca um vetor de “n” posições dinamicamente e
-    // retorna um ponteiro para este vetor (vetorVariaveis);
 
     int *arrVariaveis;
     arrVariaveis = (int *)malloc(n * sizeof(int));
@@ -114,24 +111,20 @@ int *instrucaoN(int n)
 
 void instrucaoD(int x, int *arrVariaveis)
 {
-    // Função D “seta” 0 nos índices na posição x do vetor.
     arrVariaveis[x] = 0;
 }
 
 void instrucaoV(int x, int n, int *arrVariaveis)
 {
-    // V grava n nos índice x do vetor.
     arrVariaveis[x] = n;
 }
 
 void instrucaoA(int x, int n, int *arrVariaveis)
 {
-    // A soma n ao valor à variável no índice x.
     arrVariaveis[x] += n;
 }
 
 void instrucaoS(int x, int n, int *arrVariaveis){
-    // 	S subtrai n ao valor à variável no índice x.
     arrVariaveis[x] -= n;
 }
 
@@ -150,27 +143,16 @@ void instrucaoS(int x, int n, int *arrVariaveis){
 //     //	Termina o processo (Manda “encerrei” p/ o gerenciador de processo).
 // }
 
-//TODO - esta função além de duplicar o processo que está na CPU deve incrementar em n o PC deste
-//TODO - O código que está comentado aqui será adaptado
-void instrucaoF(int n, int* pidProcessoAtual, int* pcProcessoAtual,int tempoAtualSistema)
+void instrucaoF(int n, int* pidProcessoAtual, int* pcProcessoAtual,int tempoAtualSistema, Lista* tabelaProcessos)
 {
-    // Inicia outro processo Filho. 
 
-    // ProcessoSimulado* processoFilho;
-    //Processo pai vem da tabela de processo - busca da tabela 
-    // ProcessoSimulado processoPai = buscaProcesso(*pidProcessoAtual);
-    //criaPID deve poder ser acessada por aqui
-    
-    // Filho - Copia do pai.
+    ProcessoSimulado* processoPai = buscaProcesso(tabelaProcessos, *pidProcessoAtual);
+    ProcessoSimulado* processoFilho = copiaProcesso(*processoPai, tempoAtualSistema, maiorPIDTabela(tabelaProcessos)+1);
 
-    // copiaProcesso(&processoFilho, processoPai, tempoAtualSistema, 13);
-    // printf("Processo filho criado: \n");
-    // imprimeProcesso(*processoFilho, 4);
+    insereTabela(tabelaProcessos, processoFilho);
+    imprimeTabela(tabelaProcessos);
 
-    //Salvar o processo filho na tabela
-    // insereTabela(processoFilho);
-
-    *pcProcessoAtual += n - 1;
+    *pcProcessoAtual += n;
 
 }
 
@@ -184,5 +166,3 @@ void instrucaoR(char *nomeDoArquivo, Instrucao** arrPrograma, int* pcProcessoAtu
     *pcProcessoAtual = -1;
 
 }
-
-

@@ -26,27 +26,92 @@ void destroiFila(Fila *f)
     free(f);
 }
 
-void enfileira(Fila *f, int valor)
+PrioridadePid* criaCelulaPrioridadePid(int prioridade, int PID, int tempoExecutado)
 {
+    PrioridadePid *celula;
+    celula->pid = PID;
+    celula->prioridade = prioridade;
+    celula->tempoExecutado = tempoExecutado;
+    return celula;
+}
+
+void enfileiraPrioridade(Fila *f, int prioridade, int PID, int tempoExecutado)
+{
+    printf("\n ENTROU NA ENFILEIRA PRIORIDADE \n");
+    PrioridadePid *celula = criaCelulaPrioridadePid(prioridade, PID, tempoExecutado);
     No *novoNo = (No*) malloc(sizeof(No));
-    if (novoNo == NULL)
+    
+    if(f->tamanho == 0)
     {
-        printf("Erro: nao foi possivel alocar memoria.\n");
-        exit(1);
-    }
-    novoNo->info = valor;
-    novoNo->prox = NULL;
-    if (f->fim == NULL)
-    {
+        printf("\n ENTROU COM FILA VAZIA \n");
         f->inicio = novoNo;
-        f->fim = novoNo;
+
+    }
+    // else if(f->tamanho == 1)
+    // {
+    //     printf("a1");
+    // }
+    // else if(f->tamanho == 2)
+    // {
+    //     printf("a2");
+    // }
+    // else if(f->tamanho == 3)
+    // {
+    //     printf("a3");
+    // }
+    // else if(f->tamanho == 4)
+    // {
+    //     printf("a4");
+    // }
+    else 
+    {
+        printf("\nENTROU ELSE => TAMANHO FILA > 0\n");
+        printf("\n prioridade: %d \n", f->inicio->prioridadePid->prioridade);
+        // printf("\n prioridade: %d \n", f->inicio->prox->prioridadePid->prioridade);
+        if (prioridade > f->fim->prioridadePid->prioridade) 
+        {
+            printf("\n ENTROU COM PRIORIDADE MAIOR \n");
+            novoNo->prox = f->inicio;
+            f->inicio = novoNo;
+        }
+        else
+        {
+            printf("\n ENTROU COM PRIORIDADE MENOR \n");
+            No *atual = f->inicio;
+
+            while (atual->prox != NULL && atual->prox->prioridadePid->prioridade >= prioridade) {
+                atual = atual->prox;
+            }
+
+            novoNo->prox = atual->prox;
+            atual->prox = novoNo;
+        }
+    }
+    f->tamanho++;
+    printf("\n SAIU DA ENFILEIRAPRIORIDADE \n");
+}
+
+void enfileira(Fila *f, int prioridade, int PID, int tempoExecutado)
+{
+    printf("\nENTROU NA FUNÇÃO\n");
+    struct No *novo = (struct No *)malloc(sizeof(struct No));
+    PrioridadePid *celula = criaCelulaPrioridadePid(prioridade, PID, tempoExecutado);
+    novo->prioridadePid = celula;
+    novo->prox = NULL;
+    printf("\nALOCA\n");
+    if (f->inicio == NULL)
+    {
+        printf("\nINSEREVAZIO\n");
+        f->inicio = novo;
     }
     else
     {
-        f->fim->prox = novoNo;
-        f->fim = novoNo;
+        printf("\nINSEREFIM\n");
+        f->fim->prox = novo;
     }
+    f->fim = novo;
     f->tamanho++;
+    printf("\nSAIU DA FUNÇÃO\n");
 }
 
 void desenfileira(Fila *f)
@@ -56,7 +121,7 @@ void desenfileira(Fila *f)
         printf("Erro: fila vazia.\n");
         exit(1);
     }
-    int valor = f->inicio->info;
+    PrioridadePid *valor = f->inicio->prioridadePid;
     No *tmp = f->inicio;
     f->inicio = f->inicio->prox;
     if (f->inicio == NULL)
@@ -87,7 +152,7 @@ int filaCheia(Fila *f)
 void imprimeFila(Fila *fila) {
     No *no = fila->inicio;
     while (no != NULL) {
-        printf("%d ", no->info);
+        printf("Pid: %d, Prioridade: %d\n ", no->prioridadePid->pid, no->prioridadePid->prioridade);
         no = no->prox;
     }
 }
