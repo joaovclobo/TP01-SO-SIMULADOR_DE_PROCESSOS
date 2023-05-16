@@ -11,7 +11,7 @@ int main(int argc, char* argv[])
     int numCPUs = atoi(argv[1]);
     int tipoEscalonamento = atoi(argv[2]);
 
-    GerenciadorProcessos* gerenciador  = inicializaGerenciador();
+    GerenciadorProcessos* gerenciador  = inicializaGerenciador(numCPUs, tipoEscalonamento);
 
     int opcao = MenuInicial(&arquivoDeEntrada);
 

@@ -5,12 +5,9 @@ typedef struct GerenciadorProcessos
 {
     int tipoEscalonamento;
     int tempo;
-    //Estado pronto vai ser um array
-    int estadoExecucao;
+    int* estadoExecucao;
     int quantidadeProcessosIniciados;
     int tempoTotalExecucao;
-    //TODO - MCPU - além do array de CPUs devemos criar uma variável nº de CPUs
-    //TODO - MCPU - ela será inicializada com o gerenciador e o numero deverá ser passado por arg
     CPU* cpu;
     CPU** cpus;
     int numCPUs;
@@ -20,19 +17,19 @@ typedef struct GerenciadorProcessos
         // Fila *estadoBloqueado;
 } GerenciadorProcessos;
 
-GerenciadorProcessos* inicializaGerenciador();
+GerenciadorProcessos* inicializaGerenciador(int numCPUs, int tipoEscalonamento);
 void gerenciadorProcessos(GerenciadorProcessos* gerenciador, char comando);
 void encerraUnidadeTempo(GerenciadorProcessos *gerenciador);
 
 /*------------------------------- Funçẽos que operam processos -------------------------------*/
 
-void escalonaProcessos(GerenciadorProcessos* gerenciador, int escalonamento);
+void escalonaProcessosCPUs(GerenciadorProcessos* gerenciador, int escalonamento);
 
-//TODO - ESC - esta função receberá uma ou mais filas
-void escalonaProcessoI(Lista* tabelaProcessos, CPU* cpu, int* estadoExecucao, int escalonamento);
+void escalonaProcesso(Lista* tabelaProcessos, CPU* cpu, int* estadoExecucao, int escalonamento, int NUMcpu);
     
 int pidProximoProcesso(int escalonamento, int* estadoExecucao);
 
+void executaCPUs(GerenciadorProcessos* gerenciador);
 
 void iniciaProcessoInit(GerenciadorProcessos* gerenciador);
 

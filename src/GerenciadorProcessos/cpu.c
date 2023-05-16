@@ -5,6 +5,7 @@ CPU* inicializaCPU()
     CPU* cpu = (CPU*) malloc(sizeof(CPU));
     
     cpu->pidProcessoAtual = (int*) malloc(sizeof(int));
+    *cpu->pidProcessoAtual = NUMVAZIO;
     cpu->pcProcessoAtual = (int*) malloc(sizeof(int));
 
     cpu->programaProcessoAtual = (Instrucao**) malloc(sizeof(Instrucao));
@@ -76,11 +77,16 @@ void executaProxInstrucao(CPU* cpu, int tempoAtualSistema, Lista* tabelaProcesso
     }
 
     *(cpu->pcProcessoAtual) += 1;
+    imprimeCPU(*cpu);
+}
+
+int cpuLivre(CPU* cpu)
+{
+    return *(cpu->pidProcessoAtual) == NUMVAZIO; 
 }
 
 void imprimeCPU(CPU cpu)
 {   
-
     printf("Processo na CPU - PID %2d | ", *cpu.pidProcessoAtual);
     printf("PC %2d | ", *cpu.pcProcessoAtual);
     printf("Fatia do quantum já executado: %2d\n", cpu.fatiaQuantum);
