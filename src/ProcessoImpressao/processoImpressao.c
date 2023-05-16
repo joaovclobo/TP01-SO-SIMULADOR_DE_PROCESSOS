@@ -124,7 +124,7 @@ void imprimeInfosGeraisProcesso(ProcessoSimulado processo)
     printf("Tempo de CPU %2d\n", processo.tempoCPU);
 }
 
-void imprimeVariaveis(int *arrVariaveis, int tamanho)
+void imprimeVariaveisProcesso(int *arrVariaveis, int tamanho)
 {
     printf("Valores atuais das variáveis:\n");
 
@@ -135,12 +135,12 @@ void imprimeVariaveis(int *arrVariaveis, int tamanho)
     putchar('\n');
 }
 
-int numeroVariaveis(Instrucao *arrPrograma)
+int numeroVariaveisProcesso(Instrucao *arrPrograma)
 {
     return arrPrograma[0].parametroNumerico1;
 }
 
-void imprimeEstado(Estado estado)
+void imprimeEstadoProcesso(Estado estado)
 {
     switch (estado)
     {

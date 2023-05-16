@@ -22,8 +22,12 @@ void gerenciadorProcessos(GerenciadorProcesso *gerenciador, char comando)
             
             executaProxInstrucao(gerenciador->cpu, gerenciador->tempo,gerenciador->tabelaProcessos);
             
-            imprimeCPU(*gerenciador->cpu);
+            //imprimeCPU(*gerenciador->cpu);
         }
+    }
+
+    else if(comando == 'I') {
+        menuImpressao();
     }
 }
 
@@ -51,7 +55,7 @@ void iniciaProcessoInit(GerenciadorProcesso* gerenciador)
      ProcessoSimulado* processoInit = criaProcessoInit(gerenciador->tempo);
     carregaProcesso(gerenciador->cpu, processoInit);
     insereTabela(gerenciador->tabelaProcessos, processoInit);
-    imprimeTabela(gerenciador->tabelaProcessos);
+    //imprimeTabela(gerenciador->tabelaProcessos);
     
 }
 

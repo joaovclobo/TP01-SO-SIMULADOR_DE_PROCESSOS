@@ -13,8 +13,8 @@ void imprimirProcessoSimulado(ProcessoSimulado processo);
 
 void imprimeInfosGeraisProcesso(ProcessoSimulado processo);
 
-void imprimeVariaveis(int *arrVariaveis, int tamanho);
+void imprimeVariaveisProcesso(int *arrVariaveis, int tamanho);
 
-void imprimeEstado(Estado estado);
+void imprimeEstadoProcesso(Estado estado);
 
-int numeroVariaveis(Instrucao* arrPrograma);
+int numeroVariaveisProcesso(Instrucao* arrPrograma);
