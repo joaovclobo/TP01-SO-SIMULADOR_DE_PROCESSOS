@@ -43,29 +43,20 @@ void gerenciadorProcessos(GerenciadorProcessos *gerenciador, char comando)
 
         if (gerenciador->tempo == 1)
         {   
-            //Na primeira unidade de tempo do sistema, é iniciado e carregado o primeiro processo
-            iniciaProcessoInit(gerenciador);
-
-            escalonaProcessosCPUs(gerenciador, gerenciador->tempo);
-            executaCPUs(gerenciador);
-                
-        } else
-        {
-            //TODO - ESC - Aqui terá uma função que seleciona os processos que estão com o estado PRONTO e os carrega na CPU; fazer funcao que seleciona processo da fila de pronto de acordo com o escalonamento
-            //Usa a funcao carrega processo - Este código abaixo simula a troca de contexto; 
-            // escalonaProcessosCPUs(gerenciador, gerenciador->tempo); //Esta será a função
+            iniciaProcessoInit(gerenciador);    //Na primeira unidade de tempo do sistema, é iniciado e carregado o primeiro processo
 
             escalonaProcessosCPUs(gerenciador, gerenciador->tempo);
             
-                // //TODO - DEL - Deletar esta função
-                // if (gerenciador->tempo >= 8)
-                // {
-                //     carregaProcesso(gerenciador->cpus[1], buscaProcesso(gerenciador->tabelaProcessos, 1));
-                //     carregaProcesso(gerenciador->cpus[2], buscaProcesso(gerenciador->tabelaProcessos, 2));
-                // }
-
             executaCPUs(gerenciador);
-            //TODO - ESC aqui deve haver uma função que bloqueia os processos
+
+            //TODO - ESC aqui deve haver uma função que bloqueia/remove os processos
+                
+        } else
+        {
+            escalonaProcessosCPUs(gerenciador, gerenciador->tempo);
+            
+            executaCPUs(gerenciador);
+            //TODO - ESC aqui deve haver uma função que bloqueia/remove os processos
         }
     }
 }
@@ -83,7 +74,7 @@ void escalonaProcessosCPUs(GerenciadorProcessos* gerenciador, int escalonamento)
 {
     for (int i = 0; i < gerenciador->numCPUs; i++)
     {
-        //TODO - ESC - verifica se tem proccesos prontos para a execuçãp
+        //TODO - ESC - colocar condição que verifica se tem proccesos na fila de PRONTO para a execuçãp
         if (cpuLivre(gerenciador->cpus[i]))
         {
             escalonaProcesso(gerenciador->tabelaProcessos, gerenciador->cpus[i], gerenciador->estadoExecucao+i, escalonamento, i);
@@ -96,12 +87,13 @@ void escalonaProcessosCPUs(GerenciadorProcessos* gerenciador, int escalonamento)
     
 }
 
-//TODO - ESC - esta função receberá uma ou mais filas
 void escalonaProcesso(Lista* tabelaProcessos, CPU* cpu, int* estadoExecucao, int escalonamento, int NUMcpu)
 {
     int pid = pidProximoProcesso(escalonamento, estadoExecucao);
 
     ProcessoSimulado* proximoProceso = buscaProcesso(tabelaProcessos, pid);
+
+    //TODO - ESC - Isso tem que ser apagado, porque isto está travando para não carregar um processo em mais de uma cpu
     if(pid == NUMcpu) {carregaProcesso(cpu, proximoProceso);}
     // carregaProcesso(cpu, proximoProceso);
 }
@@ -141,7 +133,7 @@ void executaCPUs(GerenciadorProcessos* gerenciador)
         //Se a CPU não esta livre, ou seja carregada com um processo, ela executa o próximo comando do processo dela
         if (!(cpuLivre(gerenciador->cpus[i])))
         {   
-            //TODO - Tirar este print e encontrar um jeito de mostrar o numero da CPU no momento que ela é exibida
+            //TODO - DEL - Tirar este print e encontrar um jeito de mostrar o numero da CPU no momento que ela é exibida
             printf(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> CPU %d <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<\n", i);
             executaProxInstrucao(gerenciador->cpus[i], gerenciador->tempo, gerenciador->tabelaProcessos, &gerenciador->quantidadeProcessosIniciados);
         }
