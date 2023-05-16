@@ -1,28 +1,37 @@
 #include "../Pipe/pipe.h"
 #include "cpu.h"
 
-typedef struct GerenciadorProcesso
+typedef struct GerenciadorProcessos
 {
     int tempo;
+    //Estado pronto vai ser um array
     int estadoExecucao;
-    int quantidadeProcessosExecutados;
+    int quantidadeProcessosIniciados;
     int tempoTotalExecucao;
-    CPU* cpu;
+    //TODO - MCPU - além do array de CPUs devemos criar uma variável nº de CPUs
+    //TODO - MCPU - ela será inicializada com o gerenciador e o numero deverá ser passado por arg
+        CPU* cpu;
+        int numCPUs;
     Lista *tabelaProcessos;
-    // Fila *estadoPronto;
-    // Fila *estadoBloqueado;
-} GerenciadorProcesso;
+    // TODO - ESC descomentar isto
+        // Fila *estadoPronto;
+        // Fila *estadoBloqueado;
+} GerenciadorProcessos;
 
-GerenciadorProcesso* inicializaGerenciador();
+GerenciadorProcessos* inicializaGerenciador();
+void gerenciadorProcessos(GerenciadorProcessos* gerenciador, char comando);
+void encerraUnidadeTempo(GerenciadorProcessos *gerenciador);
 
-void iniciaProcessoInit(GerenciadorProcesso* gerenciador);
+/*------------------------------- Funçẽos que operam processos -------------------------------*/
 
-void gerenciadorProcessos(GerenciadorProcesso *gerenciador, char comando);
+void escalonaProcessos(GerenciadorProcessos* gerenciador, int escalonamento);
 
-void encerraUnidadeTempo(GerenciadorProcesso *gerenciador);
+//TODO - ESC - esta função receberá uma ou mais filas
+void escalonaProcessoI(Lista* tabelaProcessos, CPU* cpu, int* estadoExecucao, int escalonamento);
+    
+int pidProximoProcesso(int escalonamento, int* estadoExecucao);
 
-void removeProcessoTabela(ProcessoSimulado *processoEscolhido, GerenciadorProcesso *gerenciador);
 
-void insereProcessoTabela(ProcessoSimulado *processoEscolhido, GerenciadorProcesso *gerenciador);
+void iniciaProcessoInit(GerenciadorProcessos* gerenciador);
 
-void imprimeTabelaProcesso(Lista *tabelaProcesso);
+void removeProcessoTabela(ProcessoSimulado *processoEscolhido, GerenciadorProcessos *gerenciador);
