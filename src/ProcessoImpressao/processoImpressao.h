@@ -17,4 +17,4 @@ void imprimeVariaveisProcesso(int *arrVariaveis, int tamanho);
 
 void imprimeEstadoProcesso(Estado estado);
 
-void imprimirFila(TipoFila *fila);
+void impressãoGeral(GerenciadorProcessos *gerenciador);

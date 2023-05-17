@@ -89,38 +89,45 @@ int main(int argc, char **argv)
 
             else if (comando == 'I') // ler da entrada padrão
             {
-                /* Como tenho pai e filho lendo e escrevendo da entrada padrão concorrentemente,
-                preciso desse novo processo pra que tudo isso ocorra de forma sincronizada*/
-                pidImpressao = fork(); // cria um novo processo
-                if (pidImpressao < 0)
+                if (opcao == 2)
                 {
-                    printf("ERRO NO FORK() IMPRESSAO\n");
-                }
-                if (pidImpressao > 0) // quer dizer que é o pai, o filho da primeira chamada que leu I
-                {
-                    // ESPERANDO O TERMINO DO PROCESSO DE IMPRESSÃO
-                    wait(NULL); // o pai do processo impressão vai parar e esperar o impressão executar
-                    kill(getppid(), SIGUSR1);
-                    sleep(1);
+                    impressãoGeral(gerenciador);
                 }
                 else
                 {
-                    // PROCESSO IMPRESSÃO
-                    while (opcaoImpressao != 3)
+                    /* Como tenho pai e filho lendo e escrevendo da entrada padrão concorrentemente,
+                preciso desse novo processo pra que tudo isso ocorra de forma sincronizada*/
+                    pidImpressao = fork(); // cria um novo processo
+                    if (pidImpressao < 0)
                     {
-                        opcaoImpressao = menuImpressao(); // quero ler o que vai imprimir da entrada padrão
-
-                        if (opcaoImpressao == 1)
-                        {
-                            imprimirGerenciadorProcessos(gerenciador);
-                        }
-                        else if (opcaoImpressao == 2)
-                        {
-                            imprimirProcessoSimulado(gerenciador);
-                        }
+                        printf("ERRO NO FORK() IMPRESSAO\n");
                     }
+                    if (pidImpressao > 0) // quer dizer que é o pai, o filho da primeira chamada que leu I
+                    {
+                        // ESPERANDO O TERMINO DO PROCESSO DE IMPRESSÃO
+                        wait(NULL); // o pai do processo impressão vai parar e esperar o impressão executar
+                        kill(getppid(), SIGUSR1);
+                        sleep(1);
+                    }
+                    else
+                    {
+                        // PROCESSO IMPRESSÃO
+                        while (opcaoImpressao != 3)
+                        {
+                            opcaoImpressao = menuImpressao(); // quero ler o que vai imprimir da entrada padrão
 
-                    exit(0); // acaba o impressão e volta pra onde parou (ele parou no wait(NULL))
+                            if (opcaoImpressao == 1)
+                            {
+                                imprimirGerenciadorProcessos(gerenciador);
+                            }
+                            else if (opcaoImpressao == 2)
+                            {
+                                imprimirProcessoSimulado(gerenciador);
+                            }
+                        }
+
+                        exit(0); // acaba o impressão e volta pra onde parou (ele parou no wait(NULL))
+                    }
                 }
             }
 

@@ -112,7 +112,7 @@ void imprimirProcessoSimulado(GerenciadorProcessos *gerenciador)
 
 void imprimeInfosGeraisProcesso(ProcessoSimulado *processo)
 {
-    printf("->> Processo - PID %d | ", processo->pid);
+    printf("-> Processo - PID %d | ", processo->pid);
     printf("PPID %d | ", processo->ppid);
     printf("PC %d | ", *(processo->pc));
     printf("Prioridade %d | ", processo->prioridade);
@@ -156,4 +156,32 @@ void imprimeEstadoProcesso(Estado estado)
     default:
         break;
     }
+}
+
+void impressãoGeral(GerenciadorProcessos *gerenciador)
+{
+    int *PID;
+    CPU *cpu = gerenciador->cpu;
+    Lista *tabela = gerenciador->tabelaProcessos;
+    TipoFila *prontos = gerenciador->estadoBloqueado;
+    TipoFila *bloqueados = gerenciador->estadoPronto;
+    ProcessoSimulado *processo;
+
+    printf("\n================ GERENCIADOR DE PROCESSOS ================\n");
+    printf("\n°° Tempo de uso do sistema no momento atual: %d unidades de tempo", gerenciador->tempo);
+    PID = cpu->pidProcessoAtual;
+    processo = buscaProcesso(tabela, *PID);
+    printf("\n\n°° Processo em execução na CPU:\n");
+    imprimeInfosGeraisProcesso(processo);
+    printf("\n\n°° Processos em estado bloqueado:");
+    printf("\n\n°° Processos em estado pronto:");
+    printf("\n\n°° Quantidade de processos executados até o momento: %d", gerenciador->quantidadeProcessosIniciados);
+    printf("\n\n°° Informações sobre a CPU no momento atual:");
+    printf("\n-> Processo em execução - PID %d | ", *cpu->pidProcessoAtual);
+    printf("PC %d |", *cpu->pcProcessoAtual);
+    printf(" Fatia do quantum já executado: %d ", cpu->fatiaQuantum);
+    imprimeVariaveisProcesso(*cpu->variaveisProcessoAtual, numeroVariaveis(*cpu->programaProcessoAtual));
+    imprimeArrPrograma(*cpu->programaProcessoAtual, *cpu->pcProcessoAtual);
+    printf("\n\n°° Informações sobre a Tabela de Processos no momento atual:\n");
+    imprimeTabela(tabela);
 }
