@@ -4,16 +4,15 @@
 
 typedef struct Celula_str* Ponteiro;
 
-typedef struct PrioridadePid
+typedef struct PidTempo
 {
-    int prioridade;
     int pid;
     int tempoExecutado;
-}PrioridadePid;
+}PidTempo;
 
 typedef struct Celula_str 
 {
-    PrioridadePid prioridadePid;
+    PidTempo pidTempo;
     Ponteiro Prox;
 }Celula_str;
 
@@ -26,11 +25,11 @@ typedef struct TipoFila
 
 void FFVazia(TipoFila* Fila);
 int Vazia(TipoFila* Fila);
-void Enfileira(int prioridade,int pid, int tempoExecutado, TipoFila *Fila);
+void Enfileira(int pid, int tempoExecutado, TipoFila *Fila);
 //void enfileiraPorPrioridade(TipoFila *Fila, int prioridade, int pid, int tempoExecutado);
 void Imprime(TipoFila Fila);
 void imprimeFila(TipoFila *fila);
-PrioridadePid criaCelulaPrioridadePid(int prioridade, int PID, int tempoExecutado);
+PidTempo criaCelulaPidTempo(int PID, int tempoExecutado);
 // typedef struct PrioridadePid
 // {
 //     int prioridade;

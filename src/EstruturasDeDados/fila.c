@@ -12,12 +12,12 @@ int Vazia(TipoFila* Fila)
     return (Fila->Frente == Fila->Tras);
 }
 
-void Enfileira(int prioridade, int pid, int tempoExecutado, TipoFila *Fila)
+void Enfileira(int pid, int tempoExecutado, TipoFila *Fila)
 {
     
     Fila->Tras->Prox = (Ponteiro) malloc(sizeof(Celula_str)); 
     Fila->Tras = Fila->Tras->Prox;
-    Fila->Tras->prioridadePid = criaCelulaPrioridadePid(prioridade, pid, tempoExecutado);
+    Fila->Tras->pidTempo = criaCelulaPidTempo(pid, tempoExecutado);
     Fila->Tras->Prox = NULL;
     
     printf("2-inseriu na fila\n");
@@ -31,20 +31,26 @@ void Imprime(TipoFila Fila)
     Aux = Fila.Frente->Prox;
     while (Aux != NULL)
     {
-        printf("pid: %d\n", Aux->prioridadePid.pid);
-        printf("prioridade: %d\n", Aux->prioridadePid.prioridade);
-        printf("tempoExecutado: %d\n", Aux->prioridadePid.tempoExecutado);
+        printf("pid: %d\n", Aux->pidTempo.pid);
+        printf("tempoExecutado: %d\n", Aux->pidTempo.tempoExecutado);
         Aux = Aux->Prox;
     }
 }
 
-PrioridadePid criaCelulaPrioridadePid(int prioridade, int PID, int tempoExecutado)
+PidTempo criaCelulaPidTempo(int PID, int tempoExecutado)
 {
-    PrioridadePid celula;
+    PidTempo celula;
     celula.pid = PID;
-    celula.prioridade = prioridade;
     celula.tempoExecutado = tempoExecutado;
     return celula;
+}
+
+void imprimeFila(TipoFila *fila) {
+    Celula_str *celula = fila->Frente;
+    while (celula != NULL) {
+        printf("Pid: %d, Tempo: %d\n ", celula->pidTempo.pid, celula->pidTempo.tempoExecutado);
+        celula = celula->Prox;
+    }
 }
 
 // void enfileiraPorPrioridade(TipoFila *Fila, int prioridade, int pid, int tempoExecutado)
@@ -52,22 +58,22 @@ PrioridadePid criaCelulaPrioridadePid(int prioridade, int PID, int tempoExecutad
 //     printf("\n ENTROU NA ENFILEIRA PRIORIDADE \n");
 //     Celula_str *celula = (Ponteiro) malloc(sizeof(Celula_str));
 //     Fila->Tras = Fila->Tras->Prox; 
-//     Fila->Tras->prioridadePid.pid = pid;
-//     Fila->Tras->prioridadePid.prioridade = prioridade;
-//     Fila->Tras->prioridadePid.tempoExecutado = tempoExecutado;
+//     Fila->Tras->pidTempo.pid = pid;
+//     Fila->Tras->pidTempo.prioridade = prioridade;
+//     Fila->Tras->pidTempo.tempoExecutado = tempoExecutado;
     
 //     if(Fila->Frente == NULL)
 //     {
 //         Fila->Frente = (Ponteiro) malloc(sizeof(Celula_str));
 //         Fila->Tras = Fila->Tras->Prox; 
-//         Fila->Tras->prioridadePid.pid = pid;
-//         Fila->Tras->prioridadePid.prioridade = prioridade;
-//         Fila->Tras->prioridadePid.tempoExecutado = tempoExecutado;
+//         Fila->Tras->pidTempo.pid = pid;
+//         Fila->Tras->pidTempo.prioridade = prioridade;
+//         Fila->Tras->pidTempo.tempoExecutado = tempoExecutado;
 //     }
 //     else 
 //     {
     
-//         if (prioridade > Fila->Frente->prioridadePid.prioridade) 
+//         if (prioridade > Fila->Frente->pidTempo.prioridade) 
 //         {
 //             celula->Prox = Fila->Frente;
 //             Fila->Frente = celula;
@@ -76,7 +82,7 @@ PrioridadePid criaCelulaPrioridadePid(int prioridade, int PID, int tempoExecutad
 //         {
 //             Celula_str *atual = Fila->Frente;
 
-//             while (atual->Prox != NULL && atual->Prox->prioridadePid.prioridade >= prioridade) {
+//             while (atual->Prox != NULL && atual->Prox->pidTempo.prioridade >= prioridade) {
 //                 atual = atual->Prox;
 //             }
 
@@ -114,9 +120,9 @@ PrioridadePid criaCelulaPrioridadePid(int prioridade, int PID, int tempoExecutad
 //     free(f);
 // }
 
-// PrioridadePid* criaCelulaPrioridadePid(int prioridade, int PID, int tempoExecutado)
+// PidTempo* criaCelulaPidTempo(int prioridade, int PID, int tempoExecutado)
 // {
-//     PrioridadePid *celula;
+//     PidTempo *celula;
 //     celula->pid = PID;
 //     celula->prioridade = prioridade;
 //     celula->tempoExecutado = tempoExecutado;
@@ -126,7 +132,7 @@ PrioridadePid criaCelulaPrioridadePid(int prioridade, int PID, int tempoExecutad
 // void enfileiraPrioridade(Fila *f, int prioridade, int PID, int tempoExecutado)
 // {
 //     printf("\n ENTROU NA ENFILEIRA PRIORIDADE \n");
-//     PrioridadePid *celula = criaCelulaPrioridadePid(prioridade, PID, tempoExecutado);
+//     PidTempo *celula = criaCelulaPidTempo(prioridade, PID, tempoExecutado);
 //     No *novoNo = (No*) malloc(sizeof(No));
     
 //     if(f->tamanho == 0)
@@ -154,9 +160,9 @@ PrioridadePid criaCelulaPrioridadePid(int prioridade, int PID, int tempoExecutad
 //     else 
 //     {
 //         printf("\nENTROU ELSE => TAMANHO FILA > 0\n");
-//         printf("\n prioridade: %d \n", f->inicio->prioridadePid->prioridade);
-//         // printf("\n prioridade: %d \n", f->inicio->prox->prioridadePid->prioridade);
-//         if (prioridade > f->fim->prioridadePid->prioridade) 
+//         printf("\n prioridade: %d \n", f->inicio->pidTempo->prioridade);
+//         // printf("\n prioridade: %d \n", f->inicio->prox->pidTempo->prioridade);
+//         if (prioridade > f->fim->pidTempo->prioridade) 
 //         {
 //             printf("\n ENTROU COM PRIORIDADE MAIOR \n");
 //             novoNo->prox = f->inicio;
@@ -167,7 +173,7 @@ PrioridadePid criaCelulaPrioridadePid(int prioridade, int PID, int tempoExecutad
 //             printf("\n ENTROU COM PRIORIDADE MENOR \n");
 //             No *atual = f->inicio;
 
-//             while (atual->prox != NULL && atual->prox->prioridadePid->prioridade >= prioridade) {
+//             while (atual->prox != NULL && atual->prox->pidTempo->prioridade >= prioridade) {
 //                 atual = atual->prox;
 //             }
 
@@ -183,8 +189,8 @@ PrioridadePid criaCelulaPrioridadePid(int prioridade, int PID, int tempoExecutad
 // {
 //     printf("\nENTROU NA FUNÇÃO\n");
 //     struct No *novo = (struct No *)malloc(sizeof(struct No));
-//     PrioridadePid *celula = criaCelulaPrioridadePid(prioridade, PID, tempoExecutado);
-//     novo->prioridadePid = celula;
+//     PidTempo *celula = criaCelulaPidTempo(prioridade, PID, tempoExecutado);
+//     novo->pidTempo = celula;
 //     novo->prox = NULL;
 //     printf("\nALOCA\n");
 //     if (f->inicio == NULL)
@@ -209,7 +215,7 @@ PrioridadePid criaCelulaPrioridadePid(int prioridade, int PID, int tempoExecutad
 //         printf("Erro: fila vazia.\n");
 //         exit(1);
 //     }
-//     PrioridadePid *valor = f->inicio->prioridadePid;
+//     PidTempo *valor = f->inicio->pidTempo;
 //     No *tmp = f->inicio;
 //     f->inicio = f->inicio->prox;
 //     if (f->inicio == NULL)
@@ -234,13 +240,4 @@ PrioridadePid criaCelulaPrioridadePid(int prioridade, int PID, int tempoExecutad
 //     }
 //     free(novoNo);
 //     return 0;
-// }
-
-
-// void imprimeFila(Fila *fila) {
-//     No *no = fila->inicio;
-//     while (no != NULL) {
-//         printf("Pid: %d, Prioridade: %d\n ", no->prioridadePid->pid, no->prioridadePid->prioridade);
-//         no = no->prox;
-//     }
 // }
