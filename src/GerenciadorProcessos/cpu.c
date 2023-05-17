@@ -152,7 +152,7 @@ void instrucaoF(int n, int* pidProcessoAtual, int* pcProcessoAtual, int* quantid
     insereTabela(tabelaProcessos, processoFilho);
     quantidadeProcessosIniciados += 1;
 
-    imprimeTabela(tabelaProcessos);
+    //imprimeTabela(tabelaProcessos);
 
     *pcProcessoAtual += n;
 
