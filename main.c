@@ -14,11 +14,9 @@ int main(int argc, char **argv)
     int fd[2];
     char comando = '!';
     FILE *arquivoDeEntrada;
-
     int numCPUs = atoi(argv[1]);
     int tipoEscalonamento = atoi(argv[2]);
-
-    GerenciadorProcessos* gerenciador  = inicializaGerenciador(numCPUs, tipoEscalonamento);
+    GerenciadorProcessos *gerenciador = inicializaGerenciador(numCPUs, tipoEscalonamento);
 
     int opcao = MenuInicial(&arquivoDeEntrada);
     int opcaoImpressao = 0;
@@ -40,9 +38,8 @@ int main(int argc, char **argv)
         return 1;
     }
 
-    if (pid > 0) // processo pai - APENAS ESCREVE NO PIPE
+    if (pid > 0)
     {
-        // close(fd[0]);
 
         while (1)
         {
@@ -53,7 +50,7 @@ int main(int argc, char **argv)
             }
             else
             {
-                scanf(" %c", &comando); // lendo da entrada padrão para escrever no pipe
+                scanf(" %c", &comando);
                 escreverCaractereNoPipe(fd[1], comando);
 
                 if (comando == 'I')
@@ -68,17 +65,15 @@ int main(int argc, char **argv)
                 }
             }
 
-            if (comando == 'M') // encerra as escritas
+            if (comando == 'M')
             {
                 break;
             }
         }
         wait(NULL);
-        // close(fd[1]);
     }
-    else // processo filho do pai aí em cima - APENAS LÊ NO PIPE
+    else
     {
-        // close(fd[1]);
 
         while (1)
         {
@@ -90,46 +85,41 @@ int main(int argc, char **argv)
                 gerenciadorProcessos(gerenciador, comando);
             }
 
-            else if (comando == 'I') // ler da entrada padrão
+            else if (comando == 'I')
             {
                 if (opcao == 2)
                 {
-                    impressãoGeral(gerenciador);
+                    // impressãoGeral(gerenciador);
                 }
                 else
                 {
-                    /* Como tenho pai e filho lendo e escrevendo da entrada padrão concorrentemente,
-                preciso desse novo processo pra que tudo isso ocorra de forma sincronizada*/
-                    pidImpressao = fork(); // cria um novo processo
+
+                    pidImpressao = fork();
                     if (pidImpressao < 0)
                     {
                         printf("ERRO NO FORK() IMPRESSAO\n");
                     }
-                    if (pidImpressao > 0) // quer dizer que é o pai, o filho da primeira chamada que leu I
+                    if (pidImpressao > 0)
                     {
                         // ESPERANDO O TERMINO DO PROCESSO DE IMPRESSÃO
-                        wait(NULL); // o pai do processo impressão vai parar e esperar o impressão executar
+                        wait(NULL);
                         kill(getppid(), SIGUSR1);
                         sleep(1);
                     }
                     else
                     {
                         // PROCESSO IMPRESSÃO
-                        while (opcaoImpressao != 3)
+                        while (opcaoImpressao != 2)
                         {
-                            opcaoImpressao = menuImpressao(); // quero ler o que vai imprimir da entrada padrão
+                            opcaoImpressao = menuImpressao();
 
                             if (opcaoImpressao == 1)
                             {
-                                imprimirGerenciadorProcessos(gerenciador);
-                            }
-                            else if (opcaoImpressao == 2)
-                            {
-                                imprimirProcessoSimulado(gerenciador);
+                                // imprimirGerenciadorProcessos(gerenciador);
                             }
                         }
 
-                        exit(0); // acaba o impressão e volta pra onde parou (ele parou no wait(NULL))
+                        exit(0);
                     }
                 }
             }
@@ -139,7 +129,6 @@ int main(int argc, char **argv)
                 break;
             }
         }
-        // close(fd[0]);
     }
     return 0;
 }

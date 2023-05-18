@@ -21,14 +21,11 @@ GerenciadorProcessos* inicializaGerenciador(int numCPUs, int tipoEscalonamento)
         gerenciador->estadoExecucao[i] = NUMVAZIO;
     }
 
-    for (int  i = 0; i < gerenciador->numCPUs; i++){ printf("%d ", gerenciador->estadoExecucao[i]); }
-
-    
     gerenciador->tabelaProcessos = criaLista();
   
     // TODO - ESC descomentar isto
-    // gerenciador->estadoPronto = criaFila();
-    // gerenciador->estadoBloqueado = criaFila();
+        // gerenciador->estadoPronto = criaFila();
+        // gerenciador->estadoBloqueado = criaFila();
 
     return gerenciador;
 }
@@ -39,7 +36,6 @@ void gerenciadorProcessos(GerenciadorProcessos *gerenciador, char comando)
     if (comando == 'U')
     {
         encerraUnidadeTempo(gerenciador);
-        printf("\t\t TEMPO DO SISTEMA %d\n", gerenciador->tempo);
 
         if (gerenciador->tempo == 1)
         {   
@@ -72,17 +68,12 @@ void escalonaProcessosCPUs(GerenciadorProcessos* gerenciador, int escalonamento)
 {
     for (int i = 0; i < gerenciador->numCPUs; i++)
     {
-        //TODO - ESC - colocar condição que verifica se tem proccesos na fila de PRONTO para a execuçãp
+        //TODO - ESC - colocar condição que verifica se tem proccesos na fila de PRONTO para a execução
         if (cpuLivre(gerenciador->cpus[i]))
         {
             escalonaProcesso(gerenciador->tabelaProcessos, gerenciador->cpus[i], gerenciador->estadoExecucao+i, escalonamento, i);
         }
     }
-
-    printf("\n-----------> ESTADO EXECUÇÃO <-----------\n"); 
-    for (int  i = 0; i < gerenciador->numCPUs; i++){ printf("%d ", gerenciador->estadoExecucao[i]); }
-    putchar('\n');
-    
 }
 
 void escalonaProcesso(Lista* tabelaProcessos, CPU* cpu, int* estadoExecucao, int escalonamento, int NUMcpu)
@@ -112,10 +103,6 @@ int pidProximoProcesso(int escalonamento, int* estadoExecucao)
     default: break;
     }
 
-    //     int numeroInst = 10;
-    //     int numeroProcessos = 4;
-    //     int pid = (escalonamento / numeroInst) % numeroProcessos;
-
     //TODO - ESC - apenas esta função que ficará aqui      
     // desenfileira(filaPronto);
     *estadoExecucao = pid;
@@ -131,8 +118,6 @@ void executaCPUs(GerenciadorProcessos* gerenciador)
         //Se a CPU não esta livre, ou seja carregada com um processo, ela executa o próximo comando do processo dela
         if (!(cpuLivre(gerenciador->cpus[i])))
         {   
-            //TODO - DEL - Tirar este print e encontrar um jeito de mostrar o numero da CPU no momento que ela é exibida
-            printf(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> CPU %d <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<\n", i);
             executaProxInstrucao(gerenciador->cpus[i], gerenciador->tempo, gerenciador->tabelaProcessos, &gerenciador->quantidadeProcessosIniciados);
         }
     }

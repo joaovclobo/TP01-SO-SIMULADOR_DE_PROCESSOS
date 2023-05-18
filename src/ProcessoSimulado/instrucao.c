@@ -85,10 +85,9 @@ void copiaInstrucao(Instrucao* novaInstrucao, Instrucao* instrucaoBase)
 
 void imprimeInstucao(Instrucao instrucao, int apontadorInst)
 {
-    
     if (apontadorInst == 1)
     {
-        printf("  |Instrução: Tipo %c", instrucao.tipoDeInstrucao);
+        printf("->|Instrução: Tipo %c", instrucao.tipoDeInstrucao);
 
     } else
     {

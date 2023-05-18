@@ -8,7 +8,6 @@ typedef struct GerenciadorProcessos
     int* estadoExecucao;
     int quantidadeProcessosIniciados;
     int tempoTotalExecucao;
-    CPU* cpu;
     CPU** cpus;
     int numCPUs;
     Lista *tabelaProcessos;

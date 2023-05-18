@@ -77,7 +77,6 @@ void executaProxInstrucao(CPU* cpu, int tempoAtualSistema, Lista* tabelaProcesso
     }
 
     *(cpu->pcProcessoAtual) += 1;
-    imprimeCPU(*cpu);
 }
 
 int cpuLivre(CPU* cpu)
@@ -167,7 +166,6 @@ void instrucaoR(char *nomeDoArquivo, Instrucao** arrPrograma, int* pcProcessoAtu
 {   
     char caminhoArquivo[MAXBUFFER] = "./data/";
     strcat(caminhoArquivo, nomeDoArquivo);
-    printf("%s ", caminhoArquivo);
     leInstrucoesArquivo(caminhoArquivo, arrPrograma);
 
     *pcProcessoAtual = -1;
