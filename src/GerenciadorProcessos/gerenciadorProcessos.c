@@ -27,15 +27,15 @@ GerenciadorProcessos* inicializaGerenciador(int numCPUs, int tipoEscalonamento)
     gerenciador->tabelaProcessos = criaLista();
   
     // TODO - ESC descomentar isto
-        // gerenciador->estadoPronto = criaFila();
-        // gerenciador->estadoBloqueado = criaFila();
+    // gerenciador->estadoPronto = criaFila();
+    // gerenciador->estadoBloqueado = criaFila();
 
     return gerenciador;
 }
 
 void gerenciadorProcessos(GerenciadorProcessos *gerenciador, char comando)
 {
-    
+
     if (comando == 'U')
     {
         encerraUnidadeTempo(gerenciador);
@@ -61,12 +61,10 @@ void gerenciadorProcessos(GerenciadorProcessos *gerenciador, char comando)
     }
 }
 
-
 void encerraUnidadeTempo(GerenciadorProcessos *gerenciador)
 {
     gerenciador->tempo += 1;
 }
-
 
 /*------------------------------- Funçẽos que operam processos -------------------------------*/
 
@@ -148,7 +146,7 @@ void iniciaProcessoInit(GerenciadorProcessos* gerenciador)
    
 }
 
-void removeProcessoTabela(ProcessoSimulado *processoEscolhido, GerenciadorProcessos *gerenciador) 
+void removeProcessoTabela(ProcessoSimulado *processoEscolhido, GerenciadorProcessos *gerenciador)
 {
     gerenciador->tempoTotalExecucao += processoEscolhido->tempoCPU;
     removeTabela(gerenciador->tabelaProcessos, processoEscolhido->pid);

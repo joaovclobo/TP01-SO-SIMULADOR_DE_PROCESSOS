@@ -13,8 +13,8 @@ typedef struct GerenciadorProcessos
     int numCPUs;
     Lista *tabelaProcessos;
     // TODO - ESC descomentar isto
-        // Fila *estadoPronto;
-        // Fila *estadoBloqueado;
+    TipoFila *estadoPronto;
+    TipoFila *estadoBloqueado;
 } GerenciadorProcessos;
 
 GerenciadorProcessos* inicializaGerenciador(int numCPUs, int tipoEscalonamento);
@@ -31,6 +31,6 @@ int pidProximoProcesso(int escalonamento, int* estadoExecucao);
 
 void executaCPUs(GerenciadorProcessos* gerenciador);
 
-void iniciaProcessoInit(GerenciadorProcessos* gerenciador);
+void iniciaProcessoInit(GerenciadorProcessos *gerenciador);
 
 void removeProcessoTabela(ProcessoSimulado *processoEscolhido, GerenciadorProcessos *gerenciador);
