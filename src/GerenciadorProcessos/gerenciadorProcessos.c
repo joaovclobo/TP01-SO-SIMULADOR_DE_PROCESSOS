@@ -23,9 +23,14 @@ GerenciadorProcessos* inicializaGerenciador(int numCPUs, int tipoEscalonamento)
 
     gerenciador->tabelaProcessos = criaLista();
   
-    // TODO - ESC descomentar isto
-        // gerenciador->estadoPronto = criaFila();
-        // gerenciador->estadoBloqueado = criaFila();
+    // TODO - ESC ver este if
+    if(tipoEscalonamento == 1)
+    {
+        gerenciador->estadoPronto = CriaFila();
+
+    }
+
+    gerenciador->estadoBloqueado = CriaFila();
 
     return gerenciador;
 }
@@ -91,7 +96,7 @@ void escalonaProcesso(Lista* tabelaProcessos, CPU* cpu, int* estadoExecucao, int
 //TODO - ESC - Talvez isto seja implementado na fila????
 int pidProximoProcesso(int escalonamento, int* estadoExecucao)
 {
-    int pid = 0;        //Valor em pid será o valor do processo que será carregado na CPU
+    int pid = 0;        //Valor em pid será     o valor do processo que será carregado na CPU
     
     //TODO - ESC - Variavel escalonamento está simulando o tempo do sistema
     switch (escalonamento)
@@ -126,9 +131,11 @@ void executaCPUs(GerenciadorProcessos* gerenciador)
 void iniciaProcessoInit(GerenciadorProcessos* gerenciador)
 {
     ProcessoSimulado* processoInit = criaProcessoInit(gerenciador->tempo);
+    Enfileira(processoInit->pid, processoInit->tempoCPU, gerenciador->estadoPronto);
     insereTabela(gerenciador->tabelaProcessos, processoInit);
     gerenciador->quantidadeProcessosIniciados+=1;
-   
+    imprimeFila(gerenciador->estadoPronto);
+    
 }
 
 void removeProcessoTabela(ProcessoSimulado *processoEscolhido, GerenciadorProcessos *gerenciador)
