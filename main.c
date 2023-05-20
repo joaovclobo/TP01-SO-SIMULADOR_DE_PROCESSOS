@@ -89,7 +89,7 @@ int main(int argc, char **argv)
             {
                 if (opcao == 2)
                 {
-                    // impressãoGeral(gerenciador);
+                    impressaoArquivo(gerenciador);
                 }
                 else
                 {
@@ -115,7 +115,7 @@ int main(int argc, char **argv)
 
                             if (opcaoImpressao == 1)
                             {
-                                // imprimirGerenciadorProcessos(gerenciador);
+                                imprimirGerenciadorProcessos(gerenciador);
                             }
                         }
 

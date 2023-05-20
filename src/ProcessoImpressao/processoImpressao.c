@@ -27,7 +27,7 @@ void imprimirGerenciadorProcessos(GerenciadorProcessos *gerenciador)
     while (opcao != 8)
     {
         printf("\n\n>>>>>>> GERENCIADOR DE PROCESSOS <<<<<<<\n\n");
-        printf("1 - Informações gerais sobre o gerenciador");
+        printf("1 - Estado atual do sistema\n");
         printf("2 - Tempo de uso atual do sistema\n");
         printf("3 - Processos em estado bloqueado\n");
         printf("4 - Processos em estado pronto\n");
@@ -60,7 +60,7 @@ void imprimirGerenciadorProcessos(GerenciadorProcessos *gerenciador)
         }
         else if (opcao == 5)
         {
-            printf("\n\nQuantidade de processos executados até o momento: %d\n", gerenciador->quantidadeProcessosIniciados);
+            printf("\n\nQuantidade de processos executados até o momento: %d\n\n", gerenciador->quantidadeProcessosIniciados);
         }
         else if (opcao == 6)
         {
@@ -82,6 +82,7 @@ void imprimirGerenciadorProcessos(GerenciadorProcessos *gerenciador)
                 printf("\nInforme o PID do processo: ");
                 scanf(" %d%*[^\n]", &PID);
                 processo = buscaProcesso(gerenciador->tabelaProcessos, PID);
+                printf("\n\n");
                 imprimeInfosGeraisProcesso(processo);
                 imprimeVariaveisProcesso(processo->arrVariaveis, numeroVariaveis(*processo->arrPrograma));
                 imprimeArrPrograma(*processo->arrPrograma, *processo->pc);
@@ -146,16 +147,20 @@ void impressaoArquivo(GerenciadorProcessos *gerenciador)
     printf("\n\n°° Processos em estado pronto:");
     printf("\n\n°° Quantidade de processos executados até o momento: %d", gerenciador->quantidadeProcessosIniciados);
     imprimeCPUs(gerenciador);
-    imprimeTabelaProcessos(gerenciador->tabelaProcessos);
+    imprimeTabelaProcessos(gerenciador);
 }
 
 void imprimeCPUs(GerenciadorProcessos *gerenciador)
 {
     for (int i = 0; i < gerenciador->numCPUs; i++)
     {
+        printf("\n\n>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> CPU %d <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<", i);
         if (cpuLivre(gerenciador->cpus[i]))
         {
-            printf("\n>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> CPU %d <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<\n", i);
+            printf("\n->> CPU LIVRE\n");
+        }
+        else
+        {
             imprimeCPU(gerenciador->cpus[i]);
         }
     }
@@ -163,10 +168,10 @@ void imprimeCPUs(GerenciadorProcessos *gerenciador)
 
 void imprimeCPU(CPU *cpu)
 {
-    printf("\n->> Processo em execução - PID %d | ", cpu->pidProcessoAtual);
-    printf("PC %d |", cpu->pcProcessoAtual);
+    printf("\n->> Processo em execução - PID %d | ", (*cpu->pidProcessoAtual));
+    printf("PC %d |", (*cpu->pcProcessoAtual));
     printf(" Fatia do quantum já executado: %d ", cpu->fatiaQuantum);
-    imprimeVariaveisProcesso(cpu->variaveisProcessoAtual, numeroVariaveis(cpu->programaProcessoAtual));
+    imprimeVariaveisProcesso((*cpu->variaveisProcessoAtual), numeroVariaveis((*cpu->programaProcessoAtual)));
     printf("\n");
 }
 
