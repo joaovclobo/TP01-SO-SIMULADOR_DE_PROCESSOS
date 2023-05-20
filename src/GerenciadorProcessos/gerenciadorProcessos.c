@@ -22,15 +22,22 @@ GerenciadorProcessos* inicializaGerenciador(int numCPUs, int tipoEscalonamento)
     }
 
     gerenciador->tabelaProcessos = criaLista();
-  
-    // TODO - ESC ver este if
-    if(tipoEscalonamento == 1)
-    {
-        gerenciador->estadoPronto = CriaFila();
 
+    gerenciador->estadoProntoPriori = (TipoFila**)malloc(sizeof(TipoFila*)*NUMCLASPRIORI);
+  
+    if(tipoEscalonamento == 0)
+    {
+        for (int i = 0; i < NUMCLASPRIORI; i++)
+        {
+            gerenciador->estadoProntoPriori[i] = criaFila();
+        }
+
+    } else
+    {
+        gerenciador->estadoProntoFIFO = criaFila(); 
     }
 
-    gerenciador->estadoBloqueado = CriaFila();
+    gerenciador->estadoBloqueado = criaFila();
 
     return gerenciador;
 }
@@ -46,17 +53,21 @@ void gerenciadorProcessos(GerenciadorProcessos *gerenciador, char comando)
         {   
             iniciaProcessoInit(gerenciador);    //Na primeira unidade de tempo do sistema, é iniciado e carregado o primeiro processo
 
-            escalonaProcessosCPUs(gerenciador, gerenciador->tempo);
+            escalonaProcessosCPUs(gerenciador);
             
             executaCPUs(gerenciador);
 
-            //TODO - ESC aqui deve haver uma função que bloqueia/remove os processos
-                
+            trocaDeContexto(gerenciador);
+
         } else
         {
-            escalonaProcessosCPUs(gerenciador, gerenciador->tempo);
+            printf("FLAG");
+            escalonaProcessosCPUs(gerenciador);
             
             executaCPUs(gerenciador);
+
+            trocaDeContexto(gerenciador);
+
             //TODO - ESC aqui deve haver uma função que bloqueia/remove os processos
         }
     }
@@ -69,47 +80,54 @@ void encerraUnidadeTempo(GerenciadorProcessos *gerenciador)
 
 /*------------------------------- Funçẽos que operam processos -------------------------------*/
 
-void escalonaProcessosCPUs(GerenciadorProcessos* gerenciador, int escalonamento)
+void escalonaProcessosCPUs(GerenciadorProcessos* gerenciador)
 {
     for (int i = 0; i < gerenciador->numCPUs; i++)
     {
-        //TODO - ESC - colocar condição que verifica se tem proccesos na fila de PRONTO para a execução
-        if (cpuLivre(gerenciador->cpus[i]))
-        {
-            escalonaProcesso(gerenciador->tabelaProcessos, gerenciador->cpus[i], gerenciador->estadoExecucao+i, escalonamento, i);
+        if (cpuLivre(gerenciador->cpus[i]) && (filasVazias(gerenciador->estadoProntoPriori, NUMCLASPRIORI) == 0))
+        {   
+            escalonaProcesso(gerenciador->tabelaProcessos, gerenciador->cpus[i], gerenciador->estadoExecucao+i, 
+                                gerenciador->estadoProntoPriori, gerenciador->estadoProntoFIFO, gerenciador->tipoEscalonamento);
         }
     }
 }
 
-void escalonaProcesso(Lista* tabelaProcessos, CPU* cpu, int* estadoExecucao, int escalonamento, int NUMcpu)
+void escalonaProcesso(Lista* tabelaProcessos, CPU* cpu, int* estadoExecucao,
+                         TipoFila** estadoProntoPriori, TipoFila* estadoProntoFIFO, int tipoEscalonamento)
 {
-    int pid = pidProximoProcesso(escalonamento, estadoExecucao);
+    int pid = pidProximoProcesso(estadoExecucao, estadoProntoPriori, estadoProntoFIFO, tipoEscalonamento);
 
     ProcessoSimulado* proximoProceso = buscaProcesso(tabelaProcessos, pid);
 
-    //TODO - ESC - Isso tem que ser apagado, porque isto está travando para não carregar um processo em mais de uma cpu
-    if(pid == NUMcpu) {carregaProcesso(cpu, proximoProceso);}
-    // carregaProcesso(cpu, proximoProceso);
+    carregaProcesso(cpu, proximoProceso);
+
+    // imprimeCPU(*cpu);
+            printf("flaG\n");
+
 }
 
 //TODO - ESC - função pidProximoProcesso vai ver o número da variável escalonamento e desinfileirar o processo da fila que for selecionda
 //TODO - ESC - Talvez isto seja implementado na fila????
-int pidProximoProcesso(int escalonamento, int* estadoExecucao)
+int pidProximoProcesso(int* estadoExecucao, TipoFila** estadoProntoPriori, TipoFila* estadoProntoFIFO, int tipoEscalonamento)
 {
     int pid = 0;        //Valor em pid será     o valor do processo que será carregado na CPU
     
-    //TODO - ESC - Variavel escalonamento está simulando o tempo do sistema
-    switch (escalonamento)
+    if (tipoEscalonamento == 0)
     {
-    case 1: pid = 0; break;
-    case 7: pid = 1; break;
-    case 8: pid = 2; break;
-    case 9: pid = 3; break;
-    default: break;
+        for (int i = 0; i < NUMCLASPRIORI; i++)
+        {   
+            if (!Vazia(estadoProntoPriori[i]))
+            {
+                pid = Desenfileirar(estadoProntoPriori[i]);
+            }
+        }
+    } else
+    {
+        pid = Desenfileirar(estadoProntoFIFO);
     }
 
-    //TODO - ESC - apenas esta função que ficará aqui      
-    // desenfileira(filaPronto);
+    printf("Desenfilerou %d\n", pid);
+
     *estadoExecucao = pid;
 
     return pid;
@@ -123,7 +141,9 @@ void executaCPUs(GerenciadorProcessos* gerenciador)
         //Se a CPU não esta livre, ou seja carregada com um processo, ela executa o próximo comando do processo dela
         if (!(cpuLivre(gerenciador->cpus[i])))
         {   
-            executaProxInstrucao(gerenciador->cpus[i], gerenciador->tempo, gerenciador->tabelaProcessos, &gerenciador->quantidadeProcessosIniciados);
+            executaProxInstrucao(gerenciador->cpus[i], gerenciador->tempo, 
+                gerenciador->tabelaProcessos, &gerenciador->quantidadeProcessosIniciados,
+                     gerenciador->estadoProntoPriori, gerenciador->estadoProntoFIFO, gerenciador->tipoEscalonamento, gerenciador->estadoBloqueado);
         }
     }
 }
@@ -131,15 +151,65 @@ void executaCPUs(GerenciadorProcessos* gerenciador)
 void iniciaProcessoInit(GerenciadorProcessos* gerenciador)
 {
     ProcessoSimulado* processoInit = criaProcessoInit(gerenciador->tempo);
-    Enfileira(processoInit->pid, processoInit->tempoCPU, gerenciador->estadoPronto);
+    enfileraPronto(processoInit, gerenciador->estadoProntoPriori, gerenciador->estadoProntoFIFO, gerenciador->tipoEscalonamento);
+    printf("Enfilerou %d\n", processoInit->pid);
     insereTabela(gerenciador->tabelaProcessos, processoInit);
     gerenciador->quantidadeProcessosIniciados+=1;
-    imprimeFila(gerenciador->estadoPronto);
     
+}
+
+void trocaDeContexto(GerenciadorProcessos* gerenciador)
+{
+    printf("Quall seu problema amigo?\n");
+    // for (int i = 0; i < gerenciador->numCPUs; i++)
+    // {   
+    //     printf("CPU %d, %d\n", i, cpuLivre(gerenciador->cpus[i]) == 0);
+    //     // if (!(cpuLivre(gerenciador->cpus[i]) == 0))
+    //     // {
+    //     //     if (gerenciador->tipoEscalonamento == 0)
+    //     //     {
+    //     //         ProcessoSimulado* processo = verificaCPU(gerenciador->tabelaProcessos, gerenciador->cpus[i]);   
+    //     //         enfileraPronto(processo, gerenciador->estadoProntoPriori, gerenciador->estadoProntoFIFO, gerenciador->tipoEscalonamento);
+    //     //         printf("Enfilerou %d\n", processo->pid);
+    //     //     } else
+    //     //     {
+    //     //         // TODO - 
+    //     //     }
+    //     // }
+    // }   
+}
+
+ProcessoSimulado* verificaCPU(Lista* tabelaProcessos, CPU* cpu)
+{
+    ProcessoSimulado* processoDaCPU = buscaProcesso(tabelaProcessos, *cpu->pidProcessoAtual);
+
+    if(cpu->fatiaQuantum >= calcularPotencia(2, processoDaCPU->prioridade))     //Tempo de cada classe é dado por 2^(Número da classe)
+    {   
+        if (processoDaCPU->prioridade < 3){
+            processoDaCPU->prioridade++;
+            
+        }
+        zeraCPU(cpu);
+    }    
+
+    return processoDaCPU;
 }
 
 void removeProcessoTabela(ProcessoSimulado *processoEscolhido, GerenciadorProcessos *gerenciador)
 {
     gerenciador->tempoTotalExecucao += processoEscolhido->tempoCPU;
     removeTabela(gerenciador->tabelaProcessos, processoEscolhido->pid);
+}
+
+
+double calcularPotencia(double base, int expoente)
+{
+    double resultado = 1.0;
+    int i;
+
+    for (i = 0; i < expoente; i++) {
+        resultado *= base;
+    }
+
+    return resultado;
 }

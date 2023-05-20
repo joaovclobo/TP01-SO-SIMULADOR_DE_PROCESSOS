@@ -16,6 +16,7 @@ typedef struct ProcessoSimulado
     int prioridade;             //Prioridade do processo (valor de 0 a 3, onde 0 tem menor tempo de CPU e 3 o maior)
     Estado estado;              //Estado do processo podendo ser um dos 3 valores do enum
     int tempoInicio;            //Tempo do sistema que o processo começou
+    //Não estamos atualizando isto
     int tempoCPU;               //Tempo que o processo já passou executando
     Instrucao** arrPrograma;     //Array com as instruções do processo (programa)
 } ProcessoSimulado;

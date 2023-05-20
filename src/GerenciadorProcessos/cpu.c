@@ -28,7 +28,9 @@ void carregaProcesso(CPU* cpu, ProcessoSimulado* processoAtual)
 
 }
 
-void executaProxInstrucao(CPU* cpu, int tempoAtualSistema, Lista* tabelaProcessos, int* quantidadeProcessosIniciados)
+void executaProxInstrucao(CPU* cpu, int tempoAtualSistema, Lista* tabelaProcessos, 
+                            int* quantidadeProcessosIniciados, TipoFila** filaProntoPriori, 
+                                TipoFila* filaProntoFIFO, int tipoEscalonamento, TipoFila* estadoBloqueado)
 {   
     char tipo = ((*cpu->programaProcessoAtual)[*cpu->pcProcessoAtual]).tipoDeInstrucao;
     int paramNum1 = ((*cpu->programaProcessoAtual)[*cpu->pcProcessoAtual]).parametroNumerico1;
@@ -59,13 +61,16 @@ void executaProxInstrucao(CPU* cpu, int tempoAtualSistema, Lista* tabelaProcesso
         break;
     
     case 'B':
+        instrucaoB(paramNum1, cpu->pidProcessoAtual, estadoBloqueado);
         break;
 
     case 'T':
         break;
     
     case 'F':
-        instrucaoF(paramNum1, cpu->pidProcessoAtual, cpu->pcProcessoAtual, quantidadeProcessosIniciados, tempoAtualSistema, tabelaProcessos);
+        instrucaoF(paramNum1, cpu->pidProcessoAtual, cpu->pcProcessoAtual, 
+                        quantidadeProcessosIniciados, tempoAtualSistema, tabelaProcessos,
+                             filaProntoPriori, filaProntoFIFO, tipoEscalonamento);
         break;
 
     case 'R':
@@ -96,6 +101,30 @@ void imprimeCPU(CPU cpu)
 
 }
 
+void enfileraPronto(ProcessoSimulado* processo, TipoFila** filaProntoPriori, TipoFila* filaProntoFIFO, int tipoEscalonamento)
+{
+    if(tipoEscalonamento == 0)
+    {
+        Enfileira(processo->pid, processo->tempoCPU, filaProntoPriori[processo->prioridade]);
+        imprimeFila(filaProntoPriori[processo->prioridade]);
+
+    } else
+    {
+        Enfileira(processo->pid, processo->tempoCPU, filaProntoFIFO);
+        imprimeFila(filaProntoFIFO);
+    }
+}
+
+void zeraCPU(CPU* cpu)
+{
+        cpu->pidProcessoAtual = NULL;
+        cpu->pcProcessoAtual = NULL;
+
+        cpu->programaProcessoAtual = NULL;
+        cpu->variaveisProcessoAtual = NULL;
+
+        cpu->fatiaQuantum = 0;
+}
 
 /* -------------- Instruçẽos de programa que são processadas na CPU -------------- */
 
@@ -132,31 +161,28 @@ void instrucaoS(int x, int n, int *arrVariaveis){
     arrVariaveis[x] -= n;
 }
 
-// int instrucaoB(int n)
-// {
-//     // TO DO: escalonador responsavel por mudar o processo de bloqueado para pronto e de pronto
-//     // para em execução
+int instrucaoB(int n, int* pidProcessoAtual, TipoFila* estadoBloqueado)
+{
+    Enfileira(*pidProcessoAtual, n, estadoBloqueado);
 
-//     // manda um comando para bloquear o processo e esperar n unidades de tempo e
-//     // depois volta ele para “Pronto”. (Simula entrada e saída?)
-//     //chamar as funções enfileira dos estadoPronto e estadoBloqueado?
-// }
+}
 
 // void instrucaoT()
 // {
 //     //	Termina o processo (Manda “encerrei” p/ o gerenciador de processo).
 // }
 
-void instrucaoF(int n, int* pidProcessoAtual, int* pcProcessoAtual, int* quantidadeProcessosIniciados, int tempoAtualSistema, Lista* tabelaProcessos)
+void instrucaoF(int n, int* pidProcessoAtual, int* pcProcessoAtual, 
+                    int* quantidadeProcessosIniciados, int tempoAtualSistema, 
+                        Lista* tabelaProcessos, TipoFila** filaProntoPriori, TipoFila* filaProntoFIFO, int tipoEscalonamento)
 {
 
     ProcessoSimulado* processoPai = buscaProcesso(tabelaProcessos, *pidProcessoAtual);
     ProcessoSimulado* processoFilho = copiaProcesso(*processoPai, tempoAtualSistema, maiorPIDTabela(tabelaProcessos)+1);
 
     insereTabela(tabelaProcessos, processoFilho);
+    enfileraPronto(processoFilho, filaProntoPriori, filaProntoFIFO, tipoEscalonamento);
     quantidadeProcessosIniciados += 1;
-
-    //imprimeTabela(tabelaProcessos);
 
     *pcProcessoAtual += n;
 

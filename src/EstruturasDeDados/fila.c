@@ -1,6 +1,6 @@
 #include "fila.h"
 
-TipoFila* CriaFila()
+TipoFila* criaFila()
 {
     TipoFila* fila = (TipoFila*) malloc(sizeof(TipoFila));
     
@@ -13,8 +13,23 @@ TipoFila* CriaFila()
 } 
 
 int Vazia(TipoFila* Fila)
+{   
+    return (Fila->Tamanho == 0);
+}
+
+//Retorna 1 se todas as filas são vazias
+int filasVazias(TipoFila** filas, int numFilas)
 {
-    return (Fila->Frente == Fila->Tras);
+    for (int i = 0; i < numFilas; i++)
+    {
+        printf("-> %d %d \n", i, Vazia(filas[i]));
+        if (!Vazia(filas[i]))
+        {
+            return 0;
+        }
+    }
+    
+    return 1;
 }
 
 void Enfileira(int pid, int tempoExecutado, TipoFila *Fila)
@@ -63,10 +78,15 @@ PidTempo criaCelulaPidTempo(int PID, int tempoExecutado)
     return celula;
 }
 
-void imprimeFila(TipoFila *fila) {
+void imprimeFila(TipoFila *fila)
+{
     Celula_str *celula = fila->Frente;
+    
+    printf("Fila\n");
+
     while (celula != NULL) {
         printf("\nPid: %d, Tempo: %d", celula->pidTempo.pid, celula->pidTempo.tempoExecutado);
         celula = celula->Prox;
     }
+    putchar('\n');
 }

@@ -24,8 +24,9 @@ typedef struct TipoFila
 
 // TipoFila* InicializaFila();
 
-TipoFila* CriaFila();
+TipoFila* criaFila();
 int Vazia(TipoFila* Fila);
+int filasVazias(TipoFila** filas, int numFilas);
 void Enfileira(int pid, int tempoExecutado, TipoFila *Fila);
 void imprimeFila(TipoFila *fila);
 int Desenfileirar(TipoFila* fila);

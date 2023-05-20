@@ -1,5 +1,7 @@
 #include "../Pipe/pipe.h"
 #include "cpu.h"
+#include <math.h>
+#define NUMCLASPRIORI 4
 
 typedef struct GerenciadorProcessos
 {
@@ -11,9 +13,9 @@ typedef struct GerenciadorProcessos
     CPU** cpus;
     int numCPUs;
     Lista *tabelaProcessos;
-    // TODO - ESC descomentar isto
-    TipoFila *estadoPronto;
-    TipoFila *estadoBloqueado;
+    TipoFila** estadoProntoPriori;
+    TipoFila* estadoProntoFIFO;
+    TipoFila* estadoBloqueado;
 } GerenciadorProcessos;
 
 GerenciadorProcessos* inicializaGerenciador(int numCPUs, int tipoEscalonamento);
@@ -22,14 +24,21 @@ void encerraUnidadeTempo(GerenciadorProcessos *gerenciador);
 
 /*------------------------------- Funçẽos que operam processos -------------------------------*/
 
-void escalonaProcessosCPUs(GerenciadorProcessos* gerenciador, int escalonamento);
+void escalonaProcessosCPUs(GerenciadorProcessos* gerenciador);
 
-void escalonaProcesso(Lista* tabelaProcessos, CPU* cpu, int* estadoExecucao, int escalonamento, int NUMcpu);
+void escalonaProcesso(Lista* tabelaProcessos, CPU* cpu, int* estadoExecucao, TipoFila** estadoProntoPriori, TipoFila* estadoProntoFIFO, int tipoEscalonamento);
     
-int pidProximoProcesso(int escalonamento, int* estadoExecucao);
+int pidProximoProcesso(int* estadoExecucao, TipoFila** estadoProntoPriori, TipoFila* estadoProntoFIFO, int tipoEscalonamento);
 
 void executaCPUs(GerenciadorProcessos* gerenciador);
 
 void iniciaProcessoInit(GerenciadorProcessos *gerenciador);
 
+void trocaDeContexto(GerenciadorProcessos* gerenciador);
+
+ProcessoSimulado* verificaCPU(Lista* tabelaProcessos, CPU* cpu);
+
 void removeProcessoTabela(ProcessoSimulado *processoEscolhido, GerenciadorProcessos *gerenciador);
+
+
+double calcularPotencia(double base, int expoente);

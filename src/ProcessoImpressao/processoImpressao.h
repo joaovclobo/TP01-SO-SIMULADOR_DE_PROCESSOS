@@ -5,22 +5,22 @@
 
 int menuImpressao();
 
-int numeroVariaveisProcesso(Instrucao *arrPrograma);
+// int numeroVariaveisProcesso(Instrucao *arrPrograma);
 
-void impressaoArquivo(GerenciadorProcessos *gerenciador);
+// void impressaoArquivo(GerenciadorProcessos *gerenciador);
 
-void imprimirEstadoAtualSistema(GerenciadorProcessos *gerenciador);
+// void imprimirEstadoAtualSistema(GerenciadorProcessos *gerenciador);
 
-void imprimirGerenciadorProcessos(GerenciadorProcessos *gerenciador);
+// void imprimirGerenciadorProcessos(GerenciadorProcessos *gerenciador);
 
-void imprimeInfosGeraisProcesso(ProcessoSimulado *processo);
+// void imprimeInfosGeraisProcesso(ProcessoSimulado *processo);
 
-void imprimeVariaveisProcesso(int *arrVariaveis, int tamanho);
+// void imprimeVariaveisProcesso(int *arrVariaveis, int tamanho);
 
-void imprimeEstadoProcesso(Estado estado);
+// void imprimeEstadoProcesso(Estado estado);
 
-void imprimeCPUs(GerenciadorProcessos *gerenciador);
+// void imprimeCPUs(GerenciadorProcessos *gerenciador);
 
-void imprimeCPU(CPU *cpu);
+// void imprimeCPU(CPU *cpu);
 
-void imprimeTabelaProcessos(GerenciadorProcessos *gerenciador);
+// void imprimeTabelaProcessos(GerenciadorProcessos *gerenciador);
