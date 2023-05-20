@@ -24,10 +24,9 @@ typedef struct TipoFila
 
 // TipoFila* InicializaFila();
 
-void FFVazia(TipoFila* Fila);
+TipoFila* CriaFila();
 int Vazia(TipoFila* Fila);
 void Enfileira(int pid, int tempoExecutado, TipoFila *Fila);
-//void enfileiraPorPrioridade(TipoFila *Fila, int prioridade, int pid, int tempoExecutado);
-void Imprime(TipoFila Fila);
 void imprimeFila(TipoFila *fila);
+int Desenfileirar(TipoFila* fila);
 PidTempo criaCelulaPidTempo(int PID, int tempoExecutado);

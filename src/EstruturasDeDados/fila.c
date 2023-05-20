@@ -1,11 +1,15 @@
 #include "fila.h"
 
-void FFVazia(TipoFila* Fila)
+TipoFila* CriaFila()
 {
-    Fila->Frente = (Ponteiro) malloc(sizeof(Celula_str));
-    Fila->Tras = Fila->Frente;
-    Fila->Frente->Prox = NULL;
-    Fila->Tamanho = 0;
+    TipoFila* fila = (TipoFila*) malloc(sizeof(TipoFila));
+    
+    fila->Frente = (Ponteiro) malloc(sizeof(Celula_str));
+    fila->Tras = fila->Frente;
+    fila->Frente->Prox = NULL;
+    fila->Tamanho = 0;
+
+    return fila;
 } 
 
 int Vazia(TipoFila* Fila)
@@ -32,20 +36,25 @@ void Enfileira(int pid, int tempoExecutado, TipoFila *Fila)
     Fila->Tamanho += 1;
 }
 
+int Desenfileirar(TipoFila* fila)
+{
+    if (Vazia(fila)) {
+        printf("Erro: a fila está vazia\n");
+        exit(1);
+    }
 
-// void Imprime(TipoFila Fila)
-// {
-//     printf("3-entrou imprimir fila\n");
-//     Ponteiro Aux;
-//     Aux = Fila.Frente->Prox;
-//     while (Aux != NULL)
-//     {
-//         printf("pid: %d\n", Aux->pidTempo.pid);
-//         printf("tempoExecutado: %d\n", Aux->pidTempo.tempoExecutado);
-//         Aux = Aux->Prox;
-//     }
-// }
+    int processoRemovido = fila->Frente->pidTempo.pid;
+    Celula_str* celulaRemovida = fila->Frente;
 
+    fila->Frente = fila->Frente->Prox;
+    free(celulaRemovida);
+
+    if (fila->Frente == NULL) {
+        fila->Tras = NULL;
+    }
+
+    return processoRemovido;
+}
 PidTempo criaCelulaPidTempo(int PID, int tempoExecutado)
 {
     PidTempo celula;
@@ -57,7 +66,7 @@ PidTempo criaCelulaPidTempo(int PID, int tempoExecutado)
 void imprimeFila(TipoFila *fila) {
     Celula_str *celula = fila->Frente;
     while (celula != NULL) {
-        printf("Pid: %d, Tempo: %d\n ", celula->pidTempo.pid, celula->pidTempo.tempoExecutado);
+        printf("\nPid: %d, Tempo: %d", celula->pidTempo.pid, celula->pidTempo.tempoExecutado);
         celula = celula->Prox;
     }
 }
