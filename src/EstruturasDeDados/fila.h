@@ -23,10 +23,15 @@ typedef struct TipoFila
 }TipoFila;
 
 TipoFila* criaFila();
+
 int filaVazia(TipoFila* Fila);
+int filasVazias(TipoFila** filas, int numFilas);
+
 void Enfileira(int pid, int tempoExecutado, TipoFila *Fila);
 
-int Desenfileirar(TipoFila* fila);
+int desenfileirar(TipoFila* fila);
+int desenfileirarFilas(TipoFila** filas, int numFilas);
+
 PidTempo criaCelulaPidTempo(int PID, int tempoExecutado);
 
 void imprimeFila(TipoFila *fila);

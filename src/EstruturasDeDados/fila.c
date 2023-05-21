@@ -17,6 +17,20 @@ int filaVazia(TipoFila* Fila)
     return (Fila->Tamanho == 0);
 }
 
+//Retorna 1 se todas as filas são vazias
+int filasVazias(TipoFila** filas, int numFilas)
+{
+    for (int i = 0; i < numFilas; i++)
+    {
+        if (!filaVazia(filas[i]))
+        {
+            return 0;
+        }
+    }
+    
+    return 1;
+}
+
 void Enfileira(int pid, int tempoExecutado, TipoFila *Fila)
 {
     if(Fila->Tamanho == 0)
@@ -33,14 +47,14 @@ void Enfileira(int pid, int tempoExecutado, TipoFila *Fila)
         Fila->Tras->Prox = NULL;
         Fila->Tras->pidTempo = criaCelulaPidTempo(pid, tempoExecutado);
     }
-    Fila->Tamanho += 1;
+    Fila->Tamanho++;
 }
 
-int Desenfileirar(TipoFila* fila)
+int desenfileirar(TipoFila* fila)
 {
     if (filaVazia(fila)) {
         printf("Erro: a fila está vazia\n");
-        exit(1);
+        return -1;
     }
 
     int processoRemovido = fila->Frente->pidTempo.pid;
@@ -53,8 +67,30 @@ int Desenfileirar(TipoFila* fila)
         fila->Tras = NULL;
     }
 
+    fila->Tamanho--;
+
     return processoRemovido;
 }
+
+int desenfileirarFilas(TipoFila** filas, int numFilas)
+{
+    int pidProcessoRemovido = -1, i = 0;
+
+    while (pidProcessoRemovido == -1 && i < numFilas)
+    {
+        pidProcessoRemovido = desenfileirar(filas[i]);
+        if (pidProcessoRemovido >= 0)
+        {
+            return pidProcessoRemovido;
+        }else
+        {
+            i++;
+        }
+    }
+
+    return pidProcessoRemovido;
+}
+
 PidTempo criaCelulaPidTempo(int PID, int tempoExecutado)
 {
     PidTempo celula;
@@ -76,6 +112,8 @@ void imprimeFila(TipoFila *fila)
             printf("\nPid: %d, Tempo: %d", celula->pidTempo.pid, celula->pidTempo.tempoExecutado);
             celula = celula->Prox;
         }
+
+        putchar('\n');
     }
 }
 
@@ -98,6 +136,7 @@ void imprimeFilas(TipoFila** filas, int numFilas)
                 printf("\n   Pid: %d, Tempo: %d", celula->pidTempo.pid, celula->pidTempo.tempoExecutado);
                 celula = celula->Prox;
             }
+            putchar('\n');
         }
     }
 }

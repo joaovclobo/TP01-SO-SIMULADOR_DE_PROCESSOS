@@ -5,7 +5,6 @@
 
 typedef struct GerenciadorProcessos
 {
-    int tipoEscalonamento;
     int tempo;
     int* estadoExecucao;
     int quantidadeProcessosIniciados;
@@ -23,13 +22,15 @@ void encerraUnidadeTempo(GerenciadorProcessos *gerenciador);
 
 /*------------------------------- Funçẽos que operam processos -------------------------------*/
 
-void escalonaProcessosCPUs(GerenciadorProcessos* gerenciador, int escalonamento);
+void escalonaProcessosCPUs(GerenciadorProcessos* gerenciador);
 
-void escalonaProcesso(Lista* tabelaProcessos, CPU* cpu, int* estadoExecucao, int escalonamento, int NUMcpu);
+void escalonaProcesso(Lista* tabelaProcessos, CPU* cpu, int* estadoExecucao, TipoFila** estadoPronto, int NUMcpu);
     
 int pidProximoProcesso(int escalonamento, int* estadoExecucao);
 
 void executaCPUs(GerenciadorProcessos* gerenciador);
+
+void trocaDeContexto(GerenciadorProcessos* gerenciador);
 
 void iniciaProcessoInit(GerenciadorProcessos *gerenciador);
 

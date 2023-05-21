@@ -85,17 +85,35 @@ int cpuLivre(CPU* cpu)
     return *(cpu->pidProcessoAtual) == NUMVAZIO; 
 }
 
-// void imprimeCPU(CPU cpu)
-// {   
-//     printf("Processo na CPU - PID %2d | ", *cpu.pidProcessoAtual);
-//     printf("PC %2d | ", *cpu.pcProcessoAtual);
-//     printf("Fatia do quantum já executado: %2d\n", cpu.fatiaQuantum);
+void imprimeCPU_2(CPU* cpu)
+{   
+    if(cpuLivre(cpu))
+    {
+        printf("CPU LIVRE!!!!\n");
+    }else
+    {
+    printf("Processo na CPU - PID %2d | ", *cpu->pidProcessoAtual);
+    printf("PC %2d | ", *cpu->pcProcessoAtual);
+    printf("Fatia do quantum já executado: %2d\n", cpu->fatiaQuantum);
 
-//     imprimeVariaveis(*cpu.variaveisProcessoAtual, numeroVariaveis(*cpu.programaProcessoAtual));
-//     imprimeArrPrograma(*cpu.programaProcessoAtual, *cpu.pcProcessoAtual);
-//     putchar('\n');
+    imprimeVariaveis(*cpu->variaveisProcessoAtual, numeroVariaveis(*cpu->programaProcessoAtual));
+    imprimeArrPrograma(*cpu->programaProcessoAtual, *cpu->pcProcessoAtual);
+    putchar('\n');
+    }
+}
 
-// }
+void zeraCPU(CPU* cpu)
+{
+    cpu->pidProcessoAtual = NULL;
+    *(cpu->pidProcessoAtual) = NUMVAZIO;
+    cpu->pcProcessoAtual = NULL;
+    *(cpu->pcProcessoAtual) = NUMVAZIO;
+
+    cpu->programaProcessoAtual = NULL;
+    cpu->variaveisProcessoAtual = NULL;
+
+    cpu->fatiaQuantum = 0;
+}
 
 
 /* -------------- Instruçẽos de programa que são processadas na CPU -------------- */
