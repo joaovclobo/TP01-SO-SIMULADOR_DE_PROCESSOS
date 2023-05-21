@@ -36,4 +36,6 @@ void iniciaProcessoInit(GerenciadorProcessos *gerenciador);
 
 void removeProcessoTabela(ProcessoSimulado *processoEscolhido, GerenciadorProcessos *gerenciador);
 
+double calcPot(double base, int expoente);
+
 void imprimeCPUs_2(GerenciadorProcessos *gerenciador);

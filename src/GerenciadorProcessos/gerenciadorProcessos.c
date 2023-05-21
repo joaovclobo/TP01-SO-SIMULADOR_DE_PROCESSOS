@@ -95,12 +95,12 @@ void escalonaProcessosCPUs(GerenciadorProcessos* gerenciador)
             }
         }
     }
-   imprimeCPUs_2(gerenciador); 
+        printf("\t\tDepois de escalonado:\n"); imprimeCPUs_2(gerenciador); 
 }
 
 void escalonaProcesso(Lista* tabelaProcessos, CPU* cpu, int* estadoExecucao, TipoFila** estadoPronto, int NUMcpu)   
 {
-    imprimeFilas(estadoPronto, NUMCLASPRIORI);
+        imprimeFilas(estadoPronto, NUMCLASPRIORI);
 
     int pidProcesso = desenfileirarFilas(estadoPronto, NUMCLASPRIORI);
     // printf("\n\tTIROU O: %d\n", pidProcesso);
@@ -126,6 +126,8 @@ void executaCPUs(GerenciadorProcessos* gerenciador)
             executaProxInstrucao(gerenciador->cpus[i], gerenciador->tempo, gerenciador->tabelaProcessos, &gerenciador->quantidadeProcessosIniciados, gerenciador->estadoPronto);
         }
     }
+        printf("\t\tDepois de EXXECUTADO:\n"); imprimeCPUs_2(gerenciador); 
+
 }
 
 void iniciaProcessoInit(GerenciadorProcessos* gerenciador)
@@ -145,26 +147,44 @@ void trocaDeContexto(GerenciadorProcessos* gerenciador)
         {
             ProcessoSimulado* processoNaCPU = buscaProcesso(gerenciador->tabelaProcessos, *(gerenciador->cpus[i]->pidProcessoAtual));
 
-            if (processoNaCPU->prioridade < NUMCLASPRIORI-1)
+            if (gerenciador->cpus[i]->fatiaQuantum >= calcPot(2, processoNaCPU->prioridade)) //Remove se o quantum for maior q o permitido pra classe
             {
-                processoNaCPU->prioridade++;
-            }
+                processoNaCPU->estado = PRONTO;
 
-            Enfileira(processoNaCPU->pid, processoNaCPU->tempoCPU, gerenciador->estadoPronto[processoNaCPU->prioridade]);
-            // printf("\n\tCOLOCOU O: %d\n", processoNaCPU->pid);
-            zeraCPU(gerenciador->cpus[i]);
-            
+                if (processoNaCPU->prioridade < NUMCLASPRIORI-1)
+                {
+                    processoNaCPU->prioridade++;
+                }
+                processoNaCPU->tempoCPU += gerenciador->cpus[i]->fatiaQuantum;
+
+                Enfileira(processoNaCPU->pid, processoNaCPU->tempoCPU, gerenciador->estadoPronto[processoNaCPU->prioridade]);
+                // printf("\n\tCOLOCOU O: %d\n", processoNaCPU->pid);
+                zeraCPU(gerenciador->cpus[i]);
+            }            
         }
     }
-    imprimeFilas(gerenciador->estadoPronto, NUMCLASPRIORI);
+        imprimeFilas(gerenciador->estadoPronto, NUMCLASPRIORI);
 
-    imprimeCPUs_2(gerenciador);
+        printf("\t\tDepois da TROCA DE CONTEXTO:\n"); imprimeCPUs_2(gerenciador); 
 }
 
 void removeProcessoTabela(ProcessoSimulado *processoEscolhido, GerenciadorProcessos *gerenciador)
 {
     gerenciador->tempoTotalExecucao += processoEscolhido->tempoCPU;
     removeTabela(gerenciador->tabelaProcessos, processoEscolhido->pid);
+}
+
+
+double calcPot(double base, int expoente)
+{
+    double resultado = 1.0;
+    int i;
+
+    for (i = 0; i < expoente; i++) {
+        resultado *= base;
+    }
+
+    return resultado;
 }
 
 void imprimeCPUs_2(GerenciadorProcessos *gerenciador)
