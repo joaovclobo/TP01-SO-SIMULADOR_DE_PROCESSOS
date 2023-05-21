@@ -33,10 +33,17 @@ GerenciadorProcessos* inicializaGerenciador(int numCPUs)
     return gerenciador;
 }
 
+void iniciaProcessoInit(GerenciadorProcessos* gerenciador)
+{
+    ProcessoSimulado* processoInit = criaProcessoInit(gerenciador->tempo);
+    Enfileira(processoInit->pid, processoInit->tempoCPU, gerenciador->estadoPronto[0]);
+    insereTabela(gerenciador->tabelaProcessos, processoInit);
+    gerenciador->quantidadeProcessosIniciados+=1;
+    
+}
 
 void gerenciadorProcessos(GerenciadorProcessos *gerenciador, char comando)
 {
-    int proxPid;
     if (comando == 'U')
     {
         encerraUnidadeTempo(gerenciador);
@@ -45,26 +52,14 @@ void gerenciadorProcessos(GerenciadorProcessos *gerenciador, char comando)
         {   
             iniciaProcessoInit(gerenciador);    //Na primeira unidade de tempo do sistema, é iniciado e carregado o primeiro processo
 
-            // proxPid = desenfileirarFilas(gerenciador->estadoPronto, NUMCLASPRIORI);
-            // imprimeFilas(gerenciador->estadoPronto, NUMCLASPRIORI);
-            // printf("TIROU O: %d\n", proxPid);
-
-            // carregaProcesso(gerenciador->cpus[0], buscaProcesso(gerenciador->tabelaProcessos, proxPid));
-
             escalonaProcessosCPUs(gerenciador); 
 
             executaCPUs(gerenciador);
             
             trocaDeContexto(gerenciador);
 
-            //TODO - ESC aqui deve haver uma função que bloqueia/remove os processos
-                
         } else
         {
-            // proxPid = desenfileirarFilas(gerenciador->estadoPronto, NUMCLASPRIORI);
-            // printf("TIROU O: %d\n", proxPid);
-
-            // carregaProcesso(gerenciador->cpus[0], buscaProcesso(gerenciador->tabelaProcessos, proxPid));
 
             escalonaProcessosCPUs(gerenciador);
             
@@ -103,7 +98,6 @@ void escalonaProcesso(Lista* tabelaProcessos, CPU* cpu, int* estadoExecucao, Tip
         imprimeFilas(estadoPronto, NUMCLASPRIORI);
 
     int pidProcesso = desenfileirarFilas(estadoPronto, NUMCLASPRIORI);
-    // printf("\n\tTIROU O: %d\n", pidProcesso);
 
     if (pidProcesso >= 0)
     {
@@ -126,17 +120,8 @@ void executaCPUs(GerenciadorProcessos* gerenciador)
             executaProxInstrucao(gerenciador->cpus[i], gerenciador->tempo, gerenciador->tabelaProcessos, &gerenciador->quantidadeProcessosIniciados, gerenciador->estadoPronto);
         }
     }
-        printf("\t\tDepois de EXXECUTADO:\n"); imprimeCPUs_2(gerenciador); 
+        printf("\t\tDepois de EXECUTADO:\n"); imprimeCPUs_2(gerenciador); 
 
-}
-
-void iniciaProcessoInit(GerenciadorProcessos* gerenciador)
-{
-    ProcessoSimulado* processoInit = criaProcessoInit(gerenciador->tempo);
-    Enfileira(processoInit->pid, processoInit->tempoCPU, gerenciador->estadoPronto[0]);
-    insereTabela(gerenciador->tabelaProcessos, processoInit);
-    gerenciador->quantidadeProcessosIniciados+=1;
-    
 }
 
 void trocaDeContexto(GerenciadorProcessos* gerenciador)
@@ -145,27 +130,31 @@ void trocaDeContexto(GerenciadorProcessos* gerenciador)
     {
         if (!(cpuLivre(gerenciador->cpus[i])))
         {
-            ProcessoSimulado* processoNaCPU = buscaProcesso(gerenciador->tabelaProcessos, *(gerenciador->cpus[i]->pidProcessoAtual));
-
-            if (gerenciador->cpus[i]->fatiaQuantum >= calcPot(2, processoNaCPU->prioridade)) //Remove se o quantum for maior q o permitido pra classe
-            {
-                processoNaCPU->estado = PRONTO;
-
-                if (processoNaCPU->prioridade < NUMCLASPRIORI-1)
-                {
-                    processoNaCPU->prioridade++;
-                }
-                processoNaCPU->tempoCPU += gerenciador->cpus[i]->fatiaQuantum;
-
-                Enfileira(processoNaCPU->pid, processoNaCPU->tempoCPU, gerenciador->estadoPronto[processoNaCPU->prioridade]);
-                // printf("\n\tCOLOCOU O: %d\n", processoNaCPU->pid);
-                zeraCPU(gerenciador->cpus[i]);
-            }            
+            removeProcessoCPU(gerenciador->cpus[i], gerenciador->tabelaProcessos, gerenciador->estadoPronto);
         }
     }
         imprimeFilas(gerenciador->estadoPronto, NUMCLASPRIORI);
 
         printf("\t\tDepois da TROCA DE CONTEXTO:\n"); imprimeCPUs_2(gerenciador); 
+}
+
+void removeProcessoCPU(CPU* cpu, Lista* tabelaProcessos, TipoFila** estadoPronto)
+{
+    ProcessoSimulado* processoNaCPU = buscaProcesso(tabelaProcessos, *(cpu->pidProcessoAtual));
+
+    if (cpu->fatiaQuantum >= calcPot(2, processoNaCPU->prioridade)) //Remove se o quantum for maior q o permitido pra classe
+    {
+        processoNaCPU->estado = PRONTO;
+
+        if (processoNaCPU->prioridade < NUMCLASPRIORI-1)
+        {
+            processoNaCPU->prioridade++;
+        }
+        processoNaCPU->tempoCPU += cpu->fatiaQuantum;
+
+        Enfileira(processoNaCPU->pid, processoNaCPU->tempoCPU, estadoPronto[processoNaCPU->prioridade]);
+        zeraCPU(cpu);
+    }            
 }
 
 void removeProcessoTabela(ProcessoSimulado *processoEscolhido, GerenciadorProcessos *gerenciador)
@@ -174,31 +163,30 @@ void removeProcessoTabela(ProcessoSimulado *processoEscolhido, GerenciadorProces
     removeTabela(gerenciador->tabelaProcessos, processoEscolhido->pid);
 }
 
-
-double calcPot(double base, int expoente)
-{
-    double resultado = 1.0;
-    int i;
-
-    for (i = 0; i < expoente; i++) {
-        resultado *= base;
-    }
-
-    return resultado;
-}
-
-void imprimeCPUs_2(GerenciadorProcessos *gerenciador)
-{
-    for (int i = 0; i < gerenciador->numCPUs; i++)
+    double calcPot(double base, int expoente)
     {
-        printf("\n>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> CPU %d <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<\n", i);
-        if (cpuLivre(gerenciador->cpus[i]))
-        {
-            printf("\n->> CPU LIVRE\n");
+        double resultado = 1.0;
+        int i;
+
+        for (i = 0; i < expoente; i++) {
+            resultado *= base;
         }
-        else
+
+        return resultado;
+    }
+
+    void imprimeCPUs_2(GerenciadorProcessos *gerenciador)
+    {
+        for (int i = 0; i < gerenciador->numCPUs; i++)
         {
-            imprimeCPU_2(gerenciador->cpus[i]);
+            printf("\n>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> CPU %d <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<\n", i);
+            if (cpuLivre(gerenciador->cpus[i]))
+            {
+                printf("\n->> CPU LIVRE\n");
+            }
+            else
+            {
+                imprimeCPU_2(gerenciador->cpus[i]);
+            }
         }
     }
-}

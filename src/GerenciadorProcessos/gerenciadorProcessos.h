@@ -17,6 +17,7 @@ typedef struct GerenciadorProcessos
 } GerenciadorProcessos;
 
 GerenciadorProcessos* inicializaGerenciador(int numCPUs);
+void iniciaProcessoInit(GerenciadorProcessos *gerenciador);
 void gerenciadorProcessos(GerenciadorProcessos* gerenciador, char comando);
 void encerraUnidadeTempo(GerenciadorProcessos *gerenciador);
 
@@ -31,6 +32,8 @@ int pidProximoProcesso(int escalonamento, int* estadoExecucao);
 void executaCPUs(GerenciadorProcessos* gerenciador);
 
 void trocaDeContexto(GerenciadorProcessos* gerenciador);
+
+void removeProcessoCPU(CPU* cpu, Lista* tabelaProcessos, TipoFila** estadoPronto);
 
 void iniciaProcessoInit(GerenciadorProcessos *gerenciador);
 
