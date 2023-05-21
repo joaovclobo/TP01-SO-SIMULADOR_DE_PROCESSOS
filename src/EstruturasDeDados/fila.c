@@ -53,7 +53,6 @@ void Enfileira(int pid, int tempoExecutado, TipoFila *Fila)
 int desenfileirar(TipoFila* fila)
 {
     if (filaVazia(fila)) {
-        printf("Erro: a fila está vazia\n");
         return -1;
     }
 

@@ -92,21 +92,21 @@ void imprimeCPU_2(CPU* cpu)
         printf("CPU LIVRE!!!!\n");
     }else
     {
-    printf("Processo na CPU - PID %2d | ", *cpu->pidProcessoAtual);
+    printf("\nProcesso na CPU - PID %2d | ", *cpu->pidProcessoAtual);
     printf("PC %2d | ", *cpu->pcProcessoAtual);
     printf("Fatia do quantum já executado: %2d\n", cpu->fatiaQuantum);
 
-    imprimeVariaveis(*cpu->variaveisProcessoAtual, numeroVariaveis(*cpu->programaProcessoAtual));
-    imprimeArrPrograma(*cpu->programaProcessoAtual, *cpu->pcProcessoAtual);
+    // imprimeVariaveis(*cpu->variaveisProcessoAtual, numeroVariaveis(*cpu->programaProcessoAtual));
+    // imprimeArrPrograma(*cpu->programaProcessoAtual, *cpu->pcProcessoAtual);
     putchar('\n');
     }
 }
 
 void zeraCPU(CPU* cpu)
 {
-    cpu->pidProcessoAtual = NULL;
-    *(cpu->pidProcessoAtual) = NUMVAZIO;
-    cpu->pcProcessoAtual = NULL;
+    cpu->pidProcessoAtual = (int*) malloc(sizeof(int));
+    *cpu->pidProcessoAtual = NUMVAZIO;
+    cpu->pcProcessoAtual = (int*) malloc(sizeof(int));
     *(cpu->pcProcessoAtual) = NUMVAZIO;
 
     cpu->programaProcessoAtual = NULL;

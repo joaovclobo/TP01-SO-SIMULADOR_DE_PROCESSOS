@@ -35,3 +35,5 @@ void trocaDeContexto(GerenciadorProcessos* gerenciador);
 void iniciaProcessoInit(GerenciadorProcessos *gerenciador);
 
 void removeProcessoTabela(ProcessoSimulado *processoEscolhido, GerenciadorProcessos *gerenciador);
+
+void imprimeCPUs_2(GerenciadorProcessos *gerenciador);

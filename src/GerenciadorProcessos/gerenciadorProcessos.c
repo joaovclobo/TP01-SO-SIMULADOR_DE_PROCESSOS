@@ -51,7 +51,7 @@ void gerenciadorProcessos(GerenciadorProcessos *gerenciador, char comando)
 
             // carregaProcesso(gerenciador->cpus[0], buscaProcesso(gerenciador->tabelaProcessos, proxPid));
 
-            escalonaProcessosCPUs(gerenciador);
+            escalonaProcessosCPUs(gerenciador); 
 
             executaCPUs(gerenciador);
             
@@ -72,7 +72,6 @@ void gerenciadorProcessos(GerenciadorProcessos *gerenciador, char comando)
 
             trocaDeContexto(gerenciador);
 
-            //TODO - ESC aqui deve haver uma função que bloqueia/remove os processos
         }
     }
 }
@@ -86,21 +85,25 @@ void encerraUnidadeTempo(GerenciadorProcessos *gerenciador)
 
 void escalonaProcessosCPUs(GerenciadorProcessos* gerenciador)
 {
-    int i = 0;
-    // for (int i = 0; i < gerenciador->numCPUs; i++)
-    // {
-        // if (cpuLivre(gerenciador->cpus[i])
-        // {
-            escalonaProcesso(gerenciador->tabelaProcessos, gerenciador->cpus[i], gerenciador->estadoExecucao+i, gerenciador->estadoPronto, i);
-        // }
-    // }
+    for (int i = 0; i < gerenciador->numCPUs; i++)
+    {
+        if (cpuLivre(gerenciador->cpus[i]) == 1)
+        {
+            if (filasVazias(gerenciador->estadoPronto, NUMCLASPRIORI) == 0)
+            {
+                escalonaProcesso(gerenciador->tabelaProcessos, gerenciador->cpus[i], gerenciador->estadoExecucao+i, gerenciador->estadoPronto, i);
+            }
+        }
+    }
+   imprimeCPUs_2(gerenciador); 
 }
 
 void escalonaProcesso(Lista* tabelaProcessos, CPU* cpu, int* estadoExecucao, TipoFila** estadoPronto, int NUMcpu)   
 {
-    int pidProcesso = desenfileirarFilas(estadoPronto, NUMCLASPRIORI);
-    printf("\n\tTIROU O: %d\n", pidProcesso);
     imprimeFilas(estadoPronto, NUMCLASPRIORI);
+
+    int pidProcesso = desenfileirarFilas(estadoPronto, NUMCLASPRIORI);
+    // printf("\n\tTIROU O: %d\n", pidProcesso);
 
     if (pidProcesso >= 0)
     {
@@ -112,19 +115,6 @@ void escalonaProcesso(Lista* tabelaProcessos, CPU* cpu, int* estadoExecucao, Tip
     }
 }
 
-void trocaDeContexto(GerenciadorProcessos* gerenciador)
-{
-    ProcessoSimulado* processoNaCPU = buscaProcesso(gerenciador->tabelaProcessos, *(gerenciador->cpus[0]->pidProcessoAtual));
-
-    if (processoNaCPU->prioridade < NUMCLASPRIORI-1)
-    {
-        processoNaCPU->prioridade++;
-    }
-
-    Enfileira(processoNaCPU->pid, gerenciador->cpus[0]->fatiaQuantum, gerenciador->estadoPronto[processoNaCPU->prioridade]);
-    printf("\n\tCOLOCOU O: %d\n", processoNaCPU->pid);
-    imprimeFilas(gerenciador->estadoPronto, NUMCLASPRIORI);
-}
 
 void executaCPUs(GerenciadorProcessos* gerenciador)
 {
@@ -147,8 +137,48 @@ void iniciaProcessoInit(GerenciadorProcessos* gerenciador)
     
 }
 
+void trocaDeContexto(GerenciadorProcessos* gerenciador)
+{
+    for (int i = 0; i < gerenciador->numCPUs; i++)
+    {
+        if (!(cpuLivre(gerenciador->cpus[i])))
+        {
+            ProcessoSimulado* processoNaCPU = buscaProcesso(gerenciador->tabelaProcessos, *(gerenciador->cpus[i]->pidProcessoAtual));
+
+            if (processoNaCPU->prioridade < NUMCLASPRIORI-1)
+            {
+                processoNaCPU->prioridade++;
+            }
+
+            Enfileira(processoNaCPU->pid, processoNaCPU->tempoCPU, gerenciador->estadoPronto[processoNaCPU->prioridade]);
+            // printf("\n\tCOLOCOU O: %d\n", processoNaCPU->pid);
+            zeraCPU(gerenciador->cpus[i]);
+            
+        }
+    }
+    imprimeFilas(gerenciador->estadoPronto, NUMCLASPRIORI);
+
+    imprimeCPUs_2(gerenciador);
+}
+
 void removeProcessoTabela(ProcessoSimulado *processoEscolhido, GerenciadorProcessos *gerenciador)
 {
     gerenciador->tempoTotalExecucao += processoEscolhido->tempoCPU;
     removeTabela(gerenciador->tabelaProcessos, processoEscolhido->pid);
+}
+
+void imprimeCPUs_2(GerenciadorProcessos *gerenciador)
+{
+    for (int i = 0; i < gerenciador->numCPUs; i++)
+    {
+        printf("\n>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> CPU %d <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<\n", i);
+        if (cpuLivre(gerenciador->cpus[i]))
+        {
+            printf("\n->> CPU LIVRE\n");
+        }
+        else
+        {
+            imprimeCPU_2(gerenciador->cpus[i]);
+        }
+    }
 }
