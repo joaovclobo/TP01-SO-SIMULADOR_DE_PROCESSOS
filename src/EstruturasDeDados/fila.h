@@ -22,11 +22,12 @@ typedef struct TipoFila
     int Tamanho;
 }TipoFila;
 
-// TipoFila* InicializaFila();
-
-TipoFila* CriaFila();
-int Vazia(TipoFila* Fila);
+TipoFila* criaFila();
+int filaVazia(TipoFila* Fila);
 void Enfileira(int pid, int tempoExecutado, TipoFila *Fila);
-void imprimeFila(TipoFila *fila);
+
 int Desenfileirar(TipoFila* fila);
 PidTempo criaCelulaPidTempo(int PID, int tempoExecutado);
+
+void imprimeFila(TipoFila *fila);
+void imprimeFilas(TipoFila** filas, int numFilas);

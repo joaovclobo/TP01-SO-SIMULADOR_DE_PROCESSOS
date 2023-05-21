@@ -1,10 +1,8 @@
 #include "gerenciadorProcessos.h"
 
-GerenciadorProcessos* inicializaGerenciador(int numCPUs, int tipoEscalonamento)
+GerenciadorProcessos* inicializaGerenciador(int numCPUs)
 {
     GerenciadorProcessos *gerenciador = (GerenciadorProcessos*) malloc(sizeof(GerenciadorProcessos));
-    //TODO - ESC - Decidir se o escalonamento ficará assim
-    gerenciador->tipoEscalonamento = tipoEscalonamento;
 
     gerenciador->tempo = 0;
     gerenciador->quantidadeProcessosIniciados = 0;
@@ -22,18 +20,19 @@ GerenciadorProcessos* inicializaGerenciador(int numCPUs, int tipoEscalonamento)
     }
 
     gerenciador->tabelaProcessos = criaLista();
-  
-    // TODO - ESC ver este if
-    if(tipoEscalonamento == 1)
-    {
-        gerenciador->estadoPronto = CriaFila();
 
+    gerenciador->estadoPronto = (TipoFila**)malloc(sizeof(TipoFila*)*NUMCLASPRIORI);
+  
+    for (int i = 0; i < NUMCLASPRIORI; i++)
+    {
+        gerenciador->estadoPronto[i] = criaFila();
     }
 
-    gerenciador->estadoBloqueado = CriaFila();
+    gerenciador->estadoBloqueado = criaFila();
 
     return gerenciador;
 }
+
 
 void gerenciadorProcessos(GerenciadorProcessos *gerenciador, char comando)
 {
@@ -57,7 +56,7 @@ void gerenciadorProcessos(GerenciadorProcessos *gerenciador, char comando)
             escalonaProcessosCPUs(gerenciador, gerenciador->tempo);
             
             executaCPUs(gerenciador);
-    
+
             //TODO - ESC aqui deve haver uma função que bloqueia/remove os processos
         }
     }
@@ -124,7 +123,7 @@ void executaCPUs(GerenciadorProcessos* gerenciador)
         //Se a CPU não esta livre, ou seja carregada com um processo, ela executa o próximo comando do processo dela
         if (!(cpuLivre(gerenciador->cpus[i])))
         {   
-            executaProxInstrucao(gerenciador->cpus[i], gerenciador->tempo, gerenciador->tabelaProcessos, &gerenciador->quantidadeProcessosIniciados);
+            executaProxInstrucao(gerenciador->cpus[i], gerenciador->tempo, gerenciador->tabelaProcessos, &gerenciador->quantidadeProcessosIniciados, gerenciador->estadoPronto);
         }
     }
 }
@@ -132,10 +131,9 @@ void executaCPUs(GerenciadorProcessos* gerenciador)
 void iniciaProcessoInit(GerenciadorProcessos* gerenciador)
 {
     ProcessoSimulado* processoInit = criaProcessoInit(gerenciador->tempo);
-    Enfileira(processoInit->pid, processoInit->tempoCPU, gerenciador->estadoPronto);
+    Enfileira(processoInit->pid, processoInit->tempoCPU, gerenciador->estadoPronto[0]);
     insereTabela(gerenciador->tabelaProcessos, processoInit);
     gerenciador->quantidadeProcessosIniciados+=1;
-    imprimeFila(gerenciador->estadoPronto);
     
 }
 

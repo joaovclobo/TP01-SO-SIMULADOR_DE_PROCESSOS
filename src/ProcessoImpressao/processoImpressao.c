@@ -11,7 +11,7 @@ int menuImpressao()
     scanf(" %d", &opcao);
 
     //TODO - tirar isto
-    opcao = 1; 
+    // opcao = 1; 
     printf("\n\n");
     return opcao;
 }
@@ -43,7 +43,7 @@ void imprimirGerenciadorProcessos(GerenciadorProcessos *gerenciador)
         scanf(" %d%*[^\n]", &opcao);
 
         //TODO - tirar isto
-        opcao = 1;
+        // opcao = 1;
 
         if (opcao == 1)
         {
@@ -56,11 +56,13 @@ void imprimirGerenciadorProcessos(GerenciadorProcessos *gerenciador)
         else if (opcao == 3)
         {
             printf("\n\nProcessos em estado bloqueado:");
-            // imprimirFila(bloqueados);
+            imprimeFila(gerenciador->estadoBloqueado);
         }
         else if (opcao == 4)
         {
             printf("\n\nProcessos em estado pronto:");
+            imprimeFilas(gerenciador->estadoPronto, NUMCLASPRIORI);
+
             // TODO: buscar na tabela de processos qual tem o mesmo ID do que está em cada posição e ir imprimindo
             //       a cada busca, utilizando a função imprimeProcesso -> localizada aqui no impressão mesmo
         }
@@ -149,9 +151,11 @@ void impressaoArquivo(GerenciadorProcessos *gerenciador)
 {
     printf("\n\n>>>>>>> GERENCIADOR DE PROCESSOS <<<<<<<\n\n");
     printf("\n°° Tempo de uso do sistema no momento atual: %d unidades de tempo", gerenciador->tempo);
+    printf("\n\n°° Processos em estado bloqueado:");
+    imprimeFila(gerenciador->estadoBloqueado);
+    printf("\n\n°° Processos em estado pronto:");
+    imprimeFilas(gerenciador->estadoPronto, NUMCLASPRIORI);
     //TODO - DESCOMENTAR ISTO
-    // printf("\n\n°° Processos em estado bloqueado:");
-    // printf("\n\n°° Processos em estado pronto:");
     // printf("\n\n°° Quantidade de processos executados até o momento: %d", gerenciador->quantidadeProcessosIniciados);
     imprimeCPUs(gerenciador);
     imprimeTabelaProcessos(gerenciador);
@@ -161,7 +165,7 @@ void imprimeCPUs(GerenciadorProcessos *gerenciador)
 {
     for (int i = 0; i < gerenciador->numCPUs; i++)
     {
-        printf("\n\n>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> CPU %d <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<", i);
+        printf("\n>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> CPU %d <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<", i);
         if (cpuLivre(gerenciador->cpus[i]))
         {
             printf("\n->> CPU LIVRE\n");

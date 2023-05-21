@@ -15,8 +15,7 @@ int main(int argc, char **argv)
     char comando = '!';
     FILE *arquivoDeEntrada;
     int numCPUs = atoi(argv[1]);
-    int tipoEscalonamento = atoi(argv[2]);
-    GerenciadorProcessos *gerenciador = inicializaGerenciador(numCPUs, tipoEscalonamento);
+    GerenciadorProcessos *gerenciador = inicializaGerenciador(numCPUs);
 
     int opcao = MenuInicial(&arquivoDeEntrada);
     int opcaoImpressao = 0;

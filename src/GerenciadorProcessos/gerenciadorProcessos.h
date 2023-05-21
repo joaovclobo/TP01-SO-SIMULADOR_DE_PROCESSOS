@@ -1,5 +1,7 @@
 #include "../Pipe/pipe.h"
 #include "cpu.h"
+#include <math.h>
+#define NUMCLASPRIORI 4
 
 typedef struct GerenciadorProcessos
 {
@@ -11,12 +13,11 @@ typedef struct GerenciadorProcessos
     CPU** cpus;
     int numCPUs;
     Lista *tabelaProcessos;
-    // TODO - ESC descomentar isto
-    TipoFila *estadoPronto;
-    TipoFila *estadoBloqueado;
+    TipoFila** estadoPronto;
+    TipoFila* estadoBloqueado;
 } GerenciadorProcessos;
 
-GerenciadorProcessos* inicializaGerenciador(int numCPUs, int tipoEscalonamento);
+GerenciadorProcessos* inicializaGerenciador(int numCPUs);
 void gerenciadorProcessos(GerenciadorProcessos* gerenciador, char comando);
 void encerraUnidadeTempo(GerenciadorProcessos *gerenciador);
 

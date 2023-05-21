@@ -1,6 +1,6 @@
 #include "fila.h"
 
-TipoFila* CriaFila()
+TipoFila* criaFila()
 {
     TipoFila* fila = (TipoFila*) malloc(sizeof(TipoFila));
     
@@ -12,9 +12,9 @@ TipoFila* CriaFila()
     return fila;
 } 
 
-int Vazia(TipoFila* Fila)
-{
-    return (Fila->Frente == Fila->Tras);
+int filaVazia(TipoFila* Fila)
+{   
+    return (Fila->Tamanho == 0);
 }
 
 void Enfileira(int pid, int tempoExecutado, TipoFila *Fila)
@@ -38,7 +38,7 @@ void Enfileira(int pid, int tempoExecutado, TipoFila *Fila)
 
 int Desenfileirar(TipoFila* fila)
 {
-    if (Vazia(fila)) {
+    if (filaVazia(fila)) {
         printf("Erro: a fila está vazia\n");
         exit(1);
     }
@@ -63,10 +63,41 @@ PidTempo criaCelulaPidTempo(int PID, int tempoExecutado)
     return celula;
 }
 
-void imprimeFila(TipoFila *fila) {
-    Celula_str *celula = fila->Frente;
-    while (celula != NULL) {
-        printf("\nPid: %d, Tempo: %d", celula->pidTempo.pid, celula->pidTempo.tempoExecutado);
-        celula = celula->Prox;
+void imprimeFila(TipoFila *fila)
+{
+    if (filaVazia(fila))
+    {
+        printf("Fila Vazia!\n");
+
+    } else
+    {
+        Celula_str *celula = fila->Frente;
+        while (celula != NULL) {
+            printf("\nPid: %d, Tempo: %d", celula->pidTempo.pid, celula->pidTempo.tempoExecutado);
+            celula = celula->Prox;
+        }
+    }
+}
+
+void imprimeFilas(TipoFila** filas, int numFilas)
+{
+    for (int i = 0; i < numFilas; i++)
+    {
+        TipoFila* fila = filas[i];
+
+        printf("\nFila nº %d:", i);
+
+        if (filaVazia(fila))
+        {
+            printf("\nFila Vazia!\n");
+
+        } else
+        {
+            Celula_str *celula = fila->Frente;
+            while (celula != NULL) {
+                printf("\n   Pid: %d, Tempo: %d", celula->pidTempo.pid, celula->pidTempo.tempoExecutado);
+                celula = celula->Prox;
+            }
+        }
     }
 }

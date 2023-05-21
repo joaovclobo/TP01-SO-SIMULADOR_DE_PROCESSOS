@@ -28,7 +28,7 @@ void carregaProcesso(CPU* cpu, ProcessoSimulado* processoAtual)
 
 }
 
-void executaProxInstrucao(CPU* cpu, int tempoAtualSistema, Lista* tabelaProcessos, int* quantidadeProcessosIniciados)
+void executaProxInstrucao(CPU* cpu, int tempoAtualSistema, Lista* tabelaProcessos, int* quantidadeProcessosIniciados, TipoFila** estadoPronto)
 {   
     char tipo = ((*cpu->programaProcessoAtual)[*cpu->pcProcessoAtual]).tipoDeInstrucao;
     int paramNum1 = ((*cpu->programaProcessoAtual)[*cpu->pcProcessoAtual]).parametroNumerico1;
@@ -65,7 +65,7 @@ void executaProxInstrucao(CPU* cpu, int tempoAtualSistema, Lista* tabelaProcesso
         break;
     
     case 'F':
-        instrucaoF(paramNum1, cpu->pidProcessoAtual, cpu->pcProcessoAtual, quantidadeProcessosIniciados, tempoAtualSistema, tabelaProcessos);
+        instrucaoF(paramNum1, cpu->pidProcessoAtual, cpu->pcProcessoAtual, quantidadeProcessosIniciados, tempoAtualSistema, tabelaProcessos, estadoPronto);
         break;
 
     case 'R':
@@ -148,16 +148,15 @@ void instrucaoS(int x, int n, int *arrVariaveis){
 //     //	Termina o processo (Manda “encerrei” p/ o gerenciador de processo).
 // }
 
-void instrucaoF(int n, int* pidProcessoAtual, int* pcProcessoAtual, int* quantidadeProcessosIniciados, int tempoAtualSistema, Lista* tabelaProcessos)
+void instrucaoF(int n, int* pidProcessoAtual, int* pcProcessoAtual, int* quantidadeProcessosIniciados, int tempoAtualSistema, Lista* tabelaProcessos, TipoFila** estadoPronto)
 {
 
     ProcessoSimulado* processoPai = buscaProcesso(tabelaProcessos, *pidProcessoAtual);
     ProcessoSimulado* processoFilho = copiaProcesso(*processoPai, tempoAtualSistema, maiorPIDTabela(tabelaProcessos)+1);
 
     insereTabela(tabelaProcessos, processoFilho);
+    Enfileira(processoFilho->pid, processoPai->tempoCPU, estadoPronto[processoFilho->prioridade]);
     quantidadeProcessosIniciados += 1;
-
-    //imprimeTabela(tabelaProcessos);
 
     *pcProcessoAtual += n;
 
