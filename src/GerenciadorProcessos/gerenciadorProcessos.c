@@ -57,6 +57,7 @@ void gerenciadorProcessos(GerenciadorProcessos *gerenciador, char comando)
             escalonaProcessosCPUs(gerenciador, gerenciador->tempo);
             
             executaCPUs(gerenciador);
+    
             //TODO - ESC aqui deve haver uma função que bloqueia/remove os processos
         }
     }

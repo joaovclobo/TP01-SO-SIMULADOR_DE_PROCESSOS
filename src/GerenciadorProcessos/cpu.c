@@ -77,6 +77,7 @@ void executaProxInstrucao(CPU* cpu, int tempoAtualSistema, Lista* tabelaProcesso
     }
 
     *(cpu->pcProcessoAtual) += 1;
+    cpu->fatiaQuantum++;
 }
 
 int cpuLivre(CPU* cpu)
