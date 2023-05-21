@@ -151,7 +151,7 @@ void impressaoArquivo(GerenciadorProcessos *gerenciador)
 {
     printf("\n\n>>>>>>> GERENCIADOR DE PROCESSOS <<<<<<<\n\n");
     printf("\n°° Tempo de uso do sistema no momento atual: %d unidades de tempo", gerenciador->tempo);
-    printf("\n\n°° Processos em estado bloqueado:");
+    printf("\n\n°° Processos em estado bloqueado:\n");
     imprimeFila(gerenciador->estadoBloqueado);
     printf("\n\n°° Processos em estado pronto:");
     imprimeFilas(gerenciador->estadoPronto, NUMCLASPRIORI);

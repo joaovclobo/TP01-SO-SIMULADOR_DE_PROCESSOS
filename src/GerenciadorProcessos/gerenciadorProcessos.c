@@ -36,7 +36,7 @@ GerenciadorProcessos* inicializaGerenciador(int numCPUs)
 void iniciaProcessoInit(GerenciadorProcessos* gerenciador)
 {
     ProcessoSimulado* processoInit = criaProcessoInit(gerenciador->tempo);
-    Enfileira(processoInit->pid, processoInit->tempoCPU, gerenciador->estadoPronto[0]);
+    Enfileira(processoInit->pid, NUMVAZIO, gerenciador->estadoPronto[0]);
     insereTabela(gerenciador->tabelaProcessos, processoInit);
     gerenciador->quantidadeProcessosIniciados+=1;
     
@@ -80,6 +80,8 @@ void encerraUnidadeTempo(GerenciadorProcessos *gerenciador)
 
 void escalonaProcessosCPUs(GerenciadorProcessos* gerenciador)
 {
+    verificaBloqueados(gerenciador);
+
     for (int i = 0; i < gerenciador->numCPUs; i++)
     {
         if (cpuLivre(gerenciador->cpus[i]) == 1)
@@ -90,12 +92,12 @@ void escalonaProcessosCPUs(GerenciadorProcessos* gerenciador)
             }
         }
     }
-        printf("\t\tDepois de escalonado:\n"); imprimeCPUs_2(gerenciador); 
+                            // printf("\t\tDepois de escalonado:\n"); imprimeCPUs_2(gerenciador); 
 }
 
 void escalonaProcesso(Lista* tabelaProcessos, CPU* cpu, int* estadoExecucao, TipoFila** estadoPronto, int NUMcpu)   
 {
-        imprimeFilas(estadoPronto, NUMCLASPRIORI);
+                            // imprimeFilas(estadoPronto, NUMCLASPRIORI);
 
     int pidProcesso = desenfileirarFilas(estadoPronto, NUMCLASPRIORI);
 
@@ -109,7 +111,6 @@ void escalonaProcesso(Lista* tabelaProcessos, CPU* cpu, int* estadoExecucao, Tip
     }
 }
 
-
 void executaCPUs(GerenciadorProcessos* gerenciador)
 {
     for (int i = 0; i < gerenciador->numCPUs; i++)
@@ -117,10 +118,10 @@ void executaCPUs(GerenciadorProcessos* gerenciador)
         //Se a CPU não esta livre, ou seja carregada com um processo, ela executa o próximo comando do processo dela
         if (!(cpuLivre(gerenciador->cpus[i])))
         {   
-            executaProxInstrucao(gerenciador->cpus[i], gerenciador->tempo, gerenciador->tabelaProcessos, &gerenciador->quantidadeProcessosIniciados, gerenciador->estadoPronto);
+            executaProxInstrucao(gerenciador->cpus[i], gerenciador->tempo, gerenciador->tabelaProcessos, &gerenciador->quantidadeProcessosIniciados, gerenciador->estadoPronto, gerenciador->estadoBloqueado);
         }
     }
-        printf("\t\tDepois de EXECUTADO:\n"); imprimeCPUs_2(gerenciador); 
+                            // printf("\t\tDepois de EXECUTADO:\n"); imprimeCPUs_2(gerenciador); 
 
 }
 
@@ -133,9 +134,9 @@ void trocaDeContexto(GerenciadorProcessos* gerenciador)
             removeProcessoCPU(gerenciador->cpus[i], gerenciador->tabelaProcessos, gerenciador->estadoPronto);
         }
     }
-        imprimeFilas(gerenciador->estadoPronto, NUMCLASPRIORI);
+                            // imprimeFilas(gerenciador->estadoPronto, NUMCLASPRIORI);
 
-        printf("\t\tDepois da TROCA DE CONTEXTO:\n"); imprimeCPUs_2(gerenciador); 
+                            // printf("\t\tDepois da TROCA DE CONTEXTO:\n"); imprimeCPUs_2(gerenciador); 
 }
 
 void removeProcessoCPU(CPU* cpu, Lista* tabelaProcessos, TipoFila** estadoPronto)
@@ -152,9 +153,29 @@ void removeProcessoCPU(CPU* cpu, Lista* tabelaProcessos, TipoFila** estadoPronto
         }
         processoNaCPU->tempoCPU += cpu->fatiaQuantum;
 
-        Enfileira(processoNaCPU->pid, processoNaCPU->tempoCPU, estadoPronto[processoNaCPU->prioridade]);
+        Enfileira(processoNaCPU->pid, NUMVAZIO, estadoPronto[processoNaCPU->prioridade]);
         zeraCPU(cpu);
     }            
+}
+
+void verificaBloqueados(GerenciadorProcessos* gerenciador)
+{
+    for (int i = 0; i < gerenciador->estadoBloqueado->Tamanho; i++)
+    {
+        PidTempo* pidTempo = desenfileirar(gerenciador->estadoBloqueado);
+
+        pidTempo->tempoExecutado--;
+
+        if (pidTempo->tempoExecutado <= 0)
+        {
+            ProcessoSimulado* processo = buscaProcesso(gerenciador->tabelaProcessos, pidTempo->pid);
+            Enfileira(pidTempo->pid, NUMVAZIO, gerenciador->estadoPronto[processo->prioridade]);
+        }
+        else
+        {
+            Enfileira(pidTempo->pid, pidTempo->tempoExecutado, gerenciador->estadoBloqueado);
+        }
+    }
 }
 
 void removeProcessoTabela(ProcessoSimulado *processoEscolhido, GerenciadorProcessos *gerenciador)

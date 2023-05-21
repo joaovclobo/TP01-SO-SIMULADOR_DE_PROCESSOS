@@ -29,7 +29,8 @@ int filasVazias(TipoFila** filas, int numFilas);
 
 void Enfileira(int pid, int tempoExecutado, TipoFila *Fila);
 
-int desenfileirar(TipoFila* fila);
+PidTempo* desenfileirar(TipoFila* fila);
+int desenfileirarPID(TipoFila* fila);
 int desenfileirarFilas(TipoFila** filas, int numFilas);
 
 PidTempo criaCelulaPidTempo(int PID, int tempoExecutado);

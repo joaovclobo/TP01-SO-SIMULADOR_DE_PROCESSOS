@@ -50,7 +50,31 @@ void Enfileira(int pid, int tempoExecutado, TipoFila *Fila)
     Fila->Tamanho++;
 }
 
-int desenfileirar(TipoFila* fila)
+PidTempo* desenfileirar(TipoFila* fila)
+{
+    if (filaVazia(fila)) {
+        return NULL;
+    }
+
+    PidTempo* pidTempoRemovido = (PidTempo*) malloc(sizeof(PidTempo));
+
+    pidTempoRemovido->pid = fila->Frente->pidTempo.pid;
+    pidTempoRemovido->tempoExecutado = fila->Frente->pidTempo.tempoExecutado;
+    Celula_str* celulaRemovida = fila->Frente;
+
+    fila->Frente = fila->Frente->Prox;
+    free(celulaRemovida);
+
+    if (fila->Frente == NULL) {
+        fila->Tras = NULL;
+    }
+
+    fila->Tamanho--;
+
+    return pidTempoRemovido;
+}
+
+int desenfileirarPID(TipoFila* fila)
 {
     if (filaVazia(fila)) {
         return -1;
@@ -77,7 +101,7 @@ int desenfileirarFilas(TipoFila** filas, int numFilas)
 
     while (pidProcessoRemovido == -1 && i < numFilas)
     {
-        pidProcessoRemovido = desenfileirar(filas[i]);
+        pidProcessoRemovido = desenfileirarPID(filas[i]);
         if (pidProcessoRemovido >= 0)
         {
             return pidProcessoRemovido;

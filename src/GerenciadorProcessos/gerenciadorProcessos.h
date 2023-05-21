@@ -35,6 +35,8 @@ void trocaDeContexto(GerenciadorProcessos* gerenciador);
 
 void removeProcessoCPU(CPU* cpu, Lista* tabelaProcessos, TipoFila** estadoPronto);
 
+void verificaBloqueados(GerenciadorProcessos* gerenciador);
+
 void iniciaProcessoInit(GerenciadorProcessos *gerenciador);
 
 void removeProcessoTabela(ProcessoSimulado *processoEscolhido, GerenciadorProcessos *gerenciador);

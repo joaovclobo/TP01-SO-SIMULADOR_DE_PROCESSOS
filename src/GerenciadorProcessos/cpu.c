@@ -28,7 +28,8 @@ void carregaProcesso(CPU* cpu, ProcessoSimulado* processoAtual)
 
 }
 
-void executaProxInstrucao(CPU* cpu, int tempoAtualSistema, Lista* tabelaProcessos, int* quantidadeProcessosIniciados, TipoFila** estadoPronto)
+void executaProxInstrucao(CPU* cpu, int tempoAtualSistema, Lista* tabelaProcessos,
+                             int* quantidadeProcessosIniciados, TipoFila** estadoPronto, TipoFila* estadoBloqueado)
 {   
     char tipo = ((*cpu->programaProcessoAtual)[*cpu->pcProcessoAtual]).tipoDeInstrucao;
     int paramNum1 = ((*cpu->programaProcessoAtual)[*cpu->pcProcessoAtual]).parametroNumerico1;
@@ -59,6 +60,7 @@ void executaProxInstrucao(CPU* cpu, int tempoAtualSistema, Lista* tabelaProcesso
         break;
     
     case 'B':
+        instrucaoB(paramNum1, cpu->pidProcessoAtual, estadoBloqueado);
         break;
 
     case 'T':
@@ -151,15 +153,10 @@ void instrucaoS(int x, int n, int *arrVariaveis){
     arrVariaveis[x] -= n;
 }
 
-// int instrucaoB(int n)
-// {
-//     // TO DO: escalonador responsavel por mudar o processo de bloqueado para pronto e de pronto
-//     // para em execução
-
-//     // manda um comando para bloquear o processo e esperar n unidades de tempo e
-//     // depois volta ele para “Pronto”. (Simula entrada e saída?)
-//     //chamar as funções enfileira dos estadoPronto e estadoBloqueado?
-// }
+int instrucaoB(int n, int* pidProcessoAtual, TipoFila* estadoBloqueado)
+{
+    Enfileira(*pidProcessoAtual, n, estadoBloqueado);
+}
 
 // void instrucaoT()
 // {
