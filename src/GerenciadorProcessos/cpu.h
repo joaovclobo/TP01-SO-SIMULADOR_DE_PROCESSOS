@@ -27,7 +27,7 @@ void instrucaoD(int x, int *arrVariaveis);
 void instrucaoV(int x, int n, int *arrVariaveis);
 void instrucaoA(int x, int n, int *arrVariaveis);
 void instrucaoS(int x, int n, int *arrVariaveis);
-int instrucaoB(int n, int* pidProcessoAtual, Lista* tabelaProcessos, TipoFila* estadoBloqueado);
+void instrucaoB(int n, int* pidProcessoAtual, Lista* tabelaProcessos, TipoFila* estadoBloqueado);
 void instrucaoT(int* pidProcessoAtual, Lista* tabelaProcessos);
 void instrucaoF(int n, int* pidProcessoAtual, int* pcProcessoAtual, int* quantidadeProcessosIniciados, int tempoAtualSistema, Lista* tabelaProcessos, TipoFila** filaPronto);
 void instrucaoR(char *nomeDoArquivo, Instrucao** arrPrograma, int* pcProcessoAtual);

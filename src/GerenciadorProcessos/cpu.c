@@ -154,7 +154,7 @@ void instrucaoS(int x, int n, int *arrVariaveis){
     arrVariaveis[x] -= n;
 }
 
-int instrucaoB(int n, int* pidProcessoAtual, Lista* tabelaProcessos, TipoFila* estadoBloqueado)
+void instrucaoB(int n, int* pidProcessoAtual, Lista* tabelaProcessos, TipoFila* estadoBloqueado)
 {
     Enfileira(*pidProcessoAtual, n, estadoBloqueado);
     ProcessoSimulado* processo = buscaProcesso(tabelaProcessos, *pidProcessoAtual);

@@ -92,12 +92,10 @@ void escalonaProcessosCPUs(GerenciadorProcessos* gerenciador)
             }
         }
     }
-                            // printf("\t\tDepois de escalonado:\n"); imprimeCPUs_2(gerenciador); 
 }
 
 void escalonaProcesso(Lista* tabelaProcessos, CPU* cpu, int* estadoExecucao, TipoFila** estadoPronto, int NUMcpu)   
 {
-                            // imprimeFilas(estadoPronto, NUMCLASPRIORI);
 
     int pidProcesso = desenfileirarFilas(estadoPronto, NUMCLASPRIORI);
 
@@ -123,8 +121,6 @@ void executaCPUs(GerenciadorProcessos* gerenciador)
             executaProxInstrucao(gerenciador->cpus[i], gerenciador->tempo, gerenciador->tabelaProcessos, &gerenciador->quantidadeProcessosIniciados, gerenciador->estadoPronto, gerenciador->estadoBloqueado);
         }
     }
-                            // printf("\t\tDepois de EXECUTADO:\n"); imprimeCPUs_2(gerenciador); 
-
 }
 
 void trocaDeContexto(GerenciadorProcessos* gerenciador)
@@ -136,9 +132,6 @@ void trocaDeContexto(GerenciadorProcessos* gerenciador)
             removeProcessoCPU(gerenciador->cpus[i], gerenciador->tabelaProcessos, gerenciador->estadoPronto);
         }
     }
-                            // imprimeFilas(gerenciador->estadoPronto, NUMCLASPRIORI);
-
-                            // printf("\t\tDepois da TROCA DE CONTEXTO:\n"); imprimeCPUs_2(gerenciador); 
 }
 
 void removeProcessoCPU(CPU* cpu, Lista* tabelaProcessos, TipoFila** estadoPronto)
