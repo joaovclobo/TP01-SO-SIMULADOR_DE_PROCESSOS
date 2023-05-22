@@ -60,10 +60,11 @@ void executaProxInstrucao(CPU* cpu, int tempoAtualSistema, Lista* tabelaProcesso
         break;
     
     case 'B':
-        instrucaoB(paramNum1, cpu->pidProcessoAtual, estadoBloqueado);
+        instrucaoB(paramNum1, cpu->pidProcessoAtual, tabelaProcessos, estadoBloqueado);
         break;
 
     case 'T':
+        instrucaoT(cpu->pidProcessoAtual, tabelaProcessos);
         break;
     
     case 'F':
@@ -153,15 +154,26 @@ void instrucaoS(int x, int n, int *arrVariaveis){
     arrVariaveis[x] -= n;
 }
 
-int instrucaoB(int n, int* pidProcessoAtual, TipoFila* estadoBloqueado)
+int instrucaoB(int n, int* pidProcessoAtual, Lista* tabelaProcessos, TipoFila* estadoBloqueado)
 {
     Enfileira(*pidProcessoAtual, n, estadoBloqueado);
+    ProcessoSimulado* processo = buscaProcesso(tabelaProcessos, *pidProcessoAtual);
+    processo->estado = BLOQUEADO;
 }
 
-// void instrucaoT()
-// {
-//     //	Termina o processo (Manda “encerrei” p/ o gerenciador de processo).
-// }
+void instrucaoT(int* pidProcessoAtual, Lista* tabelaProcessos)
+{
+    ProcessoSimulado* processoEncerrado = buscaProcesso(tabelaProcessos, *pidProcessoAtual);
+
+    printf("\t\t -------------- AQUI O PROCESSO MORREU -------------- \n");
+
+    free(processoEncerrado->arrPrograma);
+    free(processoEncerrado->arrVariaveis);
+
+    *processoEncerrado->pc = NUMVAZIO-1;
+    processoEncerrado->estado = BLOQUEADO;
+
+}
 
 void instrucaoF(int n, int* pidProcessoAtual, int* pcProcessoAtual, int* quantidadeProcessosIniciados, int tempoAtualSistema, Lista* tabelaProcessos, TipoFila** estadoPronto)
 {

@@ -107,6 +107,8 @@ void escalonaProcesso(Lista* tabelaProcessos, CPU* cpu, int* estadoExecucao, Tip
 
         ProcessoSimulado* proximoProceso = buscaProcesso(tabelaProcessos, pidProcesso);
 
+        proximoProceso->estado = EXECUCAO;
+
         carregaProcesso(cpu, proximoProceso);
     }
 }
@@ -143,19 +145,37 @@ void removeProcessoCPU(CPU* cpu, Lista* tabelaProcessos, TipoFila** estadoPronto
 {
     ProcessoSimulado* processoNaCPU = buscaProcesso(tabelaProcessos, *(cpu->pidProcessoAtual));
 
-    if (cpu->fatiaQuantum >= calcPot(2, processoNaCPU->prioridade)) //Remove se o quantum for maior q o permitido pra classe
+    if (processoNaCPU != NULL)
     {
-        processoNaCPU->estado = PRONTO;
-
-        if (processoNaCPU->prioridade < NUMCLASPRIORI-1)
+        if (cpu->fatiaQuantum >= calcPot(2, processoNaCPU->prioridade)) //Remove se o quantum for maior q o permitido pra classe
         {
-            processoNaCPU->prioridade++;
-        }
-        processoNaCPU->tempoCPU += cpu->fatiaQuantum;
+            processoNaCPU->estado = PRONTO;
 
-        Enfileira(processoNaCPU->pid, NUMVAZIO, estadoPronto[processoNaCPU->prioridade]);
-        zeraCPU(cpu);
-    }            
+            if (processoNaCPU->prioridade < NUMCLASPRIORI-1)
+            {
+                processoNaCPU->prioridade++;
+            }
+            processoNaCPU->tempoCPU += cpu->fatiaQuantum;
+
+            Enfileira(processoNaCPU->pid, NUMVAZIO, estadoPronto[processoNaCPU->prioridade]);
+            zeraCPU(cpu);
+
+        } 
+        else if (processoNaCPU->estado == BLOQUEADO)
+        {
+            processoNaCPU->tempoCPU += cpu->fatiaQuantum;
+            zeraCPU(cpu);
+
+            imprimeTabela(tabelaProcessos);
+
+            //TODO - ESC - VER SE DA PRA MELHORAR ISTO
+            if(*processoNaCPU->pc == NUMVAZIO)
+            {
+                removeTabela(tabelaProcessos, processoNaCPU->pid);
+            }
+            imprimeTabela(tabelaProcessos);
+        }
+    }
 }
 
 void verificaBloqueados(GerenciadorProcessos* gerenciador)

@@ -10,8 +10,6 @@ int menuImpressao()
     printf("Escolha uma opção: ");
     scanf(" %d", &opcao);
 
-    //TODO - tirar isto
-    // opcao = 1; 
     printf("\n\n");
     return opcao;
 }
@@ -41,9 +39,6 @@ void imprimirGerenciadorProcessos(GerenciadorProcessos *gerenciador)
         printf("====================================\n");
         printf("Escolha uma opção: ");
         scanf(" %d%*[^\n]", &opcao);
-
-        //TODO - tirar isto
-        // opcao = 1;
 
         if (opcao == 1)
         {
@@ -152,11 +147,10 @@ void impressaoArquivo(GerenciadorProcessos *gerenciador)
     printf("\n\n>>>>>>> GERENCIADOR DE PROCESSOS <<<<<<<\n\n");
     printf("\n°° Tempo de uso do sistema no momento atual: %d unidades de tempo", gerenciador->tempo);
     printf("\n\n°° Processos em estado bloqueado:\n");
-    imprimeFila(gerenciador->estadoBloqueado);
+        imprimeFila(gerenciador->estadoBloqueado);
     printf("\n\n°° Processos em estado pronto:");
-    imprimeFilas(gerenciador->estadoPronto, NUMCLASPRIORI);
-    //TODO - DESCOMENTAR ISTO
-    // printf("\n\n°° Quantidade de processos executados até o momento: %d", gerenciador->quantidadeProcessosIniciados);
+        imprimeFilas(gerenciador->estadoPronto, NUMCLASPRIORI);
+    printf("\n\n°° Quantidade de processos executados até o momento: %d", gerenciador->quantidadeProcessosIniciados);
     imprimeCPUs(gerenciador);
     imprimeTabelaProcessos(gerenciador);
 }

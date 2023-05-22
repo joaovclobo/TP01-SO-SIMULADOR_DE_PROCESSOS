@@ -40,38 +40,36 @@ ProcessoSimulado* buscaProcesso(Lista* lista, int PID)
     return NULL;
 }
 
-void removeTabela(Lista* lista, int PID)
-{
-    if (listaVazia(lista))
-    {
-        printf("Lista Vazia\n");
+void removeTabela(Lista* lista, int PID) {
+    if (listaVazia(lista)) {
+        printf("Lista vazia. Nenhum processo para remover.\n");
         return;
     }
 
-    Celula *anterior = lista->inicio;
-    Celula *percorre = lista->inicio->proximo;
+    Celula* anterior = lista->inicio;
+    Celula* atual = lista->inicio->proximo;
 
-    while (percorre != NULL)
-    {
-        if (percorre->processo->pid == PID)
-        {
-            anterior->proximo = percorre->proximo;
+    while (atual != NULL) {
+        if (atual->processo->pid == PID) {
+            anterior->proximo = atual->proximo;
 
-            if (percorre == lista->fim)
-            {
+            // Update lista->fim if atual is the last node
+            if (atual == lista->fim) {
                 lista->fim = anterior;
             }
 
-            free(percorre);
+            free(atual);
+            printf("Processo com PID %d removido com sucesso.\n", PID);
             return;
         }
 
-        anterior = percorre;
-        percorre = percorre->proximo;
+        anterior = atual;
+        atual = atual->proximo;
     }
 
-    printf("Processo com PID %d não encontrado na lista\n", PID);
+    printf("Processo com PID %d não encontrado na lista.\n", PID);
 }
+
 
 int maiorPIDTabela(Lista* lista)
 {
@@ -99,25 +97,3 @@ void imprimeTabela(Lista* lista)
         aux = aux->proximo;
     }
 }
-
-// void imprimeTabelaProcesso(Lista *tabelaProcesso)
-// {
-//     //MUDAR PARA Celula *percorre = tabelaProcesso->inicio;
-//     Celula *percorre = tabelaProcesso->inicio;
-//     // printf("+-------+-------+------+------------+------------+--------+---------------+-----------+----------+\n");
-//     // printf("| PID   | PPID  | PC   | Variaveis  | Prioridade | Estado | Tempo Inicial | Tempo CPU | Programa |\n");
-//     // printf("+-------+-------+------+------------+------------+--------+---------------+-----------+----------+\n");
-//     printf(">>>>>>>>>>>>> Tabela de processos: <<<<<<<<<<<<<<<<\n");
-//     while(percorre != NULL)
-//     {
-//         //achar um jeito de printar arrays e estados
-//         //Usar as funções imprime variaveis e imprime estados
-//         ProcessoSimulado *processo = percorre->processo;
-//         // printf("| %d     | %d     | %d  | %c | %d       | %c | %d      | %d  | %c |\n", processo->pid, processo->ppid, *processo->pc, 'a', 
-//         //         processo->prioridade, 'e',processo->tempoInicio, processo->tempoCPU, 'a');
-//         // printf("+-------+-------+------+------------+------------+--------+---------------+-----------+----------+\n");        
-//         imprimeProcesso(*(percorre->processo), 4);
-
-//         percorre = percorre->proximo;
-//     }
-// }
