@@ -70,18 +70,15 @@ void imprimirGerenciadorProcessos(GerenciadorProcessos *gerenciador)
                         processo = buscaProcesso(gerenciador->tabelaProcessos, celula->pidTempo.pid);
                         printf("\n");
                         imprimeInfosGeraisProcesso(processo);
-                        // printf("\n   Pid: %d, Tempo: %d", celula->pidTempo.pid, celula->pidTempo.tempoExecutado);
                         celula = celula->Prox;
                     }
                     putchar('\n');
                 }
-                // imprimeFila(gerenciador->estadoBloqueado);
             }
         }
         else if (opcao == 4)
         {
             printf("\n\nProcessos em estado pronto:");
-            // imprimeFilas(gerenciador->estadoPronto, NUMCLASPRIORI);
             for (int i = 0; i < NUMCLASPRIORI; i++)
             {
                 TipoFila *fila = gerenciador->estadoPronto[i];
