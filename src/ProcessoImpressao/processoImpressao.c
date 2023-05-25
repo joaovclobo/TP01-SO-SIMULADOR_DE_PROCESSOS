@@ -24,6 +24,9 @@ void imprimirEstadoAtualSistema(GerenciadorProcessos *gerenciador)
 void imprimirGerenciadorProcessos(GerenciadorProcessos *gerenciador)
 {
     int opcao = 0;
+    int PID;
+    int opcaoProcesso = 0;
+    ProcessoSimulado *processo;
 
     while (opcao != 8)
     {
@@ -51,12 +54,58 @@ void imprimirGerenciadorProcessos(GerenciadorProcessos *gerenciador)
         else if (opcao == 3)
         {
             printf("\n\nProcessos em estado bloqueado:");
-            imprimeFila(gerenciador->estadoBloqueado);
+            for (int i = 0; i < NUMCLASPRIORI; i++)
+            {
+                printf("\nFila nº %d:", i);
+
+                if (filaVazia(gerenciador->estadoBloqueado))
+                {
+                    printf("\nFila Vazia!\n");
+                }
+                else
+                {
+                    Celula_str *celula = gerenciador->estadoBloqueado->Frente;
+                    while (celula != NULL)
+                    {
+                        processo = buscaProcesso(gerenciador->tabelaProcessos, celula->pidTempo.pid);
+                        printf("\n");
+                        imprimeInfosGeraisProcesso(processo);
+                        // printf("\n   Pid: %d, Tempo: %d", celula->pidTempo.pid, celula->pidTempo.tempoExecutado);
+                        celula = celula->Prox;
+                    }
+                    putchar('\n');
+                }
+                // imprimeFila(gerenciador->estadoBloqueado);
+            }
         }
         else if (opcao == 4)
         {
             printf("\n\nProcessos em estado pronto:");
-            imprimeFilas(gerenciador->estadoPronto, NUMCLASPRIORI);
+            // imprimeFilas(gerenciador->estadoPronto, NUMCLASPRIORI);
+            for (int i = 0; i < NUMCLASPRIORI; i++)
+            {
+                TipoFila *fila = gerenciador->estadoPronto[i];
+
+                printf("\nFila nº %d:", i);
+
+                if (filaVazia(fila))
+                {
+                    printf("\nFila Vazia!\n");
+                }
+                else
+                {
+                    Celula_str *celula = fila->Frente;
+                    while (celula != NULL)
+                    {
+                        processo = buscaProcesso(gerenciador->tabelaProcessos, celula->pidTempo.pid);
+                        printf("\n");
+                        imprimeInfosGeraisProcesso(processo);
+                        // printf("\n   Pid: %d, Tempo: %d", celula->pidTempo.pid, celula->pidTempo.tempoExecutado);
+                        celula = celula->Prox;
+                    }
+                    putchar('\n');
+                }
+            }
 
             // TODO: buscar na tabela de processos qual tem o mesmo ID do que está em cada posição e ir imprimindo
             //       a cada busca, utilizando a função imprimeProcesso -> localizada aqui no impressão mesmo
@@ -71,10 +120,6 @@ void imprimirGerenciadorProcessos(GerenciadorProcessos *gerenciador)
         }
         else if (opcao == 7)
         {
-            int PID;
-            int opcaoProcesso = 0;
-            ProcessoSimulado *processo;
-
             imprimeTabelaProcessos(gerenciador);
             printf("\n");
             printf("Deseja imprimir informações mais detalhadas sobre algum processo (0-NÃO/1-SIM): ");
@@ -147,9 +192,9 @@ void impressaoArquivo(GerenciadorProcessos *gerenciador)
     printf("\n\n>>>>>>> GERENCIADOR DE PROCESSOS <<<<<<<\n\n");
     printf("\n°° Tempo de uso do sistema no momento atual: %d unidades de tempo", gerenciador->tempo);
     printf("\n\n°° Processos em estado bloqueado:\n");
-        imprimeFila(gerenciador->estadoBloqueado);
+    imprimeFila(gerenciador->estadoBloqueado);
     printf("\n\n°° Processos em estado pronto:");
-        imprimeFilas(gerenciador->estadoPronto, NUMCLASPRIORI);
+    imprimeFilas(gerenciador->estadoPronto, NUMCLASPRIORI);
     printf("\n\n°° Quantidade de processos executados até o momento: %d", gerenciador->quantidadeProcessosIniciados);
     imprimeCPUs(gerenciador);
     imprimeTabelaProcessos(gerenciador);

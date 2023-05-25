@@ -165,7 +165,7 @@ void instrucaoT(int* pidProcessoAtual, Lista* tabelaProcessos)
 {
     ProcessoSimulado* processoEncerrado = buscaProcesso(tabelaProcessos, *pidProcessoAtual);
 
-    printf("\t\t -------------- AQUI O PROCESSO MORREU -------------- \n");
+    // printf("\t\t -------------- AQUI O PROCESSO MORREU -------------- \n");
 
     free(processoEncerrado->arrPrograma);
     free(processoEncerrado->arrVariaveis);
