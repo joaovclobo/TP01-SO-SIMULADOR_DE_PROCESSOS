@@ -58,7 +58,6 @@ void removeTabela(Lista* lista, int PID) {
             }
 
             free(atual);
-            printf("Processo com PID %d removido com sucesso.\n", PID);
             return;
         }
 

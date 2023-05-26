@@ -19,7 +19,6 @@ int main(int argc, char **argv)
     GerenciadorProcessos *gerenciador = inicializaGerenciador(numCPUs, quantum);
 
     int opcao = MenuInicial(&arquivoDeEntrada);
-    int opcaoImpressao = 0;
     int PID;
     int status;
 
@@ -111,15 +110,8 @@ int main(int argc, char **argv)
                     else
                     {
                         // PROCESSO IMPRESSÃO
-                        while (opcaoImpressao != 2)
-                        {
-                            opcaoImpressao = menuImpressao();
-
-                            if (opcaoImpressao == 1)
-                            {
-                                imprimirGerenciadorProcessos(gerenciador);
-                            }
-                        }
+                        
+                        imprimirGerenciadorProcessos(gerenciador);
 
                         exit(0); // VOLTA PARA O WAIT(NULL)
                     }

@@ -3,8 +3,6 @@
 #include <string.h>
 #include "../GerenciadorProcessos/gerenciadorProcessos.h"
 
-int menuImpressao();
-
 int numeroVariaveisProcesso(Instrucao *arrPrograma);
 
 void impressaoArquivo(GerenciadorProcessos *gerenciador);

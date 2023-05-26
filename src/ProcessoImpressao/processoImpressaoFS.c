@@ -1,19 +1,5 @@
 #include "processoImpressaoFS.h"
 
-int menuImpressao()
-{
-    int opcao = 0;
-    printf("\n\n======== MENU DE IMPRESSAO ========\n");
-    printf("1 - Imprimir gerenciador de processos\n");
-    printf("2 - Sair do menu impressão\n");
-    printf("====================================\n");
-    printf("Escolha uma opção: ");
-    scanf(" %d", &opcao);
-
-    printf("\n\n");
-    return opcao;
-}
-
 void imprimirEstadoAtualSistema(GerenciadorProcessos *gerenciador)
 {
     printf("\n\n╒══════════════════════════════════════════════════════╡ ESTADO DO SISTEMA ╞════════════════════════════════════════════════════════╕\n\n"); 
@@ -30,7 +16,7 @@ void imprimirGerenciadorProcessos(GerenciadorProcessos *gerenciador)
 
     while (opcao != 8)
     {
-        printf("\n\n>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> GERENCIADOR DE PROCESSOS <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<\n\n");
+        printf("\n\n>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> MENU DE IMPRESSAO <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<\n\n");
         printf("1 - Estado atual do sistema\n");
         printf("2 - Tempo de uso atual do sistema\n");
         printf("3 - Processos em estado bloqueado\n");
@@ -180,7 +166,7 @@ void impressaoArquivo(GerenciadorProcessos *gerenciador)
     imprimeFila(gerenciador->estadoBloqueado);
     printf("\n\n°° Processos em estado pronto:");
     imprimeFila(gerenciador->estadoProntoFS);
-    printf("\n\n°° Quantidade de processos executados até o momento: %d", gerenciador->quantidadeProcessosIniciados);
+    printf("\n\n°° Quantidade de processos executados até o momento: %d\nw", gerenciador->quantidadeProcessosIniciados);
     imprimeCPUs(gerenciador);
     imprimeTabelaProcessos(gerenciador);
     printf("╘═══════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════╛\n");

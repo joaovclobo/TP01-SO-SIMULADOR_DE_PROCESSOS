@@ -1,5 +1,0 @@
-#include "lerArquivo.h"
-
-lerArquivoPrincipal(){
-
-}
