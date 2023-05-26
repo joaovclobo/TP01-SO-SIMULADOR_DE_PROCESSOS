@@ -136,11 +136,11 @@ void imprimeEstado(Estado estado)
             break;
 
         case EXECUCAO:
-            printf("Estado: EXECUCAO | ");
+            printf("Estado: EXECUCAO  | ");
             break;
 
         case PRONTO:
-            printf("Estado: PRONTO | ");
+            printf("Estado: PRONTO    | ");
             break;
             
         default:

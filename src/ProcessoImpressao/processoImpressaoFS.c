@@ -16,7 +16,7 @@ int menuImpressao()
 
 void imprimirEstadoAtualSistema(GerenciadorProcessos *gerenciador)
 {
-    printf("\n\n>>>>>>> ESTADO ATUAL DO SISTEMA <<<<<<<\n\n");
+    printf("\n\n╒══════════════════════════════════════════════════════╡ ESTADO DO SISTEMA ╞════════════════════════════════════════════════════════╕\n\n"); 
     printf("\n\nTempo de uso do sistema no momento atual: %d unidades de tempo\n", gerenciador->tempo);
     imprimeCPUs(gerenciador);
 }
@@ -30,20 +30,18 @@ void imprimirGerenciadorProcessos(GerenciadorProcessos *gerenciador)
 
     while (opcao != 8)
     {
-        printf("\n\n>>>>>>> GERENCIADOR DE PROCESSOS <<<<<<<\n\n");
+        printf("\n\n>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> GERENCIADOR DE PROCESSOS <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<\n\n");
         printf("1 - Estado atual do sistema\n");
         printf("2 - Tempo de uso atual do sistema\n");
         printf("3 - Processos em estado bloqueado\n");
         printf("4 - Processos em estado pronto\n");
         printf("5 - Quantidade de processos executados até o momento\n");
-        printf("6 - Informações sobre a CPU no momento atual\n");
+        printf("6 - Informações sobre a/as CPU no momento atual\n");
         printf("7 - Informações sobre a Tabela de Processos no momento atual\n");
         printf("8 - Retornar ao menu de impressão\n");
-        printf("====================================\n");
+        printf("=============================================================\n");
         printf("Escolha uma opção: ");
         scanf(" %d%*[^\n]", &opcao);
-
-        printf("\n+-----------------------------------------------------------------------------------------------------------------------------+");        
 
         if (opcao == 1)
         {
@@ -59,7 +57,7 @@ void imprimirGerenciadorProcessos(GerenciadorProcessos *gerenciador)
 
             if (filaVazia(gerenciador->estadoBloqueado))
             {
-                printf("\nFila Vazia!\n");
+                printf("\n\tFila Vazia!\n");
             }
             else
             {
@@ -81,7 +79,7 @@ void imprimirGerenciadorProcessos(GerenciadorProcessos *gerenciador)
 
             if (filaVazia(fila))
             {
-                printf("\nFila Vazia!\n");
+                printf("\n\tFila Vazia!\n");
             }
             else
             {
@@ -123,7 +121,6 @@ void imprimirGerenciadorProcessos(GerenciadorProcessos *gerenciador)
             }
         }
     }
-    printf("\n+-----------------------------------------------------------------------------------------------------------------------------+");        
 }
 
 void imprimeInfosGeraisProcesso(ProcessoSimulado *processo)
@@ -162,11 +159,11 @@ void imprimeEstadoProcesso(Estado estado)
         break;
 
     case EXECUCAO:
-        printf("Estado: EXECUCAO | ");
+        printf("Estado: EXECUCAO  | ");
         break;
 
     case PRONTO:
-        printf("Estado: PRONTO | ");
+        printf("Estado: PRONTO    | ");
         break;
 
     default:
@@ -176,8 +173,8 @@ void imprimeEstadoProcesso(Estado estado)
 
 void impressaoArquivo(GerenciadorProcessos *gerenciador)
 {
-    printf("\n╒════════════════════════════════════════════════════════════╡ Inicio ╞═════════════════════════════════════════════════════════════╕"); 
-    printf("\n\n>>>>>>> GERENCIADOR DE PROCESSOS <<<<<<<\n\n");
+    printf("\n╒══════════════════════════════════════════════════════╡ ESTADO DO SISTEMA ╞════════════════════════════════════════════════════════╕"); 
+    printf("\n\n>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> GERENCIADOR DE PROCESSOS <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<\n\n");
     printf("\n°° Tempo de uso do sistema no momento atual: %d unidades de tempo", gerenciador->tempo);
     printf("\n\n°° Processos em estado bloqueado:\n");
     imprimeFila(gerenciador->estadoBloqueado);
@@ -193,7 +190,7 @@ void imprimeCPUs(GerenciadorProcessos *gerenciador)
 {
     for (int i = 0; i < gerenciador->numCPUs; i++)
     {
-        printf("\n>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> CPU %d <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<", i);
+        printf("\n>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> CPU %d <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<\n", i);
         if (cpuLivre(gerenciador->cpus[i]))
         {
             printf("\n->> CPU LIVRE\n");
@@ -216,6 +213,6 @@ void imprimeCPU(CPU *cpu)
 
 void imprimeTabelaProcessos(GerenciadorProcessos *gerenciador)
 {
-    printf("\n\n>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> TABELA DE PROCESSOS <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<\n");
+    printf("\n\n>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> TABELA DE PROCESSOS <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<\n");
     imprimeTabela(gerenciador->tabelaProcessos);
 }

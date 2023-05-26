@@ -53,8 +53,6 @@ FILE *abreArquivoRead(char *nomeArquivo)
 
     FILE *fptr;
 
-    // printf("\tAbrindo o arquivo: %s\n", nomeArquivo);
-
     fptr = fopen(nomeArquivo, "r");
 
     if (fptr == NULL)

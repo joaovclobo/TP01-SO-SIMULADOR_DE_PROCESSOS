@@ -126,7 +126,7 @@ void imprimeFila(TipoFila *fila)
 {
     if (filaVazia(fila))
     {
-        printf("Fila Vazia!\n");
+        printf("\tFila Vazia!\n");
 
     } else
     {
@@ -150,7 +150,7 @@ void imprimeFilas(TipoFila** filas, int numFilas)
 
         if (filaVazia(fila))
         {
-            printf("\nFila Vazia!\n");
+            printf("\n\tFila Vazia!\n");
 
         } else
         {

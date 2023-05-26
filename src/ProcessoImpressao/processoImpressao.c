@@ -16,7 +16,7 @@ int menuImpressao()
 
 void imprimirEstadoAtualSistema(GerenciadorProcessos *gerenciador)
 {
-    printf("\n\n>>>>>>> ESTADO ATUAL DO SISTEMA <<<<<<<\n\n");
+    printf("\n\n╒══════════════════════════════════════════════════════╡ ESTADO DO SISTEMA ╞════════════════════════════════════════════════════════╕\n\n"); 
     printf("\n\nTempo de uso do sistema no momento atual: %d unidades de tempo\n", gerenciador->tempo);
     imprimeCPUs(gerenciador);
 }
@@ -30,16 +30,16 @@ void imprimirGerenciadorProcessos(GerenciadorProcessos *gerenciador)
 
     while (opcao != 8)
     {
-        printf("\n\n>>>>>>> GERENCIADOR DE PROCESSOS <<<<<<<\n\n");
+        printf("\n\n>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> GERENCIADOR DE PROCESSOS <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<\n\n");
         printf("1 - Estado atual do sistema\n");
         printf("2 - Tempo de uso atual do sistema\n");
         printf("3 - Processos em estado bloqueado\n");
         printf("4 - Processos em estado pronto\n");
         printf("5 - Quantidade de processos executados até o momento\n");
-        printf("6 - Informações sobre a CPU no momento atual\n");
+        printf("6 - Informações sobre a/as CPU no momento atual\n");
         printf("7 - Informações sobre a Tabela de Processos no momento atual\n");
         printf("8 - Retornar ao menu de impressão\n");
-        printf("====================================\n");
+        printf("=============================================================\n");
         printf("Escolha uma opção: ");
         scanf(" %d%*[^\n]", &opcao);
 
@@ -54,34 +54,28 @@ void imprimirGerenciadorProcessos(GerenciadorProcessos *gerenciador)
         else if (opcao == 3)
         {
             printf("\n\nProcessos em estado bloqueado:");
-            for (int i = 0; i < NUMCLASPRIORI; i++)
-            {
-                printf("\nFila nº %d:", i);
 
-                if (filaVazia(gerenciador->estadoBloqueado))
+            if (filaVazia(gerenciador->estadoBloqueado))
+            {
+                printf("\n\tFila Vazia!\n");
+            }
+            else
+            {
+                Celula_str *celula = gerenciador->estadoBloqueado->Frente;
+                while (celula != NULL)
                 {
-                    printf("\nFila Vazia!\n");
+                    processo = buscaProcesso(gerenciador->tabelaProcessos, celula->pidTempo.pid);
+                    printf("\n");
+                    imprimeInfosGeraisProcesso(processo);
+                    celula = celula->Prox;
                 }
-                else
-                {
-                    Celula_str *celula = gerenciador->estadoBloqueado->Frente;
-                    while (celula != NULL)
-                    {
-                        processo = buscaProcesso(gerenciador->tabelaProcessos, celula->pidTempo.pid);
-                        printf("\n");
-                        imprimeInfosGeraisProcesso(processo);
-                        // printf("\n   Pid: %d, Tempo: %d", celula->pidTempo.pid, celula->pidTempo.tempoExecutado);
-                        celula = celula->Prox;
-                    }
-                    putchar('\n');
-                }
-                // imprimeFila(gerenciador->estadoBloqueado);
+                putchar('\n');
             }
         }
         else if (opcao == 4)
         {
             printf("\n\nProcessos em estado pronto:");
-            // imprimeFilas(gerenciador->estadoPronto, NUMCLASPRIORI);
+
             for (int i = 0; i < NUMCLASPRIORI; i++)
             {
                 TipoFila *fila = gerenciador->estadoPronto[i];
@@ -90,7 +84,7 @@ void imprimirGerenciadorProcessos(GerenciadorProcessos *gerenciador)
 
                 if (filaVazia(fila))
                 {
-                    printf("\nFila Vazia!\n");
+                    printf("\n\tFila Vazia!\n");
                 }
                 else
                 {
@@ -100,15 +94,12 @@ void imprimirGerenciadorProcessos(GerenciadorProcessos *gerenciador)
                         processo = buscaProcesso(gerenciador->tabelaProcessos, celula->pidTempo.pid);
                         printf("\n");
                         imprimeInfosGeraisProcesso(processo);
-                        // printf("\n   Pid: %d, Tempo: %d", celula->pidTempo.pid, celula->pidTempo.tempoExecutado);
+
                         celula = celula->Prox;
                     }
                     putchar('\n');
                 }
             }
-
-            // TODO: buscar na tabela de processos qual tem o mesmo ID do que está em cada posição e ir imprimindo
-            //       a cada busca, utilizando a função imprimeProcesso -> localizada aqui no impressão mesmo
         }
         else if (opcao == 5)
         {
@@ -175,11 +166,11 @@ void imprimeEstadoProcesso(Estado estado)
         break;
 
     case EXECUCAO:
-        printf("Estado: EXECUCAO | ");
+        printf("Estado: EXECUCAO  | ");
         break;
 
     case PRONTO:
-        printf("Estado: PRONTO | ");
+        printf("Estado: PRONTO    | ");
         break;
 
     default:
@@ -189,22 +180,24 @@ void imprimeEstadoProcesso(Estado estado)
 
 void impressaoArquivo(GerenciadorProcessos *gerenciador)
 {
-    printf("\n\n>>>>>>> GERENCIADOR DE PROCESSOS <<<<<<<\n\n");
+    printf("\n╒══════════════════════════════════════════════════════╡ ESTADO DO SISTEMA ╞════════════════════════════════════════════════════════╕"); 
+    printf("\n\n>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> GERENCIADOR DE PROCESSOS <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<\n\n");
     printf("\n°° Tempo de uso do sistema no momento atual: %d unidades de tempo", gerenciador->tempo);
     printf("\n\n°° Processos em estado bloqueado:\n");
     imprimeFila(gerenciador->estadoBloqueado);
-    printf("\n\n°° Processos em estado pronto:");
+    printf("\n\n°° Processos em estado pronto:\n");
     imprimeFilas(gerenciador->estadoPronto, NUMCLASPRIORI);
-    printf("\n\n°° Quantidade de processos executados até o momento: %d", gerenciador->quantidadeProcessosIniciados);
+    printf("\n\n°° Quantidade de processos executados até o momento: %d\n", gerenciador->quantidadeProcessosIniciados);
     imprimeCPUs(gerenciador);
     imprimeTabelaProcessos(gerenciador);
+    printf("╘═══════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════╛\n");
 }
 
 void imprimeCPUs(GerenciadorProcessos *gerenciador)
 {
     for (int i = 0; i < gerenciador->numCPUs; i++)
     {
-        printf("\n>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> CPU %d <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<", i);
+        printf("\n>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> CPU %d <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<\n", i);
         if (cpuLivre(gerenciador->cpus[i]))
         {
             printf("\n->> CPU LIVRE\n");
@@ -227,6 +220,6 @@ void imprimeCPU(CPU *cpu)
 
 void imprimeTabelaProcessos(GerenciadorProcessos *gerenciador)
 {
-    printf("\n\n>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> TABELA DE PROCESSOS <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<\n");
+    printf("\n\n>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> TABELA DE PROCESSOS <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<\n");
     imprimeTabela(gerenciador->tabelaProcessos);
 }
