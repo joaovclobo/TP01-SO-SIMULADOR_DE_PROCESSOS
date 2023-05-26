@@ -3,10 +3,10 @@
 #include <sys/wait.h>
 #include <signal.h>
 
-int impressaoExecutando = 1;
+int impressaoExecutando = 0;
 void semaforoImpressao(int signum)
 {
-    impressaoExecutando = 0;
+    impressaoExecutando = 0; // INDICA QUE O PROCESSO IMPRESSÃO NÃO VAI EXECUTAR MAIS
 }
 
 int main(int argc, char **argv)
@@ -16,7 +16,6 @@ int main(int argc, char **argv)
     FILE *arquivoDeEntrada;
     int numCPUs = atoi(argv[1]);
     int quantum = atoi(argv[2]);
-
     GerenciadorProcessos *gerenciador = inicializaGerenciador(numCPUs, quantum);
 
     int opcao = MenuInicial(&arquivoDeEntrada);
@@ -41,6 +40,8 @@ int main(int argc, char **argv)
 
     if (pid > 0)
     {
+        // A função signal quando recebe o sinal SIGUSR1 executa o que está dentro de semaforoImpressao
+        signal(SIGUSR1, semaforoImpressao); // Ela apenas registra o sinal do processo impressão
 
         while (1)
         {
@@ -56,13 +57,12 @@ int main(int argc, char **argv)
 
                 if (comando == 'I')
                 {
-                    signal(SIGUSR1, semaforoImpressao);
+                    impressaoExecutando = 1; // PROCESSO IMPRESSÃO PODE EXECUTAR
 
                     while (impressaoExecutando)
                     {
                         sleep(1);
                     }
-                    impressaoExecutando = 1;
                 }
             }
 
@@ -100,11 +100,12 @@ int main(int argc, char **argv)
                     {
                         printf("ERRO NO FORK() IMPRESSAO\n");
                     }
-                    if (pidImpressao > 0)
+
+                    // ABAIXO É COMO SE FOSSE UMA BIFURCAÇÃO
+                    if (pidImpressao > 0) // é o processo filho do processo de leitura do pipe
                     {
-                        // ESPERANDO O TERMINO DO PROCESSO DE IMPRESSÃO
-                        wait(NULL);
-                        kill(getppid(), SIGUSR1);
+                        wait(NULL); // ESPERANDO O TERMINO DO PROCESSO DE IMPRESSÃO
+                        kill(getppid(), SIGUSR1); // ENVIA O SINAL PRO PROCESSO QUE LÊ DO PIPE
                         sleep(1);
                     }
                     else
@@ -120,7 +121,7 @@ int main(int argc, char **argv)
                             }
                         }
 
-                        exit(0);
+                        exit(0); // VOLTA PARA O WAIT(NULL)
                     }
                 }
             }
@@ -133,80 +134,3 @@ int main(int argc, char **argv)
     }
     return 0;
 }
-
-// #include "./src/ProcessoControle/processoControle.h"
-// #include "./src/ProcessoImpressao/processoImpressao.h"
-// #include <time.h>
-
-// int main(int argc, char **argv)
-// {
-//     int fd[2];
-//     char comando = '!';
-//     FILE *arquivoDeEntrada;
-//     int numCPUs = atoi(argv[1]);
-//     GerenciadorProcessos *gerenciador = inicializaGerenciador(numCPUs);
-
-//     int opcao = MenuInicial(&arquivoDeEntrada);
-
-//     if (pipe(fd) == -1)
-//     {
-//         perror("Erro ao criar o pipe");
-//         return 1;
-//     }
-
-//     pid_t pid = fork();
-
-//     if (pid == -1)
-//     {
-//         perror("Erro ao criar o processo");
-//         return 1;
-//     }
-
-//     if (pid > 0)
-//     {
-//         close(fd[0]);
-
-//         while (1)
-//         {
-//             comando = controle(arquivoDeEntrada, opcao);
-//             escreverCaractereNoPipe(fd[1], comando);
-
-//             if (comando == 'M')
-//             {
-//                 break;
-//             }
-//         }
-//         close(fd[1]);
-//     }
-//     else
-//     {
-//         close(fd[1]);
-
-//         while (1)
-//         {
-            
-//             comando = lerCaractereDoPipe(fd[0]);
-//             gerenciadorProcessos(gerenciador, comando);
-
-
-//             //Isto só esta comentado pq ainda não está implementado por completo
-
-//             // if (comando == 'I')
-//             // {
-//             //     printf("\n\n======== INFORMAÇÕES SOBRE O SISTEMA ========\n");
-//             //     imprimeGerenciador(&gerenciador);
-//             //     // imprimeControle();
-//             //     // imprimeSimulado();
-//             // }
-
-//             // else 
-//             if (comando == 'M')
-//             {
-//                 break;
-//             }
-//         }
-//         close(fd[0]);
-
-//     }
-//     return 0;
-// }
