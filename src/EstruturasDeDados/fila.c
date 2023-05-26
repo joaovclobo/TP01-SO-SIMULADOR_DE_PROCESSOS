@@ -126,13 +126,19 @@ void imprimeFila(TipoFila *fila)
 {
     if (filaVazia(fila))
     {
-        printf("\tFila Vazia!\n");
+        printf("   Fila Vazia!\n");
 
     } else
     {
         Celula_str *celula = fila->Frente;
         while (celula != NULL) {
-            printf("\nPid: %d, Tempo: %d", celula->pidTempo.pid, celula->pidTempo.tempoExecutado);
+            if (celula->pidTempo.tempoExecutado == -1)
+            {
+                printf("\n   Pid: %d", celula->pidTempo.pid, celula->pidTempo.tempoExecutado);
+            }else
+            {
+                printf("\n   Pid: %d, Tempo bloqueado: %d", celula->pidTempo.pid, celula->pidTempo.tempoExecutado);
+            }
             celula = celula->Prox;
         }
 
@@ -150,13 +156,20 @@ void imprimeFilas(TipoFila** filas, int numFilas)
 
         if (filaVazia(fila))
         {
-            printf("\n\tFila Vazia!\n");
+            printf("\n   Fila Vazia!\n");
 
         } else
         {
             Celula_str *celula = fila->Frente;
             while (celula != NULL) {
-                printf("\n   Pid: %d, Tempo: %d", celula->pidTempo.pid, celula->pidTempo.tempoExecutado);
+                if (celula->pidTempo.tempoExecutado == -1)
+                {
+                    printf("\n   Pid: %d", celula->pidTempo.pid, celula->pidTempo.tempoExecutado);
+                }else
+                {
+                    printf("\n   Pid: %d, Tempo bloqueado: %d", celula->pidTempo.pid, celula->pidTempo.tempoExecutado);
+                }
+                
                 celula = celula->Prox;
             }
             putchar('\n');

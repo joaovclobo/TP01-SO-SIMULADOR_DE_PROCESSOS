@@ -57,7 +57,7 @@ void imprimirGerenciadorProcessos(GerenciadorProcessos *gerenciador)
 
             if (filaVazia(gerenciador->estadoBloqueado))
             {
-                printf("\n\tFila Vazia!\n");
+                printf("\n   Fila Vazia!\n");
             }
             else
             {
@@ -79,7 +79,7 @@ void imprimirGerenciadorProcessos(GerenciadorProcessos *gerenciador)
 
             if (filaVazia(fila))
             {
-                printf("\n\tFila Vazia!\n");
+                printf("\n   Fila Vazia!\n");
             }
             else
             {

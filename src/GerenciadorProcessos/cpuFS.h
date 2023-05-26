@@ -17,7 +17,6 @@ void carregaProcesso(CPU* cpu, ProcessoSimulado* processoAtual);
 void executaProxInstrucao(CPU* cpu, int tempoAtualSistema, Lista* tabelaProcessos,
                              int* quantidadeProcessosIniciados, TipoFila* estadoProntoFS, TipoFila* estadoBloqueado);
 int cpuLivre(CPU* cpu);
-void imprimeCPU_2(CPU* cpu);
 void zeraCPU(CPU* cpu);
 
 /* -------------- Instruçẽos de programa que são processadas na CPU -------------- */

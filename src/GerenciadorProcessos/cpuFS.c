@@ -88,23 +88,6 @@ int cpuLivre(CPU* cpu)
     return *(cpu->pidProcessoAtual) == NUMVAZIO; 
 }
 
-void imprimeCPU_2(CPU* cpu)
-{   
-    if(cpuLivre(cpu))
-    {
-        printf("CPU LIVRE!!!!\n");
-    }else
-    {
-    printf("\nProcesso na CPU - PID %2d | ", *cpu->pidProcessoAtual);
-    printf("PC %2d | ", *cpu->pcProcessoAtual);
-    printf("Fatia do quantum já executado: %2d\n", cpu->fatiaQuantum);
-
-    // imprimeVariaveis(*cpu->variaveisProcessoAtual, numeroVariaveis(*cpu->programaProcessoAtual));
-    // imprimeArrPrograma(*cpu->programaProcessoAtual, *cpu->pcProcessoAtual);
-    putchar('\n');
-    }
-}
-
 void zeraCPU(CPU* cpu)
 {
     cpu->pidProcessoAtual = (int*) malloc(sizeof(int));
@@ -165,8 +148,6 @@ void instrucaoT(int* pidProcessoAtual, Lista* tabelaProcessos)
 {
     ProcessoSimulado* processoEncerrado = buscaProcesso(tabelaProcessos, *pidProcessoAtual);
 
-    // printf("\t\t -------------- AQUI O PROCESSO MORREU -------------- \n");
-
     free(processoEncerrado->arrPrograma);
     free(processoEncerrado->arrVariaveis);
 
@@ -182,7 +163,7 @@ void instrucaoF(int n, int* pidProcessoAtual, int* pcProcessoAtual, int* quantid
     ProcessoSimulado* processoFilho = copiaProcesso(*processoPai, tempoAtualSistema, maiorPIDTabela(tabelaProcessos)+1);
 
     insereTabela(tabelaProcessos, processoFilho);
-    Enfileira(processoFilho->pid, processoPai->tempoCPU, estadoProntoFS);
+    Enfileira(processoFilho->pid, NUMVAZIO, estadoProntoFS);
     quantidadeProcessosIniciados += 1;
 
     *pcProcessoAtual += n;

@@ -86,13 +86,13 @@ void escalonaProcessosCPUs(GerenciadorProcessos *gerenciador)
         {
             if (filasVazias(gerenciador->estadoPronto, NUMCLASPRIORI) == 0)
             {
-                escalonaProcesso(gerenciador->tabelaProcessos, gerenciador->cpus[i], gerenciador->estadoExecucao + i, gerenciador->estadoPronto, i);
+                escalonaProcesso(gerenciador->tabelaProcessos, gerenciador->cpus[i], gerenciador->estadoExecucao + i, gerenciador->estadoPronto);
             }
         }
     }
 }
 
-void escalonaProcesso(Lista *tabelaProcessos, CPU *cpu, int *estadoExecucao, TipoFila **estadoPronto, int NUMcpu)
+void escalonaProcesso(Lista *tabelaProcessos, CPU *cpu, int *estadoExecucao, TipoFila **estadoPronto)
 {
 
     int pidProcesso = desenfileirarFilas(estadoPronto, NUMCLASPRIORI);
@@ -156,14 +156,10 @@ void removeProcessoCPU(CPU *cpu, Lista *tabelaProcessos, TipoFila **estadoPronto
             processoNaCPU->tempoCPU += cpu->fatiaQuantum;
             zeraCPU(cpu);
 
-            // imprimeTabela(tabelaProcessos);
-
-            // TODO - ESC - VER SE DA PRA MELHORAR ISTO
             if (*processoNaCPU->pc == NUMVAZIO)
             {
                 removeTabela(tabelaProcessos, processoNaCPU->pid);
             }
-            // imprimeTabela(tabelaProcessos);
         }
     }
 }
@@ -205,20 +201,4 @@ double calcPot(double base, int expoente)
     }
 
     return resultado;
-}
-
-void imprimeCPUs_2(GerenciadorProcessos *gerenciador)
-{
-    for (int i = 0; i < gerenciador->numCPUs; i++)
-    {
-        printf("\n>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> CPU %d <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<\n", i);
-        if (cpuLivre(gerenciador->cpus[i]))
-        {
-            printf("\n->> CPU LIVRE\n");
-        }
-        else
-        {
-            imprimeCPU_2(gerenciador->cpus[i]);
-        }
-    }
 }

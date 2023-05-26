@@ -82,13 +82,13 @@ void escalonaProcessosCPUs(GerenciadorProcessos *gerenciador)
         {
             if (filaVazia(gerenciador->estadoProntoFS) == 0)
             {
-                escalonaProcesso(gerenciador->tabelaProcessos, gerenciador->cpus[i], gerenciador->estadoExecucao + i, gerenciador->estadoProntoFS, i);
+                escalonaProcesso(gerenciador->tabelaProcessos, gerenciador->cpus[i], gerenciador->estadoExecucao + i, gerenciador->estadoProntoFS);
             }
         }
     }
 }
 
-void escalonaProcesso(Lista *tabelaProcessos, CPU *cpu, int *estadoExecucao, TipoFila *estadoProntoFS, int NUMcpu)
+void escalonaProcesso(Lista *tabelaProcessos, CPU *cpu, int *estadoExecucao, TipoFila *estadoProntoFS)
 {
 
     int pidProcesso = desenfileirar(estadoProntoFS)->pid;
@@ -193,20 +193,4 @@ double calcPot(double base, int expoente)
     }
 
     return resultado;
-}
-
-void imprimeCPUs_2(GerenciadorProcessos *gerenciador)
-{
-    for (int i = 0; i < gerenciador->numCPUs; i++)
-    {
-        printf("\n>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> CPU %d <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<\n", i);
-        if (cpuLivre(gerenciador->cpus[i]))
-        {
-            printf("\n->> CPU LIVRE\n");
-        }
-        else
-        {
-            imprimeCPU_2(gerenciador->cpus[i]);
-        }
-    }
 }

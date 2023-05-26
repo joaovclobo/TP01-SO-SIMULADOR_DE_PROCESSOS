@@ -25,7 +25,7 @@ void encerraUnidadeTempo(GerenciadorProcessos *gerenciador);
 
 void escalonaProcessosCPUs(GerenciadorProcessos* gerenciador);
 
-void escalonaProcesso(Lista* tabelaProcessos, CPU* cpu, int* estadoExecucao, TipoFila** estadoPronto, int NUMcpu);
+void escalonaProcesso(Lista* tabelaProcessos, CPU* cpu, int* estadoExecucao, TipoFila** estadoPronto);
     
 int pidProximoProcesso(int escalonamento, int* estadoExecucao);
 
@@ -42,5 +42,3 @@ void iniciaProcessoInit(GerenciadorProcessos *gerenciador);
 void removeProcessoTabela(ProcessoSimulado *processoEscolhido, GerenciadorProcessos *gerenciador);
 
 double calcPot(double base, int expoente);
-
-void imprimeCPUs_2(GerenciadorProcessos *gerenciador);
