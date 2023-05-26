@@ -1,10 +1,11 @@
-#include "gerenciadorProcessos.h"
+#include "gerenciadorProcessosFS.h"
 
-GerenciadorProcessos *inicializaGerenciador(int numCPUs)
+GerenciadorProcessos *inicializaGerenciador(int numCPUs, int quantum)
 {
     GerenciadorProcessos *gerenciador = (GerenciadorProcessos *)malloc(sizeof(GerenciadorProcessos));
 
     gerenciador->tempo = 0;
+    gerenciador->quantum = quantum;
     gerenciador->quantidadeProcessosIniciados = 0;
     gerenciador->tempoTotalExecucao = 0;
 
@@ -21,12 +22,7 @@ GerenciadorProcessos *inicializaGerenciador(int numCPUs)
 
     gerenciador->tabelaProcessos = criaLista();
 
-    gerenciador->estadoPronto = (TipoFila **)malloc(sizeof(TipoFila *) * NUMCLASPRIORI);
-
-    for (int i = 0; i < NUMCLASPRIORI; i++)
-    {
-        gerenciador->estadoPronto[i] = criaFila();
-    }
+    gerenciador->estadoProntoFS = criaFila();
 
     gerenciador->estadoBloqueado = criaFila();
 
@@ -36,7 +32,7 @@ GerenciadorProcessos *inicializaGerenciador(int numCPUs)
 void iniciaProcessoInit(GerenciadorProcessos *gerenciador)
 {
     ProcessoSimulado *processoInit = criaProcessoInit(gerenciador->tempo);
-    enfileira(processoInit->pid, NUMVAZIO, gerenciador->estadoPronto[0]);
+    enfileira(processoInit->pid, NUMVAZIO, gerenciador->estadoProntoFS);
     insereTabela(gerenciador->tabelaProcessos, processoInit);
     gerenciador->quantidadeProcessosIniciados += 1;
 }
@@ -83,18 +79,18 @@ void escalonaProcessosCPUs(GerenciadorProcessos *gerenciador)
     {
         if (cpuLivre(gerenciador->cpus[i]) == 1)
         {
-            if (filasVazias(gerenciador->estadoPronto, NUMCLASPRIORI) == 0)
+            if (filaVazia(gerenciador->estadoProntoFS) == 0)
             {
-                escalonaProcesso(gerenciador->tabelaProcessos, gerenciador->cpus[i], gerenciador->estadoExecucao + i, gerenciador->estadoPronto);
+                escalonaProcesso(gerenciador->tabelaProcessos, gerenciador->cpus[i], gerenciador->estadoExecucao + i, gerenciador->estadoProntoFS);
             }
         }
     }
 }
 
-void escalonaProcesso(Lista *tabelaProcessos, CPU *cpu, int *estadoExecucao, TipoFila **estadoPronto)
+void escalonaProcesso(Lista *tabelaProcessos, CPU *cpu, int *estadoExecucao, TipoFila *estadoProntoFS)
 {
 
-    int pidProcesso = desenfileirarFilas(estadoPronto, NUMCLASPRIORI);
+    int pidProcesso = desenfileirar(estadoProntoFS)->pid;
 
     if (pidProcesso >= 0)
     {
@@ -115,7 +111,7 @@ void executaCPUs(GerenciadorProcessos *gerenciador)
         // Se a CPU não esta livre, ou seja carregada com um processo, ela executa o próximo comando do processo dela
         if (!(cpuLivre(gerenciador->cpus[i])))
         {
-            executaProxInstrucao(gerenciador->cpus[i], gerenciador->tempo, gerenciador->tabelaProcessos, &gerenciador->quantidadeProcessosIniciados, gerenciador->estadoPronto, gerenciador->estadoBloqueado);
+            executaProxInstrucao(gerenciador->cpus[i], gerenciador->tempo, gerenciador->tabelaProcessos, &gerenciador->quantidadeProcessosIniciados, gerenciador->estadoProntoFS, gerenciador->estadoBloqueado);
         }
     }
 }
@@ -126,28 +122,24 @@ void trocaDeContexto(GerenciadorProcessos *gerenciador)
     {
         if (!(cpuLivre(gerenciador->cpus[i])))
         {
-            removeProcessoCPU(gerenciador->cpus[i], gerenciador->tabelaProcessos, gerenciador->estadoPronto);
+            removeProcessoCPU(gerenciador->cpus[i], gerenciador->tabelaProcessos, gerenciador->estadoProntoFS, gerenciador->quantum);
         }
     }
 }
 
-void removeProcessoCPU(CPU *cpu, Lista *tabelaProcessos, TipoFila **estadoPronto)
+void removeProcessoCPU(CPU *cpu, Lista *tabelaProcessos, TipoFila* estadoProntoFS, int quantum)
 {
     ProcessoSimulado *processoNaCPU = buscaProcesso(tabelaProcessos, *(cpu->pidProcessoAtual));
 
     if (processoNaCPU != NULL)
     {
-        if (cpu->fatiaQuantum >= calcPot(2, processoNaCPU->prioridade)) // Remove se o quantum for maior q o permitido pra classe
+        if (cpu->fatiaQuantum >= quantum) // Remove se o quantum executado for maior que o quantum maxim 
         {
             processoNaCPU->estado = PRONTO;
 
-            if (processoNaCPU->prioridade < NUMCLASPRIORI - 1)
-            {
-                processoNaCPU->prioridade++;
-            }
             processoNaCPU->tempoCPU += cpu->fatiaQuantum;
 
-            enfileira(processoNaCPU->pid, NUMVAZIO, estadoPronto[processoNaCPU->prioridade]);
+            enfileira(processoNaCPU->pid, NUMVAZIO, estadoProntoFS);
             zeraCPU(cpu);
         }
         else if (processoNaCPU->estado == BLOQUEADO)
@@ -174,7 +166,7 @@ void verificaBloqueados(GerenciadorProcessos *gerenciador)
         if (pidTempo->tempoExecutado <= 0)
         {
             ProcessoSimulado *processo = buscaProcesso(gerenciador->tabelaProcessos, pidTempo->pid);
-            enfileira(pidTempo->pid, NUMVAZIO, gerenciador->estadoPronto[processo->prioridade]);
+            enfileira(pidTempo->pid, NUMVAZIO, gerenciador->estadoProntoFS);
         }
         else
         {
@@ -187,17 +179,4 @@ void removeProcessoTabela(ProcessoSimulado *processoEscolhido, GerenciadorProces
 {
     gerenciador->tempoTotalExecucao += processoEscolhido->tempoCPU;
     removeTabela(gerenciador->tabelaProcessos, processoEscolhido->pid);
-}
-
-double calcPot(double base, int expoente)
-{
-    double resultado = 1.0;
-    int i;
-
-    for (i = 0; i < expoente; i++)
-    {
-        resultado *= base;
-    }
-
-    return resultado;
 }

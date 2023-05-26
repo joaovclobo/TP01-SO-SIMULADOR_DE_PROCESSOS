@@ -1,4 +1,4 @@
-#include "cpu.h"
+#include "cpuFS.h"
 
 CPU* inicializaCPU()
 {   
@@ -29,7 +29,7 @@ void carregaProcesso(CPU* cpu, ProcessoSimulado* processoAtual)
 }
 
 void executaProxInstrucao(CPU* cpu, int tempoAtualSistema, Lista* tabelaProcessos,
-                             int* quantidadeProcessosIniciados, TipoFila** estadoPronto, TipoFila* estadoBloqueado)
+                             int* quantidadeProcessosIniciados, TipoFila* estadoProntoFS, TipoFila* estadoBloqueado)
 {   
     char tipo = ((*cpu->programaProcessoAtual)[*cpu->pcProcessoAtual]).tipoDeInstrucao;
     int paramNum1 = ((*cpu->programaProcessoAtual)[*cpu->pcProcessoAtual]).parametroNumerico1;
@@ -68,7 +68,7 @@ void executaProxInstrucao(CPU* cpu, int tempoAtualSistema, Lista* tabelaProcesso
         break;
     
     case 'F':
-        instrucaoF(paramNum1, cpu->pidProcessoAtual, cpu->pcProcessoAtual, quantidadeProcessosIniciados, tempoAtualSistema, tabelaProcessos, estadoPronto);
+        instrucaoF(paramNum1, cpu->pidProcessoAtual, cpu->pcProcessoAtual, quantidadeProcessosIniciados, tempoAtualSistema, tabelaProcessos, estadoProntoFS);
         break;
 
     case 'R':
@@ -156,14 +156,14 @@ void instrucaoT(int* pidProcessoAtual, Lista* tabelaProcessos)
 
 }
 
-void instrucaoF(int n, int* pidProcessoAtual, int* pcProcessoAtual, int* quantidadeProcessosIniciados, int tempoAtualSistema, Lista* tabelaProcessos, TipoFila** estadoPronto)
+void instrucaoF(int n, int* pidProcessoAtual, int* pcProcessoAtual, int* quantidadeProcessosIniciados, int tempoAtualSistema, Lista* tabelaProcessos, TipoFila* estadoProntoFS)
 {
 
     ProcessoSimulado* processoPai = buscaProcesso(tabelaProcessos, *pidProcessoAtual);
     ProcessoSimulado* processoFilho = copiaProcesso(*processoPai, tempoAtualSistema, maiorPIDTabela(tabelaProcessos)+1);
 
     insereTabela(tabelaProcessos, processoFilho);
-    enfileira(processoFilho->pid, NUMVAZIO, estadoPronto[processoFilho->prioridade]);
+    enfileira(processoFilho->pid, NUMVAZIO, estadoProntoFS);
     quantidadeProcessosIniciados += 1;
 
     *pcProcessoAtual += n;

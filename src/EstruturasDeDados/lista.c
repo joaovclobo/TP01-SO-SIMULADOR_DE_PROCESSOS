@@ -53,7 +53,6 @@ void removeTabela(Lista* lista, int PID) {
         if (atual->processo->pid == PID) {
             anterior->proximo = atual->proximo;
 
-            // Update lista->fim if atual is the last node
             if (atual == lista->fim) {
                 lista->fim = anterior;
             }

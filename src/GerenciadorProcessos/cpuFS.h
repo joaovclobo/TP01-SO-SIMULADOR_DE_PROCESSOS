@@ -15,7 +15,7 @@ typedef struct CPU
 CPU* inicializaCPU();
 void carregaProcesso(CPU* cpu, ProcessoSimulado* processoAtual);
 void executaProxInstrucao(CPU* cpu, int tempoAtualSistema, Lista* tabelaProcessos,
-                             int* quantidadeProcessosIniciados, TipoFila** estadoPronto, TipoFila* estadoBloqueado);
+                             int* quantidadeProcessosIniciados, TipoFila* estadoProntoFS, TipoFila* estadoBloqueado);
                              
 int cpuLivre(CPU* cpu);
 void zeraCPU(CPU* cpu);
@@ -29,5 +29,5 @@ void instrucaoA(int x, int n, int *arrVariaveis);
 void instrucaoS(int x, int n, int *arrVariaveis);
 void instrucaoB(int n, int* pidProcessoAtual, Lista* tabelaProcessos, TipoFila* estadoBloqueado);
 void instrucaoT(int* pidProcessoAtual, Lista* tabelaProcessos);
-void instrucaoF(int n, int* pidProcessoAtual, int* pcProcessoAtual, int* quantidadeProcessosIniciados, int tempoAtualSistema, Lista* tabelaProcessos, TipoFila** filaPronto);
+void instrucaoF(int n, int* pidProcessoAtual, int* pcProcessoAtual, int* quantidadeProcessosIniciados, int tempoAtualSistema, Lista* tabelaProcessos, TipoFila* estadoProntoFS);
 void instrucaoR(char *nomeDoArquivo, Instrucao** arrPrograma, int* pcProcessoAtual);
