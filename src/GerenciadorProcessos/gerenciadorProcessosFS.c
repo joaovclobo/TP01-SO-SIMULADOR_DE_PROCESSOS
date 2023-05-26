@@ -32,7 +32,7 @@ GerenciadorProcessos *inicializaGerenciador(int numCPUs, int quantum)
 void iniciaProcessoInit(GerenciadorProcessos *gerenciador)
 {
     ProcessoSimulado *processoInit = criaProcessoInit(gerenciador->tempo);
-    Enfileira(processoInit->pid, NUMVAZIO, gerenciador->estadoProntoFS);
+    enfileira(processoInit->pid, NUMVAZIO, gerenciador->estadoProntoFS);
     insereTabela(gerenciador->tabelaProcessos, processoInit);
     gerenciador->quantidadeProcessosIniciados += 1;
 }
@@ -55,7 +55,6 @@ void gerenciadorProcessos(GerenciadorProcessos *gerenciador, char comando)
         }
         else
         {
-
             escalonaProcessosCPUs(gerenciador);
 
             executaCPUs(gerenciador);
@@ -140,7 +139,7 @@ void removeProcessoCPU(CPU *cpu, Lista *tabelaProcessos, TipoFila* estadoProntoF
 
             processoNaCPU->tempoCPU += cpu->fatiaQuantum;
 
-            Enfileira(processoNaCPU->pid, NUMVAZIO, estadoProntoFS);
+            enfileira(processoNaCPU->pid, NUMVAZIO, estadoProntoFS);
             zeraCPU(cpu);
         }
         else if (processoNaCPU->estado == BLOQUEADO)
@@ -167,11 +166,11 @@ void verificaBloqueados(GerenciadorProcessos *gerenciador)
         if (pidTempo->tempoExecutado <= 0)
         {
             ProcessoSimulado *processo = buscaProcesso(gerenciador->tabelaProcessos, pidTempo->pid);
-            Enfileira(pidTempo->pid, NUMVAZIO, gerenciador->estadoProntoFS);
+            enfileira(pidTempo->pid, NUMVAZIO, gerenciador->estadoProntoFS);
         }
         else
         {
-            Enfileira(pidTempo->pid, pidTempo->tempoExecutado, gerenciador->estadoBloqueado);
+            enfileira(pidTempo->pid, pidTempo->tempoExecutado, gerenciador->estadoBloqueado);
         }
     }
 }
@@ -180,17 +179,4 @@ void removeProcessoTabela(ProcessoSimulado *processoEscolhido, GerenciadorProces
 {
     gerenciador->tempoTotalExecucao += processoEscolhido->tempoCPU;
     removeTabela(gerenciador->tabelaProcessos, processoEscolhido->pid);
-}
-
-double calcPot(double base, int expoente)
-{
-    double resultado = 1.0;
-    int i;
-
-    for (i = 0; i < expoente; i++)
-    {
-        resultado *= base;
-    }
-
-    return resultado;
 }

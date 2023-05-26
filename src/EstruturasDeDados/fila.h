@@ -1,8 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
-//#include "../ProcessoSimulado/processoSimulado.h"
 
-typedef struct Celula_str* Ponteiro;
+typedef struct CelulaPidTempo* Ponteiro;
 
 typedef struct PidTempo
 {
@@ -10,11 +9,11 @@ typedef struct PidTempo
     int tempoExecutado;
 }PidTempo;
 
-typedef struct Celula_str 
+typedef struct CelulaPidTempo 
 {
     PidTempo pidTempo;
     Ponteiro Prox;
-}Celula_str;
+}CelulaPidTempo;
 
 typedef struct TipoFila
 {
@@ -27,7 +26,7 @@ TipoFila* criaFila();
 int filaVazia(TipoFila* Fila);
 int filasVazias(TipoFila** filas, int numFilas);
 
-void Enfileira(int pid, int tempoExecutado, TipoFila *Fila);
+void enfileira(int pid, int tempoExecutado, TipoFila *Fila);
 
 PidTempo* desenfileirar(TipoFila* fila);
 int desenfileirarPID(TipoFila* fila);

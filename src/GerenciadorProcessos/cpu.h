@@ -16,6 +16,7 @@ CPU* inicializaCPU();
 void carregaProcesso(CPU* cpu, ProcessoSimulado* processoAtual);
 void executaProxInstrucao(CPU* cpu, int tempoAtualSistema, Lista* tabelaProcessos,
                              int* quantidadeProcessosIniciados, TipoFila** estadoPronto, TipoFila* estadoBloqueado);
+                             
 int cpuLivre(CPU* cpu);
 void zeraCPU(CPU* cpu);
 

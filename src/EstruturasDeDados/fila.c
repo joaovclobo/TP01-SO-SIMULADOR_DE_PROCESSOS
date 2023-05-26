@@ -4,7 +4,7 @@ TipoFila* criaFila()
 {
     TipoFila* fila = (TipoFila*) malloc(sizeof(TipoFila));
     
-    fila->Frente = (Ponteiro) malloc(sizeof(Celula_str));
+    fila->Frente = (Ponteiro) malloc(sizeof(CelulaPidTempo));
     fila->Tras = fila->Frente;
     fila->Frente->Prox = NULL;
     fila->Tamanho = 0;
@@ -31,18 +31,18 @@ int filasVazias(TipoFila** filas, int numFilas)
     return 1;
 }
 
-void Enfileira(int pid, int tempoExecutado, TipoFila *Fila)
+void enfileira(int pid, int tempoExecutado, TipoFila *Fila)
 {
     if(Fila->Tamanho == 0)
     {
-        Fila->Frente = (Ponteiro) malloc(sizeof(Celula_str)); 
+        Fila->Frente = (Ponteiro) malloc(sizeof(CelulaPidTempo)); 
         Fila->Tras = Fila->Frente; // Ajusta a atribuição de Fila->Tras para o primeiro elemento
         Fila->Tras->Prox = NULL;
         Fila->Frente->pidTempo = criaCelulaPidTempo(pid, tempoExecutado);
     }
     else
     {
-        Fila->Tras->Prox = (Ponteiro) malloc(sizeof(Celula_str)); 
+        Fila->Tras->Prox = (Ponteiro) malloc(sizeof(CelulaPidTempo)); 
         Fila->Tras = Fila->Tras->Prox;
         Fila->Tras->Prox = NULL;
         Fila->Tras->pidTempo = criaCelulaPidTempo(pid, tempoExecutado);
@@ -60,7 +60,7 @@ PidTempo* desenfileirar(TipoFila* fila)
 
     pidTempoRemovido->pid = fila->Frente->pidTempo.pid;
     pidTempoRemovido->tempoExecutado = fila->Frente->pidTempo.tempoExecutado;
-    Celula_str* celulaRemovida = fila->Frente;
+    CelulaPidTempo* celulaRemovida = fila->Frente;
 
     fila->Frente = fila->Frente->Prox;
     free(celulaRemovida);
@@ -81,7 +81,7 @@ int desenfileirarPID(TipoFila* fila)
     }
 
     int processoRemovido = fila->Frente->pidTempo.pid;
-    Celula_str* celulaRemovida = fila->Frente;
+    CelulaPidTempo* celulaRemovida = fila->Frente;
 
     fila->Frente = fila->Frente->Prox;
     free(celulaRemovida);
@@ -130,7 +130,7 @@ void imprimeFila(TipoFila *fila)
 
     } else
     {
-        Celula_str *celula = fila->Frente;
+        CelulaPidTempo *celula = fila->Frente;
         while (celula != NULL) {
             if (celula->pidTempo.tempoExecutado == -1)
             {
@@ -160,7 +160,7 @@ void imprimeFilas(TipoFila** filas, int numFilas)
 
         } else
         {
-            Celula_str *celula = fila->Frente;
+            CelulaPidTempo *celula = fila->Frente;
             while (celula != NULL) {
                 if (celula->pidTempo.tempoExecutado == -1)
                 {

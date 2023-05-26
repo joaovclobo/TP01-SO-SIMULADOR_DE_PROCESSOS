@@ -139,7 +139,7 @@ void instrucaoS(int x, int n, int *arrVariaveis){
 
 void instrucaoB(int n, int* pidProcessoAtual, Lista* tabelaProcessos, TipoFila* estadoBloqueado)
 {
-    Enfileira(*pidProcessoAtual, n, estadoBloqueado);
+    enfileira(*pidProcessoAtual, n, estadoBloqueado);
     ProcessoSimulado* processo = buscaProcesso(tabelaProcessos, *pidProcessoAtual);
     processo->estado = BLOQUEADO;
 }
@@ -163,7 +163,7 @@ void instrucaoF(int n, int* pidProcessoAtual, int* pcProcessoAtual, int* quantid
     ProcessoSimulado* processoFilho = copiaProcesso(*processoPai, tempoAtualSistema, maiorPIDTabela(tabelaProcessos)+1);
 
     insereTabela(tabelaProcessos, processoFilho);
-    Enfileira(processoFilho->pid, NUMVAZIO, estadoProntoFS);
+    enfileira(processoFilho->pid, NUMVAZIO, estadoProntoFS);
     quantidadeProcessosIniciados += 1;
 
     *pcProcessoAtual += n;

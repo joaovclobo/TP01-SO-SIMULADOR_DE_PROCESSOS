@@ -61,7 +61,7 @@ void imprimirGerenciadorProcessos(GerenciadorProcessos *gerenciador)
             }
             else
             {
-                Celula_str *celula = gerenciador->estadoBloqueado->Frente;
+                CelulaPidTempo *celula = gerenciador->estadoBloqueado->Frente;
                 while (celula != NULL)
                 {
                     processo = buscaProcesso(gerenciador->tabelaProcessos, celula->pidTempo.pid);
@@ -88,7 +88,7 @@ void imprimirGerenciadorProcessos(GerenciadorProcessos *gerenciador)
                 }
                 else
                 {
-                    Celula_str *celula = fila->Frente;
+                    CelulaPidTempo *celula = fila->Frente;
                     while (celula != NULL)
                     {
                         processo = buscaProcesso(gerenciador->tabelaProcessos, celula->pidTempo.pid);

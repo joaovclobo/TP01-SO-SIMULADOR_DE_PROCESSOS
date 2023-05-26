@@ -36,7 +36,7 @@ GerenciadorProcessos *inicializaGerenciador(int numCPUs)
 void iniciaProcessoInit(GerenciadorProcessos *gerenciador)
 {
     ProcessoSimulado *processoInit = criaProcessoInit(gerenciador->tempo);
-    Enfileira(processoInit->pid, NUMVAZIO, gerenciador->estadoPronto[0]);
+    enfileira(processoInit->pid, NUMVAZIO, gerenciador->estadoPronto[0]);
     insereTabela(gerenciador->tabelaProcessos, processoInit);
     gerenciador->quantidadeProcessosIniciados += 1;
 }
@@ -59,7 +59,6 @@ void gerenciadorProcessos(GerenciadorProcessos *gerenciador, char comando)
         }
         else
         {
-
             escalonaProcessosCPUs(gerenciador);
 
             executaCPUs(gerenciador);
@@ -148,7 +147,7 @@ void removeProcessoCPU(CPU *cpu, Lista *tabelaProcessos, TipoFila **estadoPronto
             }
             processoNaCPU->tempoCPU += cpu->fatiaQuantum;
 
-            Enfileira(processoNaCPU->pid, NUMVAZIO, estadoPronto[processoNaCPU->prioridade]);
+            enfileira(processoNaCPU->pid, NUMVAZIO, estadoPronto[processoNaCPU->prioridade]);
             zeraCPU(cpu);
         }
         else if (processoNaCPU->estado == BLOQUEADO)
@@ -175,11 +174,11 @@ void verificaBloqueados(GerenciadorProcessos *gerenciador)
         if (pidTempo->tempoExecutado <= 0)
         {
             ProcessoSimulado *processo = buscaProcesso(gerenciador->tabelaProcessos, pidTempo->pid);
-            Enfileira(pidTempo->pid, NUMVAZIO, gerenciador->estadoPronto[processo->prioridade]);
+            enfileira(pidTempo->pid, NUMVAZIO, gerenciador->estadoPronto[processo->prioridade]);
         }
         else
         {
-            Enfileira(pidTempo->pid, pidTempo->tempoExecutado, gerenciador->estadoBloqueado);
+            enfileira(pidTempo->pid, pidTempo->tempoExecutado, gerenciador->estadoBloqueado);
         }
     }
 }

@@ -2,8 +2,8 @@
 #include <stdlib.h>
 #include "../ProcessoSimulado/processoSimulado.h"
 
-typedef struct celula_str Celula;
-struct celula_str {
+typedef struct celulaProcessoSimulado Celula;
+struct celulaProcessoSimulado {
     ProcessoSimulado* processo;
     Celula* proximo;
 };
