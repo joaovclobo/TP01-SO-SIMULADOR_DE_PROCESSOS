@@ -134,7 +134,7 @@ void imprimeFila(TipoFila *fila)
         while (celula != NULL) {
             if (celula->pidTempo.tempoExecutado == -1)
             {
-                printf("\n   Pid: %d", celula->pidTempo.pid, celula->pidTempo.tempoExecutado);
+                printf("\n   Pid: %d", celula->pidTempo.pid);
             }else
             {
                 printf("\n   Pid: %d, Tempo bloqueado: %d", celula->pidTempo.pid, celula->pidTempo.tempoExecutado);
@@ -164,7 +164,7 @@ void imprimeFilas(TipoFila** filas, int numFilas)
             while (celula != NULL) {
                 if (celula->pidTempo.tempoExecutado == -1)
                 {
-                    printf("\n   Pid: %d", celula->pidTempo.pid, celula->pidTempo.tempoExecutado);
+                    printf("\n   Pid: %d", celula->pidTempo.pid);
                 }else
                 {
                     printf("\n   Pid: %d, Tempo bloqueado: %d", celula->pidTempo.pid, celula->pidTempo.tempoExecutado);
