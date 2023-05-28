@@ -24,7 +24,7 @@ void imprimirGerenciadorProcessos(GerenciadorProcessos *gerenciador)
         printf("5 - Quantidade de processos executados até o momento\n");
         printf("6 - Informações sobre a/as CPU no momento atual\n");
         printf("7 - Informações sobre a Tabela de Processos no momento atual\n");
-        printf("8 - Retornar ao menu de impressão\n");
+        printf("8 - Sair da impressão\n");
         printf("=============================================================\n");
         printf("Escolha uma opção: ");
         scanf(" %d%*[^\n]", &opcao);
