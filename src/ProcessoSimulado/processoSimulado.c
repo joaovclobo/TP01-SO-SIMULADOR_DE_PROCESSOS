@@ -74,3 +74,76 @@ int numeroVariaveis(Instrucao* arrPrograma)
 {
     return arrPrograma[0].parametroNumerico1;
 }
+
+
+void imprimeProcesso(ProcessoSimulado processo, int opcao)
+{
+
+    printf("-> Processo - PID %2d | ", processo.pid);
+    printf("PPID %2d | ", processo.ppid);
+    printf("PC %2d | ", *(processo.pc));
+    printf("Prioridade %d | ", processo.prioridade);
+    imprimeEstado(processo.estado);
+    printf("Tempo de inicio %2d | ", processo.tempoInicio);
+    printf("Tempo de CPU %2d\n", processo.tempoCPU);
+    
+    switch (opcao)
+    {
+
+        case 1:
+        break;
+
+        case 2:
+            imprimeVariaveis(processo.arrVariaveis, numeroVariaveis(*processo.arrPrograma));
+            break;
+    
+        case 3:
+            imprimeArrPrograma(*(processo.arrPrograma), *processo.pc);
+        break;
+    
+        case 4:
+            imprimeVariaveis(processo.arrVariaveis, numeroVariaveis(*processo.arrPrograma));
+            imprimeArrPrograma(*(processo.arrPrograma), *processo.pc);
+
+        default:
+            break;
+    }
+    putchar('\n');
+
+}
+
+
+void imprimeVariaveis(int* arrVariaveis, int tamanho)
+{
+    printf("  |Variáveis: ");
+
+    for (int i = 0; i < tamanho; i++)
+    {
+        printf("%d ", arrVariaveis[i]);
+
+    }
+    putchar('\n');
+
+}
+
+
+void imprimeEstado(Estado estado)
+{
+    switch (estado)
+    {
+        case BLOQUEADO:
+            printf("Estado: BLOQUEADO | ");
+            break;
+
+        case EXECUCAO:
+            printf("Estado: EXECUCAO  | ");
+            break;
+
+        case PRONTO:
+            printf("Estado: PRONTO    | ");
+            break;
+            
+        default:
+            break;
+    }
+} 

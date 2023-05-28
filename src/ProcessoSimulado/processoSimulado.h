@@ -27,3 +27,7 @@ void copiaVariaveis(int* arrVariaveisBase, int* arrVariaveisNovo, int tamanho);
 void copiaArrPrograma(Instrucao** arrNovo, Instrucao* arrBase);
 
 int numeroVariaveis(Instrucao* arrPrograma);
+
+void imprimeProcesso(ProcessoSimulado processo, int opcao);
+void imprimeEstado(Estado estado);
+void imprimeVariaveis(int* arrVariaveis, int tamanho);

@@ -122,7 +122,7 @@ void imprimeInfosGeraisProcesso(ProcessoSimulado *processo)
     printf("PPID %d | ", processo->ppid);
     printf("PC %d | ", *(processo->pc));
     printf("Prioridade %d | ", processo->prioridade);
-    imprimeEstado(processo->estado);
+    imprimeEstadoProcesso(processo->estado);
     printf("Tempo de inicio %d | ", processo->tempoInicio);
     printf("Tempo de CPU %d\n", processo->tempoCPU);
 }
