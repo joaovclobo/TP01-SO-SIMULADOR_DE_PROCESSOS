@@ -18,6 +18,7 @@ int main(int argc, char **argv)
     GerenciadorProcessos *gerenciador = inicializaGerenciador(numCPUs);
 
     int opcao = MenuInicial(&arquivoDeEntrada);
+    int opcaoImpressao = 0;
     int PID;
     int status;
 
@@ -102,14 +103,13 @@ int main(int argc, char **argv)
                     // ABAIXO É COMO SE FOSSE UMA BIFURCAÇÃO
                     if (pidImpressao > 0) // é o processo filho do processo de leitura do pipe
                     {
-                        wait(NULL); // ESPERANDO O TERMINO DO PROCESSO DE IMPRESSÃO
+                        wait(NULL);               // ESPERANDO O TERMINO DO PROCESSO DE IMPRESSÃO
                         kill(getppid(), SIGUSR1); // ENVIA O SINAL PRO PROCESSO QUE LÊ DO PIPE
                         sleep(1);
                     }
                     else
                     {
                         // PROCESSO IMPRESSÃO
- 
                         imprimirGerenciadorProcessos(gerenciador);
 
                         exit(0); // VOLTA PARA O WAIT(NULL)
